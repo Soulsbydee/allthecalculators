@@ -1,0 +1,46 @@
+---
+const { currentPath } = Astro.props;
+
+const popularCalculators = [
+  { label: "Loan repayment", href: "/calculators/loan-repayment" },
+  { label: "Mortgage payment", href: "/calculators/mortgage-payment" },
+  { label: "Mortgage affordability", href: "/calculators/mortgage-affordability" },
+];
+---
+
+<div class="space-y-6">
+  <!-- Popular calculators -->
+  <section class="rounded-2xl border border-[rgb(var(--border))] p-4">
+    <h2 class="text-xs font-semibold uppercase tracking-wide text-[rgb(var(--muted))]">
+      Popular calculators
+    </h2>
+
+    <ul class="mt-3 space-y-2">
+      {popularCalculators.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            class="text-sm underline underline-offset-2 hover:text-black"
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <p class="mt-3 text-xs text-[rgb(var(--muted))]">
+      More coming soon.
+    </p>
+  </section>
+
+  <!-- Recently used (future enhancement) -->
+  <section class="rounded-2xl border border-[rgb(var(--border))] p-4">
+    <h2 class="text-xs font-semibold uppercase tracking-wide text-[rgb(var(--muted))]">
+      Recently used
+    </h2>
+
+    <p class="mt-3 text-sm text-[rgb(var(--muted))]">
+      Coming soon.
+    </p>
+  </section>
+</div>

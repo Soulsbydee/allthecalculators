@@ -1,0 +1,100 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Card from "../../../components/Card.astro";
+import Input from "../../../components/Input.astro";
+import Button from "../../../components/Button.astro";
+import SegmentedControl from "../../../components/SegmentedControl.astro";
+
+const title = "VAT calculator (UK) — All The Calculators";
+const description = "Add or remove VAT from a price using UK VAT rates.";
+---
+
+<Layout title={title} description={description}>
+  <div class="space-y-6">
+    <header>
+      <h1 class="text-2xl font-semibold tracking-tight">VAT calculator</h1>
+      <p class="mt-2 text-sm text-[rgb(var(--muted))] max-w-2xl">
+        Quickly add or remove VAT from an amount.
+      </p>
+    </header>
+
+    <!-- Segmented control -->
+    <SegmentedControl
+      ariaLabel="VAT calculation type"
+      name="vatMode"
+      options={[
+        { label: "Add VAT", value: "add" },
+        { label: "Remove VAT", value: "remove" },
+      ]}
+    />
+
+    <!-- Inputs -->
+    <section class="inputs-container space-y-4">
+      <div class="inputs-grid">
+        <div>
+          <Input id="amount" label="Amount (£)" type="number" inputmode="decimal" step="0.01" />
+        </div>
+        <div>
+          <Input id="rate" label="VAT rate (%)" type="number" inputmode="decimal" step="0.1" placeholder="20" />
+        </div>
+      </div>
+
+      <div class="flex gap-3">
+        <Button id="calcBtn">Calculate</Button>
+        <Button variant="ghost" id="resetBtn">Reset</Button>
+      </div>
+    </section>
+
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <!-- Results -->
+    <section>
+      <h2 class="text-[18px] font-semibold tracking-tight">Results</h2>
+
+      <div class="results-grid mt-4" role="status" aria-live="polite">
+        <Card>
+          <div class="text-xs uppercase tracking-wide text-[rgb(var(--muted))]">VAT</div>
+          <div class="mt-1 text-[18px] font-semibold" id="vat">—</div>
+        </Card>
+        <Card>
+          <div class="text-xs uppercase tracking-wide text-[rgb(var(--muted))]">Total</div>
+          <div class="mt-1 text-[18px] font-semibold" id="total">—</div>
+        </Card>
+      </div>
+    </section>
+  </div>
+
+  <script is:inline>
+    const $ = (id) => document.getElementById(id);
+    const fmt = new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" });
+
+    let mode = "add";
+
+    document.querySelectorAll('input[name="vatMode"]').forEach((el) =>
+      el.addEventListener("change", () => (mode = el.value))
+    );
+
+    $("calcBtn").addEventListener("click", () => {
+      const amount = Number($("amount").value);
+      const rate = Number($("rate").value || 20) / 100;
+
+      if (mode === "add") {
+        const vat = amount * rate;
+        $("vat").textContent = fmt.format(vat);
+        $("total").textContent = fmt.format(amount + vat);
+      } else {
+        const net = amount / (1 + rate);
+        const vat = amount - net;
+        $("vat").textContent = fmt.format(vat);
+        $("total").textContent = fmt.format(net);
+      }
+    });
+
+    $("resetBtn").addEventListener("click", () => {
+      $("amount").value = "";
+      $("rate").value = "";
+      $("vat").textContent = "—";
+      $("total").textContent = "—";
+    });
+  </script>
+</Layout>

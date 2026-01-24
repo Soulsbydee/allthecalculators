@@ -1,0 +1,39 @@
+---
+const {
+  id,
+  label,
+  type = "text",
+  inputmode,
+  min,
+  max,
+  step,
+  value,
+  placeholder,
+  class: className = "",
+  ...rest
+} = Astro.props;
+
+const inputClass =
+  "w-full rounded-xl border border-[rgb(var(--border))] bg-white px-3 py-2 text-[15px] text-[rgb(var(--text))] placeholder:text-[rgb(var(--muted))] shadow-sm shadow-black/5 focus:outline-none focus:ring-2 focus:ring-black/10";
+---
+
+<div class={`space-y-1 ${className}`}>
+  {label ? (
+    <label for={id} class="text-sm font-medium text-[rgb(var(--text))]">
+      {label}
+    </label>
+  ) : null}
+
+  <input
+    id={id}
+    type={type}
+    inputmode={inputmode}
+    min={min}
+    max={max}
+    step={step}
+    value={value}
+    placeholder={placeholder}
+    class={inputClass}
+    {...rest}
+  />
+</div>

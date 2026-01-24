@@ -1,0 +1,492 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Input from "../../../components/Input.astro";
+import Button from "../../../components/Button.astro";
+import Card from "../../../components/Card.astro";
+
+const title = "Take-home salary (UK) — All The Calculators";
+const description =
+  "Estimate your UK take-home pay from a gross annual salary, with a clear breakdown of deductions.";
+---
+
+<Layout title={title} description={description}>
+  <div class="space-y-6">
+    <!-- Title -->
+    <header>
+      <h1 class="text-2xl font-semibold tracking-tight">Take-home salary</h1>
+      <p class="mt-2 max-w-2xl text-sm text-[rgb(var(--muted))]">
+        Estimate how much of your salary you may take home after income tax and National Insurance.
+        Figures are <strong>estimates</strong> based on standard UK tax rules.
+      </p>
+    </header>
+
+    <!-- Inputs -->
+    <section aria-label="Salary inputs" class="space-y-4">
+      <div class="inputs-grid">
+        <div>
+          <Input
+            id="salary"
+            label="Annual salary (£)"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="0.01"
+            placeholder="e.g. 45000"
+          />
+          <p id="salary-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+
+        <div>
+          <Input
+            id="pension"
+            label="Pension contribution (%)"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            max="100"
+            step="0.1"
+            placeholder="Optional"
+          />
+          <p id="pension-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+      </div>
+
+      <!-- Progressive disclosure -->
+      <details class="group">
+        <summary class="cursor-pointer text-sm font-medium text-[rgb(var(--text))] focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 rounded-lg py-1">
+          More details <span class="text-[rgb(var(--muted))]">(optional)</span>
+        </summary>
+
+        <div class="mt-4 max-w-sm">
+          <label for="student-loan" class="block text-sm font-medium">
+            Student loan plan
+          </label>
+          <select
+            id="student-loan"
+            class="mt-1 w-full rounded-xl border border-[rgb(var(--border))] bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black/10"
+          >
+            <option value="none">None</option>
+            <option value="plan1">Plan 1</option>
+            <option value="plan2">Plan 2</option>
+            <option value="plan4">Plan 4</option>
+            <option value="postgrad">Postgraduate</option>
+          </select>
+        </div>
+      </details>
+
+      <!-- Actions -->
+      <div class="flex flex-wrap gap-3 pt-1">
+        <Button id="calculate" type="button">Calculate</Button>
+        <Button variant="ghost" id="reset" type="button">Reset</Button>
+      </div>
+
+      <p class="max-w-2xl text-xs text-[rgb(var(--muted))]">
+        Assumptions: England tax region, standard personal allowance, current-ish UK bands.
+        No bonuses, benefits, salary sacrifice, or tax code overrides included.
+      </p>
+    </section>
+
+    <!-- Divider -->
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <!-- Results (NO tinted wrapper) -->
+    <section aria-label="Take-home salary results" class="space-y-4">
+      <header>
+        <h2 class="text-[18px] font-semibold tracking-tight">Results</h2>
+        <p class="mt-1 text-[14px] text-[rgb(var(--muted))]">
+          These are estimates based on your inputs.
+        </p>
+      </header>
+
+      <!-- Primary result -->
+      <div>
+        <div class="text-sm text-[rgb(var(--muted))]" id="takeHomeLabel">
+          Estimated take-home pay (monthly)
+        </div>
+
+        <div class="mt-1 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div id="takeHomeValue" class="text-[22px] font-semibold tracking-tight">
+            —
+          </div>
+
+          <!-- Pay frequency toggle -->
+          <div class="text-xs text-[rgb(var(--muted))]">
+            View as:
+            <button
+              type="button"
+              class="underline ml-1"
+              data-freq="monthly"
+              aria-pressed="true"
+            >
+              Monthly
+            </button>
+            ·
+            <button type="button" class="underline" data-freq="weekly" aria-pressed="false">
+              Weekly
+            </button>
+            ·
+            <button type="button" class="underline" data-freq="fortnightly" aria-pressed="false">
+              Fortnightly
+            </button>
+            ·
+            <button type="button" class="underline" data-freq="daily" aria-pressed="false">
+              Daily
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Breakdown -->
+      <div class="results-grid" role="status" aria-live="polite" aria-atomic="true">
+        <Card>
+          <div class="text-xs uppercase tracking-wide text-[rgb(var(--muted))]">
+            Gross salary
+          </div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="res_gross">—</div>
+        </Card>
+
+        <Card>
+          <div class="text-xs uppercase tracking-wide text-[rgb(var(--muted))]">
+            Income tax
+          </div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="res_tax">—</div>
+        </Card>
+
+        <Card>
+          <div class="text-xs uppercase tracking-wide text-[rgb(var(--muted))]">
+            National Insurance
+          </div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="res_ni">—</div>
+        </Card>
+
+        <Card>
+          <div class="text-xs uppercase tracking-wide text-[rgb(var(--muted))]">
+            Pension
+          </div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="res_pension">—</div>
+        </Card>
+      </div>
+
+      <p class="text-xs text-[rgb(var(--muted))]">
+        Breakdown shown annually. All figures are estimates.
+      </p>
+
+      <p id="group-error" class="hidden text-xs text-red-600"></p>
+    </section>
+
+    <!-- Divider -->
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <!-- How it works (accordion, SF-style leading chevron) -->
+    <section class="max-w-2xl" aria-label="How this calculator works">
+      <details class="group">
+        <summary
+          class="flex cursor-pointer list-none items-center gap-2 py-2 text-sm font-semibold tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 rounded-lg"
+        >
+          <span
+            class="inline-flex h-4 w-4 items-center justify-center text-[rgb(var(--muted))] transition-transform group-open:rotate-90"
+            aria-hidden="true"
+          >
+            <svg
+              viewBox="0 0 20 20"
+              width="16"
+              height="16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7.25 4.75L12.75 10L7.25 15.25"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+
+          <span>How this calculator works</span>
+        </summary>
+
+        <div class="pt-2 pl-6 space-y-2 text-sm text-[rgb(var(--muted))]">
+          <p>
+            We estimate income tax and National Insurance using standard UK rules and subtract them
+            (plus optional pension and student loan estimates) from your annual salary.
+          </p>
+          <p>
+            This calculator provides a guide only and does not replace a payslip.
+          </p>
+        </div>
+      </details>
+    </section>
+  </div>
+
+  <script is:inline>
+    // NOTE: This is a simplified estimator for MVP.
+    // We can refine bands/thresholds and add tax-year/region later.
+
+    const fmtGBP0 = new Intl.NumberFormat("en-GB", {
+      style: "currency",
+      currency: "GBP",
+      maximumFractionDigits: 0,
+    });
+
+    const fmtGBP2 = new Intl.NumberFormat("en-GB", {
+      style: "currency",
+      currency: "GBP",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+
+    const $ = (id) => document.getElementById(id);
+
+    const els = {
+      salary: $("salary"),
+      pension: $("pension"),
+      studentLoan: $("student-loan"),
+      btnCalc: $("calculate"),
+      btnReset: $("reset"),
+
+      errSalary: $("salary-error"),
+      errPension: $("pension-error"),
+      errGroup: $("group-error"),
+
+      takeHomeLabel: $("takeHomeLabel"),
+      takeHomeValue: $("takeHomeValue"),
+
+      resGross: $("res_gross"),
+      resTax: $("res_tax"),
+      resNI: $("res_ni"),
+      resPension: $("res_pension"),
+    };
+
+    // State for display toggle
+    let lastAnnualNet = null;
+    let currentFreq = "monthly";
+
+    function parseNum(inputEl) {
+      const v = String(inputEl?.value ?? "").trim();
+      if (!v) return null;
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function showErr(el, msg, inputEl) {
+      el.textContent = msg;
+      el.classList.remove("hidden");
+      if (inputEl) {
+        inputEl.setAttribute("aria-invalid", "true");
+        inputEl.classList.add("border-red-500");
+      }
+    }
+
+    function clearErr(el, inputEl) {
+      el.textContent = "";
+      el.classList.add("hidden");
+      if (inputEl) {
+        inputEl.removeAttribute("aria-invalid");
+        inputEl.classList.remove("border-red-500");
+      }
+    }
+
+    function clearAllErrors() {
+      clearErr(els.errSalary, els.salary);
+      clearErr(els.errPension, els.pension);
+      clearErr(els.errGroup);
+    }
+
+    function setBlankResults() {
+      els.takeHomeValue.textContent = "—";
+      els.resGross.textContent = "—";
+      els.resTax.textContent = "—";
+      els.resNI.textContent = "—";
+      els.resPension.textContent = "—";
+      lastAnnualNet = null;
+      updateTakeHomeDisplay();
+    }
+
+    function updateTakeHomeDisplay() {
+      const labelMap = {
+        monthly: "Estimated take-home pay (monthly)",
+        weekly: "Estimated take-home pay (weekly)",
+        fortnightly: "Estimated take-home pay (fortnightly)",
+        daily: "Estimated take-home pay (daily)",
+      };
+
+      els.takeHomeLabel.textContent = labelMap[currentFreq] ?? "Estimated take-home pay (monthly)";
+
+      if (lastAnnualNet === null) {
+        els.takeHomeValue.textContent = "—";
+        return;
+      }
+
+      const annual = lastAnnualNet;
+      let shown = annual / 12;
+      if (currentFreq === "weekly") shown = annual / 52;
+      if (currentFreq === "fortnightly") shown = annual / 26;
+      if (currentFreq === "daily") shown = annual / 260; // working days approx (52*5)
+
+      // monthly/weekly/fortnightly: whole pounds; daily can be 2dp
+      const formatted =
+        currentFreq === "daily" ? fmtGBP2.format(shown) : fmtGBP0.format(shown);
+
+      els.takeHomeValue.textContent = formatted;
+    }
+
+    function setFreqButtons(freq) {
+      currentFreq = freq;
+      document.querySelectorAll("[data-freq]").forEach((btn) => {
+        btn.setAttribute("aria-pressed", btn.dataset.freq === freq ? "true" : "false");
+      });
+      updateTakeHomeDisplay();
+    }
+
+    // ---- Tax + NI (simplified England estimator) ----
+    // Personal allowance (approx)
+    const PERSONAL_ALLOWANCE = 12570;
+
+    // Income tax bands (approx)
+    // 20% basic up to 50,270 taxable income (band width 37,700 after allowance)
+    const BASIC_RATE_LIMIT = 50270;
+    const HIGHER_RATE_LIMIT = 125140;
+
+    function calcIncomeTax(grossTaxable) {
+      // grossTaxable here is salary minus pre-tax deductions (e.g., pension)
+      const taxable = Math.max(0, grossTaxable - PERSONAL_ALLOWANCE);
+      let tax = 0;
+
+      // Basic rate up to 50,270
+      const basicTaxable = Math.min(taxable, Math.max(0, BASIC_RATE_LIMIT - PERSONAL_ALLOWANCE));
+      tax += basicTaxable * 0.20;
+
+      // Higher rate 50,270 to 125,140
+      const higherTaxable = Math.min(
+        Math.max(0, taxable - basicTaxable),
+        Math.max(0, HIGHER_RATE_LIMIT - BASIC_RATE_LIMIT)
+      );
+      tax += higherTaxable * 0.40;
+
+      // Additional rate above 125,140
+      const additionalTaxable = Math.max(0, taxable - basicTaxable - higherTaxable);
+      tax += additionalTaxable * 0.45;
+
+      return Math.max(0, tax);
+    }
+
+    function calcNI(gross) {
+      // Employee Class 1 NI (simplified annual thresholds)
+      // Primary threshold approx 12,570; UEL approx 50,270
+      const PT = 12570;
+      const UEL = 50270;
+
+      const mainBand = Math.max(0, Math.min(gross, UEL) - PT);
+      const upperBand = Math.max(0, gross - UEL);
+
+      // Approx rates (may vary by year): 8% main, 2% upper
+      return mainBand * 0.08 + upperBand * 0.02;
+    }
+
+    // Student loan (very simplified, annualised)
+    // Thresholds/rates are subject to change; these are MVP placeholders.
+    const STUDENT_LOAN = {
+      none: { threshold: Infinity, rate: 0 },
+      plan1: { threshold: 22015, rate: 0.09 },
+      plan2: { threshold: 27295, rate: 0.09 },
+      plan4: { threshold: 27660, rate: 0.09 },
+      postgrad: { threshold: 21000, rate: 0.06 },
+    };
+
+    function calcStudentLoan(gross, planKey) {
+      const plan = STUDENT_LOAN[planKey] ?? STUDENT_LOAN.none;
+      if (!plan.rate) return 0;
+      const repayable = Math.max(0, gross - plan.threshold);
+      return repayable * plan.rate;
+    }
+
+    function validateInputs() {
+      clearAllErrors();
+
+      const salary = parseNum(els.salary);
+      const pensionPct = parseNum(els.pension);
+
+      if (salary === null) {
+        showErr(els.errSalary, "Enter your annual salary.", els.salary);
+        return { ok: false };
+      }
+      if (salary <= 0) {
+        showErr(els.errSalary, "Annual salary must be greater than 0.", els.salary);
+        return { ok: false };
+      }
+
+      if (pensionPct !== null) {
+        if (pensionPct < 0 || pensionPct > 100) {
+          showErr(els.errPension, "Enter a pension percentage between 0 and 100.", els.pension);
+          return { ok: false };
+        }
+      }
+
+      return {
+        ok: true,
+        salary,
+        pensionPct: pensionPct ?? 0,
+        studentLoanPlan: els.studentLoan?.value ?? "none",
+      };
+    }
+
+    function calculate() {
+      const v = validateInputs();
+      if (!v.ok) {
+        setBlankResults();
+        els.salary?.focus();
+        return;
+      }
+
+      const gross = v.salary;
+      const pension = gross * (v.pensionPct / 100);
+
+      // Assume pension is pre-tax for MVP estimation
+      const taxableIncome = Math.max(0, gross - pension);
+
+      const tax = calcIncomeTax(taxableIncome);
+      const ni = calcNI(gross);
+      const studentLoan = calcStudentLoan(gross, v.studentLoanPlan);
+
+      const annualNet = Math.max(0, gross - pension - tax - ni - studentLoan);
+
+      // Store for pay-frequency toggle
+      lastAnnualNet = annualNet;
+
+      // Set annual breakdown cards
+      els.resGross.textContent = fmtGBP0.format(gross);
+      els.resTax.textContent = fmtGBP0.format(tax);
+      els.resNI.textContent = fmtGBP0.format(ni);
+      els.resPension.textContent = fmtGBP0.format(pension);
+
+      updateTakeHomeDisplay();
+    }
+
+    function reset() {
+      els.salary.value = "";
+      els.pension.value = "";
+      els.studentLoan.value = "none";
+      clearAllErrors();
+      setBlankResults();
+      setFreqButtons("monthly");
+      els.salary?.focus();
+    }
+
+    // Event wiring
+    els.btnCalc?.addEventListener("click", calculate);
+    els.btnReset?.addEventListener("click", reset);
+
+    els.salary?.addEventListener("input", () => clearErr(els.errSalary, els.salary));
+    els.pension?.addEventListener("input", () => clearErr(els.errPension, els.pension));
+
+    document.querySelectorAll("[data-freq]").forEach((btn) => {
+      btn.addEventListener("click", () => setFreqButtons(btn.dataset.freq));
+    });
+
+    // Init
+    setBlankResults();
+    setFreqButtons("monthly");
+  </script>
+</Layout>

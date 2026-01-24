@@ -1,0 +1,53 @@
+---
+import { CALCULATOR_CATEGORIES } from "../data/calculators";
+const { currentPath = "" } = Astro.props;
+---
+
+<aside class="w-full min-h-full border-b border-[rgb(var(--border))] bg-white md:border-b-0 md:border-r">
+  <div class="pt-6 px-4 pb-4">
+    <div class="mb-4">
+      <input
+        type="search"
+        placeholder="Search calculators"
+        class="w-full rounded-xl border border-[rgb(var(--border))] bg-white px-3 py-2 text-sm text-[rgb(var(--text))] placeholder:text-[rgb(var(--muted))] focus:outline-none focus:ring-2 focus:ring-black/10"
+      />
+    </div>
+
+    <nav class="space-y-6" aria-label="Calculator categories">
+      {CALCULATOR_CATEGORIES.map((category) => (
+        <section>
+          <div class="mb-2 text-xs font-semibold uppercase tracking-wide text-[rgb(var(--muted))]">
+            {category.title}
+          </div>
+
+          <ul class="space-y-1">
+            {category.items.map((item) => {
+              const isActive = currentPath === item.href;
+
+              return (
+                <li>
+                  <a
+                    href={item.href}
+                    class={`block rounded-xl px-3 py-2 text-sm transition ${
+                      isActive
+                        ? "bg-black/5 text-[rgb(var(--text))] font-medium"
+                        : "text-[rgb(var(--text))] hover:bg-black/5"
+                    }`}
+                  >
+                    {item.title}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+
+          {category.title === "Everyday" && category.note && (
+            <div class="mt-2 px-3 text-xs text-[rgb(var(--muted))]">
+              {category.note}
+            </div>
+          )}
+        </section>
+      ))}
+    </nav>
+  </div>
+</aside>

@@ -1,0 +1,75 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const title = "About — All The Calculators";
+const description =
+  "All The Calculators is a fast, accessible collection of UK-focused everyday calculators — calm, transparent, and easy to use.";
+---
+
+<Layout title={title} description={description}>
+  <div class="space-y-6">
+    <header>
+      <h1 class="text-2xl font-semibold tracking-tight">About</h1>
+      <p class="mt-2 text-sm text-[rgb(var(--muted))] max-w-2xl">
+        All The Calculators is a fast, accessible collection of UK-focused everyday calculators.
+        It’s designed to feel more like a tool than a “website”.
+      </p>
+    </header>
+
+    <section class="space-y-4 max-w-2xl" aria-label="About All The Calculators">
+      <div class="rounded-2xl border border-[rgb(var(--border))] bg-white p-4">
+        <div class="text-xs font-semibold uppercase tracking-wide text-[rgb(var(--muted))]">
+          What this site is
+        </div>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          A simple place to run common calculations for money, health, and everyday life — without clutter,
+          dark patterns, or confusing terminology.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-[rgb(var(--border))] bg-white p-4">
+        <div class="text-xs font-semibold uppercase tracking-wide text-[rgb(var(--muted))]">
+          Principles
+        </div>
+        <ul class="mt-2 list-disc pl-5 text-sm text-[rgb(var(--muted))] space-y-1">
+          <li><strong>Clarity first:</strong> plain language and obvious labels.</li>
+          <li><strong>Accessibility built-in:</strong> keyboard and screen-reader friendly.</li>
+          <li><strong>Fast by default:</strong> minimal scripts and minimal layout shift.</li>
+          <li><strong>Trust & transparency:</strong> assumptions are stated, ads don’t interfere.</li>
+          <li><strong>UK-first:</strong> GBP by default and UK conventions throughout.</li>
+        </ul>
+      </div>
+
+      <div class="rounded-2xl border border-[rgb(var(--border))] bg-white p-4">
+        <div class="text-xs font-semibold uppercase tracking-wide text-[rgb(var(--muted))]">
+          Accuracy and limitations
+        </div>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          These calculators provide general estimates. Real-world outcomes can differ based on fees,
+          changing rates, tax codes, lender criteria, and personal circumstances.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-[rgb(var(--border))] bg-white p-4">
+        <div class="text-xs font-semibold uppercase tracking-wide text-[rgb(var(--muted))]">
+          Contact
+        </div>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Feedback, issues, or calculator requests:
+        </p>
+        <p class="mt-2 text-sm">
+          <a
+            href="mailto:info@allthecalculators.uk"
+            class="underline decoration-black/20 underline-offset-4 hover:decoration-black/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 rounded"
+          >
+            info@allthecalculators.uk
+          </a>
+        </p>
+      </div>
+
+      <p class="text-xs text-[rgb(var(--muted))]">
+        We can’t provide individual financial, tax, or medical advice.
+      </p>
+    </section>
+  </div>
+</Layout>

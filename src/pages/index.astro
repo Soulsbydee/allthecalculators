@@ -1,0 +1,51 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const title = "All The Calculators — Simple UK calculators for everyday life";
+const description = "Simple UK calculators for money, health & everyday life. Fast, accessible, and easy to use.";
+---
+
+<Layout title={title} description={description}>
+  <div class="space-y-6">
+    <div class="space-y-2">
+      <h1 class="text-3xl font-semibold tracking-tight">All The Calculators</h1>
+      <p class="text-sm text-[rgb(var(--muted))] max-w-2xl">
+        Simple, calm calculators for everyday life in the UK. Choose one from the sidebar to get started.
+      </p>
+    </div>
+
+    <div class="space-y-3">
+      <h2 class="text-sm font-semibold tracking-tight">Popular right now</h2>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <a
+          href="/calculators/loan-repayment/"
+          class="block rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--card))] p-4 shadow-sm shadow-black/5 hover:bg-black/5"
+        >
+          <div class="text-sm font-medium">Loan repayment</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]">
+            Monthly payments, interest, and total repaid.
+          </div>
+        </a>
+
+        <a
+          href="/calculators/mortgage-payment/"
+          class="block rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--card))] p-4 shadow-sm shadow-black/5 hover:bg-black/5"
+        >
+          <div class="text-sm font-medium">Mortgage payment</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]">
+            Estimate repayments and total cost over time.
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="pt-2 space-y-2">
+      <h2 class="text-sm font-semibold tracking-tight">What you can expect</h2>
+      <ul class="space-y-2 text-sm text-[rgb(var(--muted))] max-w-2xl">
+        <li>• Clear inputs, calm results, and plain-English explanations.</li>
+        <li>• Accessible by keyboard and screen readers.</li>
+        <li>• UK-first defaults (GBP and UK conventions).</li>
+      </ul>
+    </div>
+  </div>
+</Layout>

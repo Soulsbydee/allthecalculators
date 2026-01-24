@@ -1,0 +1,41 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-[rgb(var(--border))] bg-white">
+  <div
+    class="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-6
+           sm:flex-row sm:items-center sm:justify-between"
+  >
+    <div class="text-xs text-[rgb(var(--muted))]">
+      © {year} All The Calculators
+    </div>
+
+    <nav class="flex flex-wrap gap-x-4 gap-y-2 text-xs">
+      <a
+        href="/about"
+        class="underline text-[rgb(var(--muted))] hover:text-[rgb(var(--text))]"
+      >
+        About
+      </a>
+      <a
+        href="/contact"
+        class="underline text-[rgb(var(--muted))] hover:text-[rgb(var(--text))]"
+      >
+        Contact
+      </a>
+      <a
+        href="/privacy"
+        class="underline text-[rgb(var(--muted))] hover:text-[rgb(var(--text))]"
+      >
+        Privacy
+      </a>
+      <a
+        href="/sitemap.xml"
+        class="underline text-[rgb(var(--muted))] hover:text-[rgb(var(--text))]"
+      >
+        Sitemap
+      </a>
+    </nav>
+  </div>
+</footer>

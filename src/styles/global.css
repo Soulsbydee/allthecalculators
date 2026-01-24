@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+/* =========================
+   Design tokens (site-wide)
+   ========================= */
+:root {
+  --bg: 255 255 255;
+  --text: 17 24 39; /* slate-900 */
+  --muted: 107 114 128; /* slate-500 */
+  --border: 229 231 235; /* slate-200 */
+  --card: 255 255 255;
+}
+
+html {
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+    "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+body {
+  margin: 0;
+}
+
+/* =========================
+   Accessibility
+   ========================= */
+:focus-visible {
+  outline: 2px solid rgba(0, 0, 0, 0.25);
+  outline-offset: 2px;
+}
+
+/* =========================
+   Shared layout + components
+   ========================= */
+
+/* Cards */
+.card {
+  border: 1px solid rgb(var(--border));
+  border-radius: 16px;
+  background: rgb(var(--card));
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+/* Hover states removed (results should not look interactive) */
+.card-hover {
+  transition: none;
+}
+.card-hover:hover {
+  background-color: inherit;
+}
+
+/* =========================
+   Results grid
+   ========================= */
+/*
+  Container-friendly wrapping:
+  - Cards will wrap automatically based on available width
+  - Prevents clipping when the viewport is wide but the content column is narrow
+  - Keeps a sensible minimum width for result cards
+*/
+.results-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+/* =========================
+   Input layout system
+   ========================= */
+
+/*
+  Rule:
+  - Use 2 columns by default (2×2 or 2×1 naturally).
+  - Only fully stack to 1 column when the INPUTS CONTAINER is < 450px
+    (container query, not viewport).
+*/
+.inputs-container {
+  container-type: inline-size;
+}
+
+.inputs-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@container (max-width: 450px) {
+  .inputs-grid {
+    grid-template-columns: 1fr;
+  }
+}

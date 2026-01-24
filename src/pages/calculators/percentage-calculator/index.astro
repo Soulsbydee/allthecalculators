@@ -1,0 +1,195 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Card from "../../../components/Card.astro";
+import Input from "../../../components/Input.astro";
+import Button from "../../../components/Button.astro";
+import SegmentedControl from "../../../components/SegmentedControl.astro";
+
+const title = "Percentage calculator (UK) — All The Calculators";
+const description =
+  "Work out percentages, percentage change, and what percent one number is of another.";
+---
+
+<Layout title={title} description={description}>
+  <div class="space-y-6">
+    <header>
+      <h1 class="text-2xl font-semibold tracking-tight">Percentage calculator</h1>
+      <p class="mt-2 text-sm text-[rgb(var(--muted))] max-w-2xl">
+        Choose a calculation type, enter your numbers, then press Calculate.
+      </p>
+    </header>
+
+    <!-- Segmented control -->
+    <section aria-label="Percentage calculator type">
+      <SegmentedControl
+        ariaLabel="Percentage calculation type"
+        name="percentageMode"
+        options={[
+          { label: "X% of Y", value: "of" },
+          { label: "X is what % of Y", value: "isof" },
+          { label: "Percentage change", value: "change" },
+        ]}
+      />
+    </section>
+
+    <!-- Inputs -->
+    <section class="inputs-container space-y-4" aria-label="Percentage inputs">
+      <!-- X% of Y -->
+      <div id="mode-of" class="space-y-4">
+        <div class="inputs-grid">
+          <div>
+            <Input id="of_x" label="Percentage (%)" type="number" inputmode="decimal" step="0.01" />
+            <p id="of_x-error" class="mt-1 hidden text-xs text-red-600"></p>
+          </div>
+          <div>
+            <Input id="of_y" label="Of (number)" type="number" inputmode="decimal" step="0.01" />
+            <p id="of_y-error" class="mt-1 hidden text-xs text-red-600"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- X is what % of Y -->
+      <div id="mode-isof" class="hidden space-y-4">
+        <div class="inputs-grid">
+          <div>
+            <Input id="isof_x" label="X (number)" type="number" inputmode="decimal" step="0.01" />
+            <p id="isof_x-error" class="mt-1 hidden text-xs text-red-600"></p>
+          </div>
+          <div>
+            <Input id="isof_y" label="Y (number)" type="number" inputmode="decimal" step="0.01" />
+            <p id="isof_y-error" class="mt-1 hidden text-xs text-red-600"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Percentage change -->
+      <div id="mode-change" class="hidden space-y-4">
+        <div class="inputs-grid">
+          <div>
+            <Input id="chg_old" label="Old value" type="number" inputmode="decimal" step="0.01" />
+            <p id="chg_old-error" class="mt-1 hidden text-xs text-red-600"></p>
+          </div>
+          <div>
+            <Input id="chg_new" label="New value" type="number" inputmode="decimal" step="0.01" />
+            <p id="chg_new-error" class="mt-1 hidden text-xs text-red-600"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex gap-3 pt-1">
+        <Button id="calcBtn">Calculate</Button>
+        <Button variant="ghost" id="resetBtn">Reset</Button>
+      </div>
+    </section>
+
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <!-- Results -->
+    <section aria-label="Percentage results">
+      <header>
+        <h2 class="text-[18px] font-semibold tracking-tight">Results</h2>
+        <p class="mt-1 text-[14px] text-[rgb(var(--muted))]">
+          These are estimates based on your inputs.
+        </p>
+      </header>
+
+      <div class="results-grid mt-4" role="status" aria-live="polite">
+        <Card>
+          <div class="text-xs uppercase tracking-wide text-[rgb(var(--muted))]">Answer</div>
+          <div class="mt-1 text-[18px] font-semibold" id="answer">—</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]" id="answerHelp">Calculated result</div>
+        </Card>
+
+        <Card>
+          <div class="text-xs uppercase tracking-wide text-[rgb(var(--muted))]">Working</div>
+          <div class="mt-1 text-[18px] font-semibold" id="working">—</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]">A quick sanity check</div>
+        </Card>
+      </div>
+    </section>
+
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <!-- How it works -->
+    <section class="max-w-2xl">
+      <details class="group">
+        <summary class="flex items-center gap-2 cursor-pointer text-sm font-semibold">
+          <span class="transition-transform group-open:rotate-90">›</span>
+          How this calculator works
+        </summary>
+        <div class="pt-2 pl-4 space-y-2 text-sm text-[rgb(var(--muted))]">
+          <p><strong>X% of Y</strong> = (X ÷ 100) × Y</p>
+          <p><strong>X is what % of Y</strong> = (X ÷ Y) × 100</p>
+          <p><strong>Percentage change</strong> = ((new − old) ÷ old) × 100</p>
+        </div>
+      </details>
+    </section>
+  </div>
+
+  <script is:inline>
+    const $ = (id) => document.getElementById(id);
+    const fmt = new Intl.NumberFormat("en-GB", { maximumFractionDigits: 2 });
+
+    const sections = {
+      of: $("mode-of"),
+      isof: $("mode-isof"),
+      change: $("mode-change"),
+    };
+
+    let currentMode = "of";
+
+    document.querySelectorAll('input[name="percentageMode"]').forEach((el) => {
+      el.addEventListener("change", () => {
+        currentMode = el.value;
+        Object.keys(sections).forEach((k) =>
+          sections[k].classList.toggle("hidden", k !== currentMode)
+        );
+        setBlankResults();
+      });
+    });
+
+    function setBlankResults() {
+      $("answer").textContent = "—";
+      $("working").textContent = "—";
+      $("answerHelp").textContent = "Calculated result";
+    }
+
+    $("calcBtn").addEventListener("click", () => {
+      if (currentMode === "of") {
+        const x = Number($("of_x").value);
+        const y = Number($("of_y").value);
+        const ans = (x / 100) * y;
+        $("answer").textContent = fmt.format(ans);
+        $("working").textContent = `(${x} ÷ 100) × ${y}`;
+      }
+
+      if (currentMode === "isof") {
+        const x = Number($("isof_x").value);
+        const y = Number($("isof_y").value);
+        const pct = (x / y) * 100;
+        $("answer").textContent = `${fmt.format(pct)}%`;
+        $("working").textContent = `(${x} ÷ ${y}) × 100`;
+      }
+
+      if (currentMode === "change") {
+        const oldV = Number($("chg_old").value);
+        const newV = Number($("chg_new").value);
+        const pct = ((newV - oldV) / oldV) * 100;
+        $("answer").textContent = `${fmt.format(pct)}%`;
+        $("working").textContent = `((${newV} − ${oldV}) ÷ ${oldV}) × 100`;
+      }
+    });
+
+    $("resetBtn").addEventListener("click", () => {
+      document.querySelectorAll("input").forEach((i) => (i.value = ""));
+      setBlankResults();
+      document.querySelector('input[name="percentageMode"][value="of"]').checked = true;
+      currentMode = "of";
+      Object.keys(sections).forEach((k) =>
+        sections[k].classList.toggle("hidden", k !== "of")
+      );
+    });
+
+    setBlankResults();
+  </script>
+</Layout>

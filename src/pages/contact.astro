@@ -1,0 +1,49 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const title = "Contact — All The Calculators";
+const description =
+  "Contact All The Calculators. Questions, feedback, or calculator requests — we’d love to hear from you.";
+---
+
+<Layout title={title} description={description}>
+  <div class="space-y-6">
+    <header>
+      <h1 class="text-2xl font-semibold tracking-tight">Contact</h1>
+      <p class="mt-2 text-sm text-[rgb(var(--muted))] max-w-2xl">
+        Questions, feedback, or calculator requests? Email us and we’ll get back to you.
+      </p>
+    </header>
+
+    <section class="max-w-2xl space-y-4">
+      <div class="rounded-2xl border border-[rgb(var(--border))] bg-white p-4">
+        <div class="text-xs font-semibold uppercase tracking-wide text-[rgb(var(--muted))]">
+          Email
+        </div>
+        <p class="mt-2 text-sm">
+          <a
+            href="mailto:info@allthecalculators.uk"
+            class="underline decoration-black/20 underline-offset-4 hover:decoration-black/40"
+          >
+            info@allthecalculators.uk
+          </a>
+        </p>
+        <p class="mt-2 text-xs text-[rgb(var(--muted))]">
+          Please don’t include personal financial or medical information.
+        </p>
+      </div>
+
+      <div class="space-y-2 text-sm text-[rgb(var(--muted))]">
+        <p>
+          If you’re reporting a bug, it helps to include:
+        </p>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>Which calculator you used</li>
+          <li>The inputs you entered</li>
+          <li>What you expected vs what happened</li>
+          <li>A screenshot (if you can)</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</Layout>

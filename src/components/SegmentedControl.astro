@@ -1,0 +1,76 @@
+---
+type Option = {
+  label: string;
+  value: string;
+};
+
+type Props = {
+  /** Used for aria-label on the radiogroup */
+  ariaLabel: string;
+
+  /** Radio group name (shared across options) */
+  name: string;
+
+  /** Options in order */
+  options: Option[];
+
+  /** Optional: preselected value. If not provided, first option is selected. */
+  value?: string;
+
+  /** Optional: extra classes for the wrapper */
+  class?: string;
+};
+
+const {
+  ariaLabel,
+  name,
+  options,
+  value,
+  class: className = "",
+} = Astro.props;
+
+// Ensure there's ALWAYS a selection (no "all off" state)
+const selectedValue =
+  (value && options.some((o) => o.value === value) && value) ||
+  options?.[0]?.value ||
+  "";
+---
+
+<div
+  class={`inline-flex w-full max-w-full rounded-full border border-[rgb(var(--border))] bg-white p-1 ${className}`}
+  role="radiogroup"
+  aria-label={ariaLabel}
+>
+  <div class="flex w-full gap-1">
+    {options.map((opt, i) => {
+      const id = `${name}-${i}-${opt.value}`.replace(/\s+/g, "-").toLowerCase();
+
+      return (
+        <div class="flex-1">
+          <input
+            class="sr-only peer"
+            type="radio"
+            id={id}
+            name={name}
+            value={opt.value}
+            checked={opt.value === selectedValue}
+          />
+
+          <label
+            for={id}
+            class="
+              block w-full select-none rounded-full px-3 py-2 text-center text-sm font-medium text-[rgb(var(--text))]
+              transition
+              hover:bg-black/5
+              peer-checked:bg-[rgb(249_250_251)]
+              peer-checked:shadow-[inset_0_0_0_1px_rgb(0_0_0)]
+              peer-focus-visible:ring-2 peer-focus-visible:ring-black/20
+            "
+          >
+            {opt.label}
+          </label>
+        </div>
+      );
+    })}
+  </div>
+</div>

@@ -1,0 +1,202 @@
+---
+import "../styles/global.css";
+import Sidebar from "../components/Sidebar.astro";
+import RightRail from "../components/RightRail.astro";
+import Footer from "../components/Footer.astro";
+
+const {
+  title = "All The Calculators",
+  description = "Simple UK calculators for money, health & everyday life.",
+  canonical,
+} = Astro.props;
+
+const siteName = "All The Calculators";
+const url = canonical ?? Astro.url.href;
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={url} />
+
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={url} />
+    <meta property="og:type" content="website" />
+
+    <meta name="twitter:card" content="summary" />
+  </head>
+
+  <body class="bg-white text-[rgb(var(--text))]">
+    <!-- Top bar -->
+    <header class="border-b border-[rgb(var(--border))] bg-white">
+      <div class="flex items-center gap-3 px-6 py-4">
+        <!-- Hamburger: mobile only -->
+        <button
+          type="button"
+          class="inline-flex items-center justify-center rounded-xl border border-[rgb(var(--border))] bg-white p-3 md:hidden"
+          aria-label="Open menu"
+          data-mobile-menu-button
+        >
+          ☰
+        </button>
+
+        <a href="/" class="text-base font-semibold tracking-tight">
+          All The Calculators
+        </a>
+      </div>
+    </header>
+
+    <!-- App shell -->
+    <div class="mx-auto w-full">
+      <div
+        class="grid min-h-[calc(100vh-64px)]
+               grid-cols-1
+               md:grid-cols-[280px_1fr]
+               lg:grid-cols-[280px_1fr_320px]"
+      >
+        <!-- Left sidebar: tablet + desktop -->
+        <aside class="hidden md:block border-r border-[rgb(var(--border))] bg-white">
+          <Sidebar currentPath={Astro.url.pathname} />
+        </aside>
+
+        <!-- Main content + footer -->
+        <div class="min-w-0 px-6 py-6">
+          <!-- Add bottom padding so footer doesn't crowd short pages (e.g. home) -->
+          <main class="min-w-0 pb-16">
+            <slot />
+          </main>
+
+          <Footer />
+        </div>
+
+        <!-- Right rail: desktop only -->
+        <aside class="hidden lg:block border-l border-[rgb(var(--border))] bg-white px-6 py-6">
+          <RightRail currentPath={Astro.url.pathname} />
+        </aside>
+      </div>
+    </div>
+
+    <!-- Mobile navigation drawer -->
+    <div
+      class="fixed inset-0 z-50 hidden md:hidden"
+      data-mobile-menu
+      aria-hidden="true"
+    >
+      <div
+        class="absolute inset-0 bg-black/20"
+        data-mobile-menu-backdrop
+      ></div>
+
+      <div
+        class="absolute left-0 top-0 h-full w-[84%] max-w-[360px]
+               border-r border-[rgb(var(--border))] bg-white"
+      >
+        <div class="flex items-center justify-between border-b border-[rgb(var(--border))] px-6 py-4">
+          <div class="text-base font-semibold">All The Calculators</div>
+          <button
+            type="button"
+            class="rounded-xl border border-[rgb(var(--border))] bg-white px-3 py-2 text-sm"
+            aria-label="Close menu"
+            data-mobile-menu-close
+          >
+            Close
+          </button>
+        </div>
+
+        <div class="h-[calc(100%-64px)] overflow-y-auto">
+          <Sidebar currentPath={Astro.url.pathname} />
+        </div>
+      </div>
+    </div>
+
+    <!-- Cookie consent banner -->
+    <div
+      id="cookie-banner"
+      class="fixed bottom-4 left-4 right-4 z-50 hidden rounded-2xl border border-[rgb(var(--border))] bg-white p-4 shadow-lg md:left-auto md:right-6 md:w-[380px]"
+      role="dialog"
+      aria-live="polite"
+      aria-label="Cookie consent"
+    >
+      <div class="text-sm font-semibold tracking-tight">Cookies & ads</div>
+      <p class="mt-2 text-xs text-[rgb(var(--muted))]">
+        We use cookies to run the site and show ads. You can accept or decline non‑essential cookies. Learn more in our
+        <a href="/privacy" class="underline decoration-black/20 underline-offset-4 hover:decoration-black/40">
+          privacy policy
+        </a>.
+      </p>
+      <div class="mt-3 flex flex-wrap gap-2">
+        <button
+          type="button"
+          class="rounded-xl bg-black px-3 py-2 text-xs font-medium text-white"
+          data-cookie-accept
+        >
+          Accept
+        </button>
+        <button
+          type="button"
+          class="rounded-xl border border-[rgb(var(--border))] bg-white px-3 py-2 text-xs font-medium"
+          data-cookie-decline
+        >
+          Decline
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu script -->
+    <script is:inline>
+      const openBtn = document.querySelector("[data-mobile-menu-button]");
+      const menu = document.querySelector("[data-mobile-menu]");
+      const backdrop = document.querySelector("[data-mobile-menu-backdrop]");
+      const closeBtn = document.querySelector("[data-mobile-menu-close]");
+
+      function openMenu() {
+        if (!menu) return;
+        menu.classList.remove("hidden");
+        menu.setAttribute("aria-hidden", "false");
+      }
+
+      function closeMenu() {
+        if (!menu) return;
+        menu.classList.add("hidden");
+        menu.setAttribute("aria-hidden", "true");
+      }
+
+      openBtn?.addEventListener("click", openMenu);
+      backdrop?.addEventListener("click", closeMenu);
+      closeBtn?.addEventListener("click", closeMenu);
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeMenu();
+      });
+    </script>
+
+    <!-- Cookie consent script -->
+    <script is:inline>
+      const consentKey = "cookieConsent";
+      const banner = document.getElementById("cookie-banner");
+      const acceptBtn = document.querySelector("[data-cookie-accept]");
+      const declineBtn = document.querySelector("[data-cookie-decline]");
+
+      const existingConsent = localStorage.getItem(consentKey);
+      if (!existingConsent && banner) {
+        banner.classList.remove("hidden");
+      }
+
+      function setConsent(value) {
+        localStorage.setItem(consentKey, value);
+        banner?.classList.add("hidden");
+      }
+
+      acceptBtn?.addEventListener("click", () => setConsent("accepted"));
+      declineBtn?.addEventListener("click", () => setConsent("declined"));
+    </script>
+  </body>
+</html>

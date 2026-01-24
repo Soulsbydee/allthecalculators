@@ -1,0 +1,279 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Card from "../../../components/Card.astro";
+import Input from "../../../components/Input.astro";
+import Button from "../../../components/Button.astro";
+
+const title = "Mortgage payment calculator (UK) — All The Calculators";
+const description =
+  "Estimate monthly mortgage payments, total interest and total repaid for a fixed-rate repayment mortgage.";
+---
+
+<Layout title={title} description={description}>
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-2xl font-semibold tracking-tight">Mortgage payment</h1>
+      <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+        Estimate monthly repayments and total cost based on the amount you borrow, interest rate, and term.
+      </p>
+    </div>
+
+    <!-- Inputs -->
+    <section class="inputs-container space-y-4" aria-label="Mortgage payment inputs">
+      <div class="inputs-grid">
+        <div>
+          <Input
+            id="amount"
+            label="Mortgage amount (£)"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="1"
+            placeholder="e.g. 250,000"
+          />
+          <p id="amount-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+
+        <div>
+          <Input
+            id="rate"
+            label="Interest rate (%)"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="0.01"
+            placeholder="e.g. 5.0"
+          />
+          <p id="rate-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+
+        <div>
+          <Input
+            id="years"
+            label="Mortgage term (years)"
+            type="number"
+            inputmode="numeric"
+            min="1"
+            step="1"
+            placeholder="e.g. 25"
+          />
+          <p id="years-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-3 pt-1">
+        <Button type="button" id="calcBtn">Calculate</Button>
+        <Button type="button" variant="ghost" id="resetBtn">Reset</Button>
+      </div>
+
+      <p class="text-xs text-[rgb(var(--muted))]">
+        Results assume a repayment mortgage with a fixed interest rate and monthly payments.
+      </p>
+    </section>
+
+    <!-- Divider -->
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <!-- Results (NO tinted wrapper) -->
+    <section aria-label="Mortgage payment results" class="space-y-4">
+      <header>
+        <h2 class="text-[18px] font-semibold tracking-tight">Results</h2>
+        <p class="mt-1 text-[14px] text-[rgb(var(--muted))]">
+          These are estimates based on your inputs.
+        </p>
+      </header>
+
+      <div class="results-grid" role="status" aria-live="polite" aria-atomic="true">
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">
+            Monthly payment
+          </div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="monthly">—</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]">
+            Estimated monthly mortgage repayment
+          </div>
+        </Card>
+
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">
+            Total interest
+          </div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="interest">—</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]">
+            Interest paid over the full term
+          </div>
+        </Card>
+
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">
+            Total repaid
+          </div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="total">—</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]">
+            Mortgage amount + interest
+          </div>
+        </Card>
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <!-- How it works (accordion, SF-style SVG chevron on left) -->
+    <section class="max-w-2xl" aria-label="How this calculator works">
+      <details class="group">
+        <summary
+          class="flex cursor-pointer list-none items-center gap-2 py-2 text-sm font-semibold tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 rounded-lg"
+        >
+          <span
+            class="inline-flex h-4 w-4 items-center justify-center text-[rgb(var(--muted))] transition-transform group-open:rotate-90"
+            aria-hidden="true"
+          >
+            <svg
+              viewBox="0 0 20 20"
+              width="16"
+              height="16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7.25 4.75L12.75 10L7.25 15.25"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+
+          <span>How this calculator works</span>
+        </summary>
+
+        <div class="pt-2 pl-6 text-sm text-[rgb(var(--muted))]">
+          <p>
+            We use the standard amortised mortgage formula (fixed interest rate and fixed monthly payments).
+            These estimates exclude fees, insurance, and taxes.
+          </p>
+        </div>
+      </details>
+    </section>
+  </div>
+
+  <script is:inline>
+    const fmtGBP2 = new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" });
+
+    const fields = {
+      amount: document.getElementById("amount"),
+      rate: document.getElementById("rate"),
+      years: document.getElementById("years"),
+    };
+
+    const errors = {
+      amount: document.getElementById("amount-error"),
+      rate: document.getElementById("rate-error"),
+      years: document.getElementById("years-error"),
+    };
+
+    function setBlankResults() {
+      document.getElementById("monthly").textContent = "—";
+      document.getElementById("interest").textContent = "—";
+      document.getElementById("total").textContent = "—";
+    }
+
+    function showError(key, msg) {
+      const input = fields[key];
+      const err = errors[key];
+      if (!input || !err) return;
+      input.setAttribute("aria-invalid", "true");
+      input.setAttribute("aria-describedby", `${key}-error`);
+      input.classList.add("border-red-500");
+      err.textContent = msg;
+      err.classList.remove("hidden");
+    }
+
+    function clearError(key) {
+      const input = fields[key];
+      const err = errors[key];
+      if (!input || !err) return;
+      input.removeAttribute("aria-invalid");
+      if (input.getAttribute("aria-describedby") === `${key}-error`) input.removeAttribute("aria-describedby");
+      input.classList.remove("border-red-500");
+      err.textContent = "";
+      err.classList.add("hidden");
+    }
+
+    function parseNumber(el) {
+      const v = String(el?.value ?? "").trim();
+      if (v === "") return null;
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function validate() {
+      ["amount","rate","years"].forEach(clearError);
+      let firstInvalid = null;
+
+      const amount = parseNumber(fields.amount);
+      const rate = parseNumber(fields.rate);
+      const years = parseNumber(fields.years);
+
+      if (amount === null || amount <= 0) {
+        showError("amount", "Enter a mortgage amount greater than 0.");
+        firstInvalid ??= fields.amount;
+      }
+      if (rate === null || rate < 0 || rate > 200) {
+        showError("rate", "Enter an interest rate between 0 and 200%.");
+        firstInvalid ??= fields.rate;
+      }
+      if (years === null || years <= 0 || !Number.isInteger(years)) {
+        showError("years", "Enter a term in whole years (at least 1).");
+        firstInvalid ??= fields.years;
+      }
+
+      return { valid: !firstInvalid, firstInvalid, amount, rate, years };
+    }
+
+    function calculate() {
+      const v = validate();
+      if (!v.valid) {
+        setBlankResults();
+        v.firstInvalid?.focus();
+        return;
+      }
+
+      const P = v.amount;
+      const r = (v.rate / 100) / 12;
+      const n = v.years * 12;
+
+      let monthly = 0;
+      if (r === 0) {
+        monthly = P / n;
+      } else {
+        monthly = (P * r) / (1 - Math.pow(1 + r, -n));
+      }
+
+      const total = monthly * n;
+      const interest = total - P;
+
+      document.getElementById("monthly").textContent = fmtGBP2.format(monthly);
+      document.getElementById("interest").textContent = fmtGBP2.format(interest);
+      document.getElementById("total").textContent = fmtGBP2.format(total);
+    }
+
+    function reset() {
+      ["amount","rate","years"].forEach((k) => {
+        fields[k].value = "";
+        clearError(k);
+      });
+      setBlankResults();
+      fields.amount?.focus();
+    }
+
+    ["amount","rate","years"].forEach((k) => fields[k]?.addEventListener("input", () => clearError(k)));
+
+    document.getElementById("calcBtn")?.addEventListener("click", calculate);
+    document.getElementById("resetBtn")?.addEventListener("click", reset);
+
+    setBlankResults();
+  </script>
+</Layout>

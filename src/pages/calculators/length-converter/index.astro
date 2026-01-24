@@ -1,0 +1,300 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Card from "../../../components/Card.astro";
+import Input from "../../../components/Input.astro";
+import Button from "../../../components/Button.astro";
+
+const title = "Length converter (UK) — All The Calculators";
+const description =
+  "Convert lengths between metric and imperial units (mm, cm, m, km ↔ in, ft, yd, mi).";
+---
+
+<Layout title={title} description={description}>
+  <div class="space-y-6">
+    <!-- Title -->
+    <header>
+      <h1 class="text-2xl font-semibold tracking-tight">Length converter</h1>
+      <p class="mt-2 text-sm text-[rgb(var(--muted))] max-w-2xl">
+        Convert lengths between metric and imperial units. Enter a value, choose units, then select Calculate.
+      </p>
+    </header>
+
+    <!-- Inputs (no bounding card) -->
+    <section class="inputs-container space-y-4" aria-label="Length converter inputs">
+      <div class="inputs-grid">
+        <div>
+          <Input
+            id="value"
+            label="Value"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="0.0001"
+            placeholder="e.g. 2.5"
+          />
+          <p id="value-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+
+        <div>
+          <div class="mb-1 text-sm font-medium text-[rgb(var(--text))]">From unit</div>
+          <select
+            id="fromUnit"
+            class="w-full rounded-xl border border-[rgb(var(--border))] bg-white px-3 py-2 text-sm text-[rgb(var(--text))] focus:outline-none focus:ring-2 focus:ring-black/10"
+          >
+            <option value="m" selected>Metres (m)</option>
+            <option value="mm">Millimetres (mm)</option>
+            <option value="cm">Centimetres (cm)</option>
+            <option value="km">Kilometres (km)</option>
+            <option value="in">Inches (in)</option>
+            <option value="ft">Feet (ft)</option>
+            <option value="yd">Yards (yd)</option>
+            <option value="mi">Miles (mi)</option>
+          </select>
+          <p id="fromUnit-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+
+        <div>
+          <div class="mb-1 text-sm font-medium text-[rgb(var(--text))]">To unit</div>
+          <select
+            id="toUnit"
+            class="w-full rounded-xl border border-[rgb(var(--border))] bg-white px-3 py-2 text-sm text-[rgb(var(--text))] focus:outline-none focus:ring-2 focus:ring-black/10"
+          >
+            <option value="ft" selected>Feet (ft)</option>
+            <option value="mm">Millimetres (mm)</option>
+            <option value="cm">Centimetres (cm)</option>
+            <option value="m">Metres (m)</option>
+            <option value="km">Kilometres (km)</option>
+            <option value="in">Inches (in)</option>
+            <option value="yd">Yards (yd)</option>
+            <option value="mi">Miles (mi)</option>
+          </select>
+          <p id="toUnit-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-3 pt-1">
+        <Button type="button" id="calcBtn">Calculate</Button>
+        <Button type="button" variant="ghost" id="resetBtn">Reset</Button>
+      </div>
+
+      <p class="text-xs text-[rgb(var(--muted))]">
+        We convert your input to metres, then convert to your chosen unit. Results may vary slightly due to rounding.
+      </p>
+    </section>
+
+    <hr class="border-[rgb(var(--border))]" />
+
+    <!-- Results (NO grey wrapper card; cards only) -->
+    <section aria-label="Length converter results" class="space-y-3">
+      <div>
+        <div class="text-[18px] font-semibold tracking-tight">Results</div>
+        <div class="text-[14px] text-[rgb(var(--muted))]">
+          These are estimates based on your inputs.
+        </div>
+      </div>
+
+      <div class="results-grid" role="status" aria-live="polite" aria-atomic="true">
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]" id="resultLabel">
+            Converted length
+          </div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="resultValue">—</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]">
+            Converted to your selected unit
+          </div>
+        </Card>
+      </div>
+    </section>
+
+    <hr class="border-[rgb(var(--border))]" />
+
+    <!-- How it works (accordion, chevron on left) -->
+    <details class="group max-w-2xl">
+      <summary
+        class="flex cursor-pointer list-none items-center gap-2 text-sm font-semibold tracking-tight"
+      >
+        <span class="inline-flex h-5 w-5 items-center justify-center">
+          <svg
+            class="h-4 w-4 transition-transform group-open:rotate-90"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.21 14.77a.75.75 0 0 1 .02-1.06L10.7 10 7.23 6.29a.75.75 0 1 1 1.08-1.04l4 4.25c.27.29.27.74 0 1.03l-4 4.25a.75.75 0 0 1-1.06.02Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </span>
+        <span>How this calculator works</span>
+      </summary>
+
+      <div class="mt-3 space-y-2 text-sm text-[rgb(var(--muted))]">
+        <p>
+          This calculator converts your input to a base unit (metres), then converts it to the target unit using
+          standard conversion factors.
+        </p>
+        <p>
+          Examples: 1 inch = 0.0254 m, 1 foot = 0.3048 m, 1 yard = 0.9144 m, 1 mile = 1609.344 m.
+        </p>
+        <p>Results may vary slightly due to rounding.</p>
+      </div>
+    </details>
+  </div>
+
+  <script is:inline>
+    const $ = (id) => document.getElementById(id);
+
+    const els = {
+      value: $("value"),
+      fromUnit: $("fromUnit"),
+      toUnit: $("toUnit"),
+
+      errValue: $("value-error"),
+      errFrom: $("fromUnit-error"),
+      errTo: $("toUnit-error"),
+
+      resultLabel: $("resultLabel"),
+      resultValue: $("resultValue"),
+
+      btnCalc: $("calcBtn"),
+      btnReset: $("resetBtn"),
+    };
+
+    // Conversion factors TO metres
+    const TO_METRES = {
+      mm: 0.001,
+      cm: 0.01,
+      m: 1,
+      km: 1000,
+      in: 0.0254,
+      ft: 0.3048,
+      yd: 0.9144,
+      mi: 1609.344,
+    };
+
+    const UNIT_LABEL = {
+      mm: "Millimetres (mm)",
+      cm: "Centimetres (cm)",
+      m: "Metres (m)",
+      km: "Kilometres (km)",
+      in: "Inches (in)",
+      ft: "Feet (ft)",
+      yd: "Yards (yd)",
+      mi: "Miles (mi)",
+    };
+
+    function setBlankResults() {
+      els.resultLabel.textContent = "Converted length";
+      els.resultValue.textContent = "—";
+    }
+
+    function showError(inputEl, errEl, msg, describedById) {
+      if (!inputEl || !errEl) return;
+      inputEl.setAttribute("aria-invalid", "true");
+      if (describedById) inputEl.setAttribute("aria-describedby", describedById);
+      inputEl.classList.add("border-red-500");
+      errEl.textContent = msg;
+      errEl.classList.remove("hidden");
+    }
+
+    function clearError(inputEl, errEl) {
+      if (!inputEl || !errEl) return;
+      inputEl.removeAttribute("aria-invalid");
+      if (inputEl.getAttribute("aria-describedby")?.includes(errEl.id)) {
+        inputEl.removeAttribute("aria-describedby");
+      }
+      inputEl.classList.remove("border-red-500");
+      errEl.textContent = "";
+      errEl.classList.add("hidden");
+    }
+
+    function clearAllErrors() {
+      clearError(els.value, els.errValue);
+      clearError(els.fromUnit, els.errFrom);
+      clearError(els.toUnit, els.errTo);
+    }
+
+    function parseNumber(el) {
+      const v = String(el?.value ?? "").trim();
+      if (v === "") return null;
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function formatNumber(n) {
+      const abs = Math.abs(n);
+      const maxDecimals = abs < 10 ? 3 : 2;
+
+      // Trim trailing zeros, keep readable
+      return n.toLocaleString("en-GB", {
+        maximumFractionDigits: maxDecimals,
+      });
+    }
+
+    function validate() {
+      clearAllErrors();
+
+      let firstInvalid = null;
+
+      const value = parseNumber(els.value);
+      const from = String(els.fromUnit?.value ?? "");
+      const to = String(els.toUnit?.value ?? "");
+
+      if (value === null) {
+        showError(els.value, els.errValue, "Enter a length to convert.", "value-error");
+        firstInvalid ??= els.value;
+      } else if (value < 0) {
+        showError(els.value, els.errValue, "Length must be 0 or more.", "value-error");
+        firstInvalid ??= els.value;
+      }
+
+      if (!from || !(from in TO_METRES)) {
+        showError(els.fromUnit, els.errFrom, "Select a unit.", "fromUnit-error");
+        firstInvalid ??= els.fromUnit;
+      }
+
+      if (!to || !(to in TO_METRES)) {
+        showError(els.toUnit, els.errTo, "Select a unit.", "toUnit-error");
+        firstInvalid ??= els.toUnit;
+      }
+
+      return { valid: !firstInvalid, firstInvalid, value, from, to };
+    }
+
+    function calculate() {
+      const v = validate();
+      if (!v.valid) {
+        setBlankResults();
+        v.firstInvalid?.focus();
+        return;
+      }
+
+      const metres = v.value * TO_METRES[v.from];
+      const converted = metres / TO_METRES[v.to];
+
+      els.resultLabel.textContent = `Converted length (${v.to})`;
+      els.resultValue.textContent = `${formatNumber(converted)} ${v.to}`;
+    }
+
+    function reset() {
+      els.value.value = "";
+      els.fromUnit.value = "m";
+      els.toUnit.value = "ft";
+      clearAllErrors();
+      setBlankResults();
+      els.value?.focus();
+    }
+
+    // Clear errors on interaction
+    els.value?.addEventListener("input", () => clearError(els.value, els.errValue));
+    els.fromUnit?.addEventListener("change", () => clearError(els.fromUnit, els.errFrom));
+    els.toUnit?.addEventListener("change", () => clearError(els.toUnit, els.errTo));
+
+    els.btnCalc?.addEventListener("click", calculate);
+    els.btnReset?.addEventListener("click", reset);
+
+    setBlankResults();
+  </script>
+</Layout>

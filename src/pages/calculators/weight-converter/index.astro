@@ -1,0 +1,259 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Card from "../../../components/Card.astro";
+import Input from "../../../components/Input.astro";
+import Button from "../../../components/Button.astro";
+
+const title = "Weight converter (UK) — All The Calculators";
+const description = "Convert weight between kg and st/lb.";
+---
+
+<Layout title={title} description={description}>
+  <div class="space-y-6">
+    <header>
+      <h1 class="text-2xl font-semibold tracking-tight">Weight converter</h1>
+      <p class="mt-2 text-sm text-[rgb(var(--muted))] max-w-2xl">
+        Convert weight between metric (kg) and UK units (st/lb). Enter either format and press Calculate.
+      </p>
+    </header>
+
+    <!-- Inputs -->
+    <section class="inputs-container space-y-4" aria-label="Weight converter inputs">
+      <div class="inputs-grid">
+        <div class="md:col-span-2">
+          <Input
+            id="kg"
+            label="Weight (kg)"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="0.1"
+            placeholder="e.g. 72"
+          />
+          <p id="kg-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+
+        <div>
+          <Input
+            id="st"
+            label="Weight (st)"
+            type="number"
+            inputmode="numeric"
+            min="0"
+            step="1"
+            placeholder="e.g. 11"
+          />
+          <p id="st-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+
+        <div>
+          <Input
+            id="lb"
+            label="Weight (lb)"
+            type="number"
+            inputmode="numeric"
+            min="0"
+            step="1"
+            placeholder="e.g. 5"
+          />
+          <p id="lb-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-3 pt-1">
+        <Button type="button" id="calcBtn">Calculate</Button>
+        <Button type="button" variant="ghost" id="resetBtn">Reset</Button>
+      </div>
+
+      <p class="text-xs text-[rgb(var(--muted))]">
+        Tip: You only need to fill in one format (kg or st/lb).
+      </p>
+    </section>
+
+    <!-- Divider -->
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <!-- Results -->
+    <section aria-label="Weight converter results" class="space-y-4">
+      <header>
+        <h2 class="text-[18px] font-semibold tracking-tight">Results</h2>
+        <p class="mt-1 text-[14px] text-[rgb(var(--muted))]">These are estimates based on your inputs.</p>
+      </header>
+
+      <div class="results-grid" role="status" aria-live="polite" aria-atomic="true">
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">Weight (kg)</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="resKg">—</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]">Metric</div>
+        </Card>
+
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">Weight (st/lb)</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="resStLb">—</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]">UK units</div>
+        </Card>
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <!-- How it works -->
+    <section class="max-w-2xl" aria-label="How this calculator works">
+      <details class="group">
+        <summary
+          class="flex cursor-pointer list-none items-center gap-2 py-2 text-sm font-semibold tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 rounded-lg"
+        >
+          <span
+            class="inline-flex h-4 w-4 items-center justify-center text-[rgb(var(--muted))] transition-transform group-open:rotate-90"
+            aria-hidden="true"
+          >
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7.25 4.75L12.75 10L7.25 15.25" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+          <span>How this calculator works</span>
+        </summary>
+
+        <div class="pt-2 pl-6 space-y-2 text-sm text-[rgb(var(--muted))]">
+          <p>
+            We use standard conversions: 1 stone = 14 lb and 1 lb = 0.453592 kg.
+            Results may vary slightly due to rounding.
+          </p>
+        </div>
+      </details>
+    </section>
+  </div>
+
+  <script is:inline>
+    const $ = (id) => document.getElementById(id);
+
+    const fields = {
+      kg: $("kg"),
+      st: $("st"),
+      lb: $("lb"),
+    };
+
+    const errors = {
+      kg: $("kg-error"),
+      st: $("st-error"),
+      lb: $("lb-error"),
+    };
+
+    function setBlankResults() {
+      $("resKg").textContent = "—";
+      $("resStLb").textContent = "—";
+    }
+
+    function showError(key, msg) {
+      const el = fields[key];
+      const err = errors[key];
+      if (!el || !err) return;
+
+      el.setAttribute("aria-invalid", "true");
+      el.setAttribute("aria-describedby", `${key}-error`);
+      el.classList.add("border-red-500");
+      err.textContent = msg;
+      err.classList.remove("hidden");
+    }
+
+    function clearError(key) {
+      const el = fields[key];
+      const err = errors[key];
+      if (!el || !err) return;
+
+      el.removeAttribute("aria-invalid");
+      if (el.getAttribute("aria-describedby") === `${key}-error`) el.removeAttribute("aria-describedby");
+      el.classList.remove("border-red-500");
+      err.textContent = "";
+      err.classList.add("hidden");
+    }
+
+    function parseNumber(el) {
+      const v = String(el?.value ?? "").trim();
+      if (v === "") return null;
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function validate() {
+      ["kg","st","lb"].forEach(clearError);
+
+      const kg = parseNumber(fields.kg);
+      const st = parseNumber(fields.st);
+      const lb = parseNumber(fields.lb);
+
+      const hasMetric = kg !== null;
+      const hasUK = st !== null || lb !== null;
+
+      if (!hasMetric && !hasUK) {
+        showError("kg", "Enter a weight in kg or st/lb.");
+        return { valid: false, firstInvalid: fields.kg };
+      }
+
+      if (hasMetric) {
+        if (kg <= 0) return (showError("kg", "Enter a weight greater than 0."), { valid: false, firstInvalid: fields.kg });
+        if (kg < 10 || kg > 400) return (showError("kg", "Enter a weight between 10 and 400 kg."), { valid: false, firstInvalid: fields.kg });
+      }
+
+      if (hasUK) {
+        const stV = st ?? 0;
+        const lbV = lb ?? 0;
+
+        if (!Number.isInteger(stV) || stV < 0) return (showError("st", "Enter stone as a whole number (0 or more)."), { valid: false, firstInvalid: fields.st });
+        if (!Number.isInteger(lbV) || lbV < 0 || lbV > 13) return (showError("lb", "Pounds must be a whole number from 0 to 13."), { valid: false, firstInvalid: fields.lb });
+        if (stV === 0 && lbV === 0) return (showError("st", "Enter a weight greater than 0."), { valid: false, firstInvalid: fields.st });
+        if (stV > 60) return (showError("st", "Enter a weight between 1 and 60 st."), { valid: false, firstInvalid: fields.st });
+      }
+
+      return { valid: true, kg, st, lb };
+    }
+
+    function calculate() {
+      const v = validate();
+      if (!v.valid) {
+        setBlankResults();
+        v.firstInvalid?.focus();
+        return;
+      }
+
+      let kgOut = null;
+      let stOut = null;
+      let lbOut = null;
+
+      if (v.kg !== null) {
+        kgOut = v.kg;
+        const totalLb = kgOut / 0.453592;
+        stOut = Math.floor(totalLb / 14);
+        lbOut = Math.round(totalLb - stOut * 14);
+        if (lbOut === 14) { stOut += 1; lbOut = 0; }
+      } else {
+        const stV = v.st ?? 0;
+        const lbV = v.lb ?? 0;
+        const totalLb = stV * 14 + lbV;
+        kgOut = totalLb * 0.453592;
+        stOut = stV;
+        lbOut = lbV;
+      }
+
+      $("resKg").textContent = `${kgOut.toFixed(1)} kg`;
+      $("resStLb").textContent = `${stOut} st ${lbOut} lb`;
+    }
+
+    function reset() {
+      ["kg","st","lb"].forEach((k) => {
+        fields[k].value = "";
+        clearError(k);
+      });
+      setBlankResults();
+      fields.kg?.focus();
+    }
+
+    ["kg","st","lb"].forEach((k) => fields[k]?.addEventListener("input", () => clearError(k)));
+
+    $("calcBtn")?.addEventListener("click", calculate);
+    $("resetBtn")?.addEventListener("click", reset);
+
+    setBlankResults();
+  </script>
+</Layout>
