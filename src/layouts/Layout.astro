@@ -17,8 +17,22 @@ const url = canonical ?? Astro.url.href;
 <!doctype html>
 <html lang="en-GB">
   <head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DHL5QX9HRX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DHL5QX9HRX', {
+    anonymize_ip: true
+  });
+</script>
+
   <meta name="google-site-verification" content="kKyASPk6gjqylUmf2Y7MLP244ft1C5c1eFWMiA11RuE" />
-    <meta charset="UTF-8" />
+    
+	<meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
 
