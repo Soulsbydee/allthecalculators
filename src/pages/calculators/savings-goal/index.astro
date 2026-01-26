@@ -128,6 +128,16 @@ const description =
             Growth from interest
           </div>
         </Card>
+
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">
+            Total saved
+          </div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="total">—</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]">
+            Contributions plus interest earned
+          </div>
+        </Card>
       </div>
     </section>
 
@@ -200,6 +210,7 @@ const description =
       document.getElementById("monthly").textContent = "—";
       document.getElementById("contrib").textContent = "—";
       document.getElementById("interest").textContent = "—";
+      document.getElementById("total").textContent = "—";
     }
 
     function showError(key, msg) {
@@ -301,6 +312,7 @@ const description =
       document.getElementById("monthly").textContent = fmtGBP2.format(monthly);
       document.getElementById("contrib").textContent = fmtGBP2.format(contributed);
       document.getElementById("interest").textContent = fmtGBP2.format(interest);
+      document.getElementById("total").textContent = fmtGBP2.format(balance);
     }
 
     function reset() {
@@ -314,7 +326,28 @@ const description =
 
     ["goal","start","rate","years"].forEach((k) => fields[k]?.addEventListener("input", () => clearError(k)));
 
-    document.getElementById("calcBtn")?.addEventListener("click", calculate);
+    const calcBtn = document.getElementById("calcBtn");
+    const calcLabel = calcBtn?.querySelector("[data-calc-label]");
+    const calcSpinner = calcBtn?.querySelector("[data-calc-spinner]");
+
+    function setLoading(isLoading) {
+      if (!calcBtn) return;
+      calcBtn.disabled = isLoading;
+      calcBtn.setAttribute("aria-busy", isLoading ? "true" : "false");
+      calcBtn.classList.toggle("opacity-70", isLoading);
+      calcBtn.classList.toggle("cursor-not-allowed", isLoading);
+      calcSpinner?.classList.toggle("hidden", !isLoading);
+      calcLabel?.classList.toggle("sr-only", isLoading);
+    }
+
+    calcBtn?.addEventListener("click", () => {
+      if (calcBtn.disabled) return;
+      setLoading(true);
+      window.setTimeout(() => {
+        calculate();
+        setLoading(false);
+      }, 1000);
+    });
     document.getElementById("resetBtn")?.addEventListener("click", reset);
 
     setBlankResults();

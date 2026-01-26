@@ -74,20 +74,40 @@ const description = "Add or remove VAT from a price using UK VAT rates.";
       el.addEventListener("change", () => (mode = el.value))
     );
 
-    $("calcBtn").addEventListener("click", () => {
-      const amount = Number($("amount").value);
-      const rate = Number($("rate").value || 20) / 100;
+    const calcBtn = $("calcBtn");
+    const calcLabel = calcBtn?.querySelector("[data-calc-label]");
+    const calcSpinner = calcBtn?.querySelector("[data-calc-spinner]");
 
-      if (mode === "add") {
-        const vat = amount * rate;
-        $("vat").textContent = fmt.format(vat);
-        $("total").textContent = fmt.format(amount + vat);
-      } else {
-        const net = amount / (1 + rate);
-        const vat = amount - net;
-        $("vat").textContent = fmt.format(vat);
-        $("total").textContent = fmt.format(net);
-      }
+    function setLoading(isLoading) {
+      if (!calcBtn) return;
+      calcBtn.disabled = isLoading;
+      calcBtn.setAttribute("aria-busy", isLoading ? "true" : "false");
+      calcBtn.classList.toggle("opacity-70", isLoading);
+      calcBtn.classList.toggle("cursor-not-allowed", isLoading);
+      calcSpinner?.classList.toggle("hidden", !isLoading);
+      calcLabel?.classList.toggle("sr-only", isLoading);
+    }
+
+    calcBtn?.addEventListener("click", () => {
+      if (calcBtn.disabled) return;
+      setLoading(true);
+      window.setTimeout(() => {
+        const amount = Number($("amount").value);
+        const rate = Number($("rate").value || 20) / 100;
+
+        if (mode === "add") {
+          const vat = amount * rate;
+          $("vat").textContent = fmt.format(vat);
+          $("total").textContent = fmt.format(amount + vat);
+        } else {
+          const net = amount / (1 + rate);
+          const vat = amount - net;
+          $("vat").textContent = fmt.format(vat);
+          $("total").textContent = fmt.format(net);
+        }
+
+        setLoading(false);
+      }, 1000);
     });
 
     $("resetBtn").addEventListener("click", () => {

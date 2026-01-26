@@ -4,6 +4,7 @@ const {
   variant = "primary", // primary | ghost
   class: className = "",
   type = "button",
+  id,
   ...rest
 } = Astro.props;
 
@@ -17,15 +18,43 @@ const variants = {
     "border border-[rgb(var(--border))] bg-white text-[rgb(var(--text))] hover:bg-black/5",
 };
 
-const classes = `${base} ${variants[variant] ?? variants.primary} ${className}`;
+const isCalc = id === "calcBtn";
+const calcClasses = isCalc ? " min-w-[120px] justify-center" : "";
+const classes = `${base} ${variants[variant] ?? variants.primary} ${className}${calcClasses}`;
 ---
 
 {href ? (
-  <a href={href} class={classes} {...rest}>
-    <slot />
+  <a href={href} class={classes} id={id} {...rest}>
+    {isCalc ? (
+      <>
+        <span data-calc-label>
+          <slot />
+        </span>
+        <span
+          data-calc-spinner
+          class="hidden h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white"
+          aria-hidden="true"
+        ></span>
+      </>
+    ) : (
+      <slot />
+    )}
   </a>
 ) : (
-  <button type={type} class={classes} {...rest}>
-    <slot />
+  <button type={type} class={classes} id={id} {...rest}>
+    {isCalc ? (
+      <>
+        <span data-calc-label>
+          <slot />
+        </span>
+        <span
+          data-calc-spinner
+          class="hidden h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white"
+          aria-hidden="true"
+        ></span>
+      </>
+    ) : (
+      <slot />
+    )}
   </button>
 )}

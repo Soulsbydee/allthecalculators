@@ -287,12 +287,32 @@ const description =
       els.value?.focus();
     }
 
+    const calcLabel = els.btnCalc?.querySelector("[data-calc-label]");
+    const calcSpinner = els.btnCalc?.querySelector("[data-calc-spinner]");
+
+    function setLoading(isLoading) {
+      if (!els.btnCalc) return;
+      els.btnCalc.disabled = isLoading;
+      els.btnCalc.setAttribute("aria-busy", isLoading ? "true" : "false");
+      els.btnCalc.classList.toggle("opacity-70", isLoading);
+      els.btnCalc.classList.toggle("cursor-not-allowed", isLoading);
+      calcSpinner?.classList.toggle("hidden", !isLoading);
+      calcLabel?.classList.toggle("sr-only", isLoading);
+    }
+
     // Clear errors on interaction
     els.value?.addEventListener("input", () => clearError(els.value, els.errValue));
     els.fromUnit?.addEventListener("change", () => clearError(els.fromUnit, els.errFrom));
     els.toUnit?.addEventListener("change", () => clearError(els.toUnit, els.errTo));
 
-    els.btnCalc?.addEventListener("click", calculate);
+    els.btnCalc?.addEventListener("click", () => {
+      if (els.btnCalc.disabled) return;
+      setLoading(true);
+      window.setTimeout(() => {
+        calculate();
+        setLoading(false);
+      }, 1000);
+    });
     els.btnReset?.addEventListener("click", reset);
 
     setBlankResults();

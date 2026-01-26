@@ -154,30 +154,50 @@ const description =
       $("answerHelp").textContent = "Calculated result";
     }
 
-    $("calcBtn").addEventListener("click", () => {
-      if (currentMode === "of") {
-        const x = Number($("of_x").value);
-        const y = Number($("of_y").value);
-        const ans = (x / 100) * y;
-        $("answer").textContent = fmt.format(ans);
-        $("working").textContent = `(${x} ÷ 100) × ${y}`;
-      }
+    const calcBtn = $("calcBtn");
+    const calcLabel = calcBtn?.querySelector("[data-calc-label]");
+    const calcSpinner = calcBtn?.querySelector("[data-calc-spinner]");
 
-      if (currentMode === "isof") {
-        const x = Number($("isof_x").value);
-        const y = Number($("isof_y").value);
-        const pct = (x / y) * 100;
-        $("answer").textContent = `${fmt.format(pct)}%`;
-        $("working").textContent = `(${x} ÷ ${y}) × 100`;
-      }
+    function setLoading(isLoading) {
+      if (!calcBtn) return;
+      calcBtn.disabled = isLoading;
+      calcBtn.setAttribute("aria-busy", isLoading ? "true" : "false");
+      calcBtn.classList.toggle("opacity-70", isLoading);
+      calcBtn.classList.toggle("cursor-not-allowed", isLoading);
+      calcSpinner?.classList.toggle("hidden", !isLoading);
+      calcLabel?.classList.toggle("sr-only", isLoading);
+    }
 
-      if (currentMode === "change") {
-        const oldV = Number($("chg_old").value);
-        const newV = Number($("chg_new").value);
-        const pct = ((newV - oldV) / oldV) * 100;
-        $("answer").textContent = `${fmt.format(pct)}%`;
-        $("working").textContent = `((${newV} − ${oldV}) ÷ ${oldV}) × 100`;
-      }
+    calcBtn?.addEventListener("click", () => {
+      if (calcBtn.disabled) return;
+      setLoading(true);
+      window.setTimeout(() => {
+        if (currentMode === "of") {
+          const x = Number($("of_x").value);
+          const y = Number($("of_y").value);
+          const ans = (x / 100) * y;
+          $("answer").textContent = fmt.format(ans);
+          $("working").textContent = `(${x} ÷ 100) × ${y}`;
+        }
+
+        if (currentMode === "isof") {
+          const x = Number($("isof_x").value);
+          const y = Number($("isof_y").value);
+          const pct = (x / y) * 100;
+          $("answer").textContent = `${fmt.format(pct)}%`;
+          $("working").textContent = `(${x} ÷ ${y}) × 100`;
+        }
+
+        if (currentMode === "change") {
+          const oldV = Number($("chg_old").value);
+          const newV = Number($("chg_new").value);
+          const pct = ((newV - oldV) / oldV) * 100;
+          $("answer").textContent = `${fmt.format(pct)}%`;
+          $("working").textContent = `((${newV} − ${oldV}) ÷ ${oldV}) × 100`;
+        }
+
+        setLoading(false);
+      }, 1000);
     });
 
     $("resetBtn").addEventListener("click", () => {
