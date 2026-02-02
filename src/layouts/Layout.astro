@@ -11,7 +11,8 @@ const {
 } = Astro.props;
 
 const siteName = "All The Calculators";
-const url = canonical ?? Astro.url.href;
+const siteUrl = Astro.site?.href ?? "https://allthecalculators.uk/";
+const url = canonical ?? new URL(Astro.url.pathname, siteUrl).href;
 ---
 
 <!doctype html>

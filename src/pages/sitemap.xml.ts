@@ -19,16 +19,16 @@ export const GET: APIRoute = async () => {
     "/calculators/savings-growth",
     "/calculators/savings-goal",
     "/calculators/take-home-salary",
-    "/calculators/percentage",
-    "/calculators/vat",
+    "/calculators/percentage-calculator",
+    "/calculators/vat-calculator",
 
     // Health
     "/calculators/daily-calorie-needs",
 
     // Everyday
-    "/calculators/height",
-    "/calculators/weight",
-    "/calculators/length",
+    "/calculators/height-converter",
+    "/calculators/weight-converter",
+    "/calculators/length-converter",
   ];
 
   const urls = [...staticPages, ...calculators];
