@@ -7,16 +7,16 @@
 
 ## For EACH existing calculator page:
 
-- [ ] Add “What this calculator does” section (clear 2–4 paragraph explanation)
-- [ ] Add “How the formula works” section (plain English breakdown)
-- [ ] Add worked example with real numbers
-- [ ] Add “Common mistakes” section
-- [ ] Add “When to use this calculator” section
-- [ ] Add 2–4 FAQs
-- [ ] Add “Related calculators” links
-- [ ] Ensure total content is 400–800 words minimum
-- [ ] Improve headings structure (H2 / H3 hierarchy)
-- [ ] Ensure internal links to at least 2 other calculators
+- [x] Add “What this calculator does” section (clear 2–4 paragraph explanation)
+- [x] Add “How the formula works” section (plain English breakdown)
+- [x] Add worked example with real numbers
+- [x] Add “Common mistakes” section
+- [x] Add “When to use this calculator” section
+- [x] Add 2–4 FAQs
+- [x] Add “Related calculators” links
+- [x] Ensure total content is 400–800 words minimum
+- [x] Improve headings structure (H2 / H3 hierarchy)
+- [x] Ensure internal links to at least 2 other calculators
 
 ### Phase 1 progress
 - [x] Savings goal calculator
@@ -31,6 +31,7 @@
 - [x] Weight converter
 - [x] Height converter
 - [x] Length converter
+- [x] Phase 1 complete
 
 ---
 
@@ -40,9 +41,9 @@
 
 Priority candidates:
 
-- [ ] APR calculator
-- [ ] Compound interest (monthly vs yearly)
-- [ ] Pension contribution calculator
+- [x] APR calculator
+- [x] Compound interest (monthly vs yearly)
+- [x] Pension contribution calculator
 - [ ] Net to gross salary calculator
 - [ ] Break-even calculator
 - [ ] Stamp duty calculator (UK)
@@ -58,6 +59,11 @@ For each new calculator:
 - [ ] Add internal links
 - [ ] Add to sitemap
 - [ ] Add to sidebar categories
+
+### Phase 2 progress
+- [x] APR calculator (logic, content, links, sitemap, sidebar)
+- [x] Compound interest (logic, content, links, sitemap, sidebar)
+- [x] Pension contribution calculator (logic, content, links, sitemap, sidebar)
 
 ---
 

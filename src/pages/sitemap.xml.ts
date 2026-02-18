@@ -13,9 +13,12 @@ export const GET: APIRoute = async () => {
   // Calculator routes
   const calculators = [
     // Finance
+    "/calculators/apr-calculator",
+    "/calculators/compound-interest",
     "/calculators/loan-repayment",
     "/calculators/mortgage-payment",
     "/calculators/mortgage-affordability",
+    "/calculators/pension-contribution",
     "/calculators/savings-growth",
     "/calculators/savings-goal",
     "/calculators/take-home-salary",

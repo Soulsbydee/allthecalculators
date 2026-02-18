@@ -1,0 +1,383 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Card from "../../../components/Card.astro";
+import Input from "../../../components/Input.astro";
+import Button from "../../../components/Button.astro";
+
+const title = "Pension contribution calculator (UK) — All The Calculators";
+const description =
+  "Estimate employee, employer, and total pension contributions based on salary and contribution rates.";
+---
+
+<Layout title={title} description={description}>
+  <div class="space-y-6">
+    <header>
+      <h1 class="text-2xl font-semibold tracking-tight">Pension contribution</h1>
+      <p class="mt-2 text-sm text-[rgb(var(--muted))] max-w-2xl">
+        Estimate employee and employer pension contributions based on salary and contribution rates.
+      </p>
+    </header>
+
+    <section class="inputs-container space-y-4" aria-label="Pension contribution inputs">
+      <div class="inputs-grid">
+        <div>
+          <Input
+            id="salary"
+            label="Annual salary (£)"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="0.01"
+            placeholder="e.g. 45,000"
+          />
+          <p id="salary-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+
+        <div>
+          <Input
+            id="employee"
+            label="Employee contribution (%)"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="0.1"
+            placeholder="e.g. 5"
+          />
+          <p id="employee-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+
+        <div>
+          <Input
+            id="employer"
+            label="Employer contribution (%)"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="0.1"
+            placeholder="e.g. 3"
+          />
+          <p id="employer-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+
+        <div>
+          <Input
+            id="salaryBasis"
+            label="Qualifying earnings lower limit (£)"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="1"
+            placeholder="Optional"
+          />
+          <p id="salaryBasis-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-3 pt-1">
+        <Button type="button" id="calcBtn">Calculate</Button>
+        <Button type="button" variant="ghost" id="resetBtn">Reset</Button>
+      </div>
+
+      <p class="text-xs text-[rgb(var(--muted))]">
+        By default, contributions are calculated on your full salary. Enter a lower limit if you want to use qualifying
+        earnings only.
+      </p>
+    </section>
+
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <section aria-label="Pension contribution results" class="space-y-4">
+      <header>
+        <h2 class="text-[18px] font-semibold tracking-tight">Results</h2>
+        <p class="mt-1 text-[14px] text-[rgb(var(--muted))]">
+          These are estimates based on your inputs.
+        </p>
+      </header>
+
+      <div class="results-grid" role="status" aria-live="polite" aria-atomic="true">
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">Employee contribution</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="empAnnual">—</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]">Estimated annual amount</div>
+        </Card>
+
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">Employer contribution</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="erAnnual">—</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]">Estimated annual amount</div>
+        </Card>
+
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">Total contribution</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="totalAnnual">—</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]">Employee + employer</div>
+        </Card>
+      </div>
+    </section>
+
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <section class="max-w-2xl" aria-label="How this calculator works">
+      <details class="group">
+        <summary
+          class="flex cursor-pointer list-none items-center gap-2 py-2 text-sm font-semibold tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 rounded-lg"
+        >
+          <span
+            class="inline-flex h-4 w-4 items-center justify-center text-[rgb(var(--muted))] transition-transform group-open:rotate-90"
+            aria-hidden="true"
+          >
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M7.25 4.75L12.75 10L7.25 15.25"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+          <span>How this calculator works</span>
+        </summary>
+
+        <div class="pt-2 pl-6 space-y-2 text-sm text-[rgb(var(--muted))]">
+          <p>
+            We calculate contributions by applying the employee and employer percentages to your contribution salary.
+            If you enter a lower limit, contributions are calculated on salary above that threshold (qualifying earnings).
+          </p>
+          <p>
+            This provides a simplified estimate and does not account for tax relief or salary sacrifice.
+          </p>
+        </div>
+      </details>
+    </section>
+
+    <section class="max-w-2xl space-y-6" aria-label="Pension contribution guide">
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">What this calculator does</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          This pension contribution calculator estimates how much you and your employer contribute each year based on
+          your salary and contribution percentages. It helps you understand the total going into your pension.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          You can also use a lower limit to estimate contributions on qualifying earnings rather than full salary.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">How the formula works</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Contributions are calculated as a percentage of the salary basis. If you leave the lower limit blank, we use
+          your full salary. If you enter a lower limit, we subtract it from your salary and apply the percentages to the
+          remaining amount.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          This mirrors common workplace schemes that use qualifying earnings for auto-enrolment.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Worked example</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Example: salary £45,000, employee 5%, employer 3%. Contributions on full salary give £2,250 employee and £1,350
+          employer per year, for a total of £3,600.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          If you use a lower limit of £6,240, contributions are calculated on £38,760 instead.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Common mistakes</h2>
+        <ul class="mt-2 list-disc pl-5 text-sm text-[rgb(var(--muted))] space-y-1">
+          <li>Forgetting that some schemes use qualifying earnings rather than full salary.</li>
+          <li>Confusing employee and employer contribution rates.</li>
+          <li>Assuming tax relief is included in the contribution amount.</li>
+          <li>Using monthly salary in an annual field.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">When to use this calculator</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Use this to estimate annual pension contributions for budgeting or comparing employer pension offers. If you
+          want to see the impact on your take-home pay, use the Take-home salary calculator alongside this.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">FAQs</h2>
+        <div class="mt-2 space-y-3 text-sm text-[rgb(var(--muted))]">
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">Does this include tax relief?</h3>
+            <p class="mt-1">
+              No. This calculator estimates gross contributions. Tax relief depends on your pension scheme and tax band.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">What are qualifying earnings?</h3>
+            <p class="mt-1">
+              Qualifying earnings are the portion of salary between lower and upper thresholds used for auto-enrolment.
+              This calculator uses only a lower limit for a simple estimate.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">Should I include employer matching?</h3>
+            <p class="mt-1">
+              Yes. Enter your employer’s contribution rate to see the total going into your pension.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Related calculators</h2>
+        <ul class="mt-2 list-disc pl-5 text-sm text-[rgb(var(--muted))] space-y-1">
+          <li><a class="underline" href="/calculators/take-home-salary">Take home salary calculator</a></li>
+          <li><a class="underline" href="/calculators/savings-growth">Savings growth calculator</a></li>
+          <li><a class="underline" href="/calculators/percentage-calculator">Percentage calculator</a></li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <script is:inline>
+    const fmtGBP2 = new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" });
+
+    const fields = {
+      salary: document.getElementById("salary"),
+      employee: document.getElementById("employee"),
+      employer: document.getElementById("employer"),
+      salaryBasis: document.getElementById("salaryBasis"),
+    };
+
+    const errors = {
+      salary: document.getElementById("salary-error"),
+      employee: document.getElementById("employee-error"),
+      employer: document.getElementById("employer-error"),
+      salaryBasis: document.getElementById("salaryBasis-error"),
+    };
+
+    function setBlankResults() {
+      document.getElementById("empAnnual").textContent = "—";
+      document.getElementById("erAnnual").textContent = "—";
+      document.getElementById("totalAnnual").textContent = "—";
+    }
+
+    function showError(key, msg) {
+      const input = fields[key];
+      const err = errors[key];
+      if (!input || !err) return;
+      input.setAttribute("aria-invalid", "true");
+      input.setAttribute("aria-describedby", `${key}-error`);
+      input.classList.add("border-red-500");
+      err.textContent = msg;
+      err.classList.remove("hidden");
+    }
+
+    function clearError(key) {
+      const input = fields[key];
+      const err = errors[key];
+      if (!input || !err) return;
+      input.removeAttribute("aria-invalid");
+      if (input.getAttribute("aria-describedby") === `${key}-error`) input.removeAttribute("aria-describedby");
+      input.classList.remove("border-red-500");
+      err.textContent = "";
+      err.classList.add("hidden");
+    }
+
+    function parseNumber(el) {
+      const v = String(el?.value ?? "").trim();
+      if (v === "") return null;
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function validate() {
+      ["salary","employee","employer","salaryBasis"].forEach(clearError);
+      let firstInvalid = null;
+
+      const salary = parseNumber(fields.salary);
+      const employee = parseNumber(fields.employee);
+      const employer = parseNumber(fields.employer);
+      const salaryBasis = parseNumber(fields.salaryBasis);
+
+      if (salary === null || salary <= 0) {
+        showError("salary", "Enter an annual salary greater than 0.");
+        firstInvalid ??= fields.salary;
+      }
+      if (employee === null || employee < 0 || employee > 100) {
+        showError("employee", "Enter an employee rate between 0 and 100%.");
+        firstInvalid ??= fields.employee;
+      }
+      if (employer === null || employer < 0 || employer > 100) {
+        showError("employer", "Enter an employer rate between 0 and 100%.");
+        firstInvalid ??= fields.employer;
+      }
+      if (salaryBasis !== null && salaryBasis < 0) {
+        showError("salaryBasis", "Enter a lower limit of 0 or more.");
+        firstInvalid ??= fields.salaryBasis;
+      }
+      if (salaryBasis !== null && salary !== null && salaryBasis >= salary) {
+        showError("salaryBasis", "Lower limit must be less than salary.");
+        firstInvalid ??= fields.salaryBasis;
+      }
+
+      return { valid: !firstInvalid, firstInvalid, salary, employee, employer, salaryBasis };
+    }
+
+    function calculate() {
+      const v = validate();
+      if (!v.valid) {
+        setBlankResults();
+        v.firstInvalid?.focus();
+        return;
+      }
+
+      const basis = v.salaryBasis === null ? v.salary : Math.max(0, v.salary - v.salaryBasis);
+      const emp = basis * (v.employee / 100);
+      const er = basis * (v.employer / 100);
+      const total = emp + er;
+
+      document.getElementById("empAnnual").textContent = fmtGBP2.format(emp);
+      document.getElementById("erAnnual").textContent = fmtGBP2.format(er);
+      document.getElementById("totalAnnual").textContent = fmtGBP2.format(total);
+    }
+
+    function reset() {
+      ["salary","employee","employer","salaryBasis"].forEach((k) => {
+        fields[k].value = "";
+        clearError(k);
+      });
+      setBlankResults();
+      fields.salary?.focus();
+    }
+
+    ["salary","employee","employer","salaryBasis"].forEach((k) => fields[k]?.addEventListener("input", () => clearError(k)));
+
+    const calcBtn = document.getElementById("calcBtn");
+    const calcLabel = calcBtn?.querySelector("[data-calc-label]");
+    const calcSpinner = calcBtn?.querySelector("[data-calc-spinner]");
+
+    function setLoading(isLoading) {
+      if (!calcBtn) return;
+      calcBtn.disabled = isLoading;
+      calcBtn.setAttribute("aria-busy", isLoading ? "true" : "false");
+      calcBtn.classList.toggle("opacity-70", isLoading);
+      calcBtn.classList.toggle("cursor-not-allowed", isLoading);
+      calcSpinner?.classList.toggle("hidden", !isLoading);
+      calcLabel?.classList.toggle("sr-only", isLoading);
+    }
+
+    calcBtn?.addEventListener("click", () => {
+      if (calcBtn.disabled) return;
+      setLoading(true);
+      window.setTimeout(() => {
+        calculate();
+        setLoading(false);
+      }, 1000);
+    });
+    document.getElementById("resetBtn")?.addEventListener("click", reset);
+
+    setBlankResults();
+  </script>
+</Layout>

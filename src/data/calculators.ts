@@ -13,9 +13,12 @@ export const CALCULATOR_CATEGORIES: CalculatorCategory[] = [
   {
     title: "Finance",
     items: [
+      { title: "APR calculator", href: "/calculators/apr-calculator/" },
+      { title: "Compound interest", href: "/calculators/compound-interest/" },
       { title: "Loan repayment", href: "/calculators/loan-repayment/" },
       { title: "Mortgage payment", href: "/calculators/mortgage-payment/" },
       { title: "Mortgage affordability", href: "/calculators/mortgage-affordability/" },
+      { title: "Pension contribution", href: "/calculators/pension-contribution/" },
       { title: "Savings growth", href: "/calculators/savings-growth/" },
       { title: "Savings goal", href: "/calculators/savings-goal/" },
       { title: "Take-home salary", href: "/calculators/take-home-salary/" },

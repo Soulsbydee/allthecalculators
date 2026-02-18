@@ -1,0 +1,449 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Card from "../../../components/Card.astro";
+import Input from "../../../components/Input.astro";
+import Button from "../../../components/Button.astro";
+
+const title = "APR calculator (UK) — All The Calculators";
+const description =
+  "Estimate APR for a fixed-rate loan using the amount, term, interest rate, and fees.";
+---
+
+<Layout title={title} description={description}>
+  <div class="space-y-6">
+    <header>
+      <h1 class="text-2xl font-semibold tracking-tight">APR calculator</h1>
+      <p class="mt-2 text-sm text-[rgb(var(--muted))] max-w-2xl">
+        Estimate APR (annual percentage rate) for a fixed-rate loan using the interest rate, term, and any fees.
+      </p>
+    </header>
+
+    <section class="inputs-container space-y-4" aria-label="APR calculator inputs">
+      <div class="inputs-grid">
+        <div>
+          <Input
+            id="amount"
+            label="Loan amount (£)"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="0.01"
+            placeholder="e.g. 10,000"
+          />
+          <p id="amount-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+
+        <div>
+          <Input
+            id="rate"
+            label="Interest rate (%)"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="0.01"
+            placeholder="e.g. 8.9"
+          />
+          <p id="rate-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+
+        <div>
+          <Input
+            id="term"
+            label="Term (months)"
+            type="number"
+            inputmode="numeric"
+            min="1"
+            step="1"
+            placeholder="e.g. 36"
+          />
+          <p id="term-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+
+        <div>
+          <Input
+            id="fee"
+            label="Fees (£)"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="0.01"
+            placeholder="e.g. 150"
+          />
+          <p id="fee-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+
+        <div class="md:col-span-2">
+          <div class="mb-1 text-sm font-medium text-[rgb(var(--text))]">Fee treatment</div>
+          <select
+            id="feeType"
+            class="w-full rounded-xl border border-[rgb(var(--border))] bg-white px-3 py-2 text-sm text-[rgb(var(--text))] focus:outline-none focus:ring-2 focus:ring-black/10"
+          >
+            <option value="upfront" selected>Paid upfront (reduces cash received)</option>
+            <option value="added">Added to loan balance</option>
+          </select>
+          <p id="feeType-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-3 pt-1">
+        <Button type="button" id="calcBtn">Calculate</Button>
+        <Button type="button" variant="ghost" id="resetBtn">Reset</Button>
+      </div>
+
+      <p class="text-xs text-[rgb(var(--muted))]">
+        This calculator assumes fixed monthly payments and a fixed interest rate.
+      </p>
+    </section>
+
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <section aria-label="APR calculator results" class="space-y-4">
+      <header>
+        <h2 class="text-[18px] font-semibold tracking-tight">Results</h2>
+        <p class="mt-1 text-[14px] text-[rgb(var(--muted))]">
+          These are estimates based on your inputs.
+        </p>
+      </header>
+
+      <div class="results-grid" role="status" aria-live="polite" aria-atomic="true">
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">APR (estimated)</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="apr">—</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]">
+            Includes the effect of fees
+          </div>
+        </Card>
+
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">Monthly payment</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="monthly">—</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]">
+            Estimated repayment per month
+          </div>
+        </Card>
+
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">Total interest</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="interest">—</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]">
+            Interest paid over the full term
+          </div>
+        </Card>
+
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">Total repaid</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="total">—</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]">
+            Loan balance + interest
+          </div>
+        </Card>
+      </div>
+    </section>
+
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <section class="max-w-2xl" aria-label="How this calculator works">
+      <details class="group">
+        <summary
+          class="flex cursor-pointer list-none items-center gap-2 py-2 text-sm font-semibold tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 rounded-lg"
+        >
+          <span
+            class="inline-flex h-4 w-4 items-center justify-center text-[rgb(var(--muted))] transition-transform group-open:rotate-90"
+            aria-hidden="true"
+          >
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M7.25 4.75L12.75 10L7.25 15.25"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+          <span>How this calculator works</span>
+        </summary>
+
+        <div class="pt-2 pl-6 space-y-2 text-sm text-[rgb(var(--muted))]">
+          <p>
+            We calculate the monthly payment from the interest rate and term, then solve for the APR that makes the
+            present value of repayments match the cash you actually receive after fees.
+          </p>
+          <p>
+            APR is higher than the interest rate when fees are added because the same repayments are made on a lower
+            cash amount received.
+          </p>
+        </div>
+      </details>
+    </section>
+
+    <section class="max-w-2xl space-y-6" aria-label="APR calculator guide">
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">What this calculator does</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          This APR calculator estimates the annual percentage rate for a fixed-rate loan. APR reflects both interest and
+          fees, so it gives a more complete cost comparison between lenders.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Use it to compare loans with different fees or promotional rates.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">How the formula works</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          We first calculate the monthly payment using the nominal interest rate and term. We then solve for the APR
+          that makes the discounted value of repayments equal to the net cash received after fees.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          If fees are added to the loan, the balance is higher and repayments increase. If fees are paid upfront, the
+          cash received is lower, which also increases APR.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Worked example</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Example: borrow £10,000 over 36 months at 8.9% with a £150 fee paid upfront. The monthly payment is about £317.
+          The APR is slightly higher than 8.9% because the fee reduces the cash received.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          If the fee is added to the loan balance instead, the APR increases because you repay interest on the fee too.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Common mistakes</h2>
+        <ul class="mt-2 list-disc pl-5 text-sm text-[rgb(var(--muted))] space-y-1">
+          <li>Comparing interest rates instead of APR.</li>
+          <li>Ignoring upfront fees when comparing offers.</li>
+          <li>Using years instead of months for the term.</li>
+          <li>Assuming a variable rate stays fixed for the whole term.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">When to use this calculator</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Use this when comparing loans with different fees or promotional rates. If you only need the repayment amount,
+          use the Loan repayment calculator instead.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">FAQs</h2>
+        <div class="mt-2 space-y-3 text-sm text-[rgb(var(--muted))]">
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">Is APR the same as the interest rate?</h3>
+            <p class="mt-1">
+              No. APR includes fees and other costs, so it is often higher than the advertised interest rate.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">Does APR include insurance?</h3>
+            <p class="mt-1">
+              Not usually. Optional insurance or add-ons may increase your total cost but are not always included.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">Why does APR change with fees?</h3>
+            <p class="mt-1">
+              Fees reduce the amount you receive or increase the balance you repay, which raises the effective rate.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Related calculators</h2>
+        <ul class="mt-2 list-disc pl-5 text-sm text-[rgb(var(--muted))] space-y-1">
+          <li><a class="underline" href="/calculators/loan-repayment">Loan repayment calculator</a></li>
+          <li><a class="underline" href="/calculators/mortgage-payment">Mortgage payment calculator</a></li>
+          <li><a class="underline" href="/calculators/percentage-calculator">Percentage calculator</a></li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <script is:inline>
+    const fmtGBP2 = new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" });
+    const fmtPct2 = new Intl.NumberFormat("en-GB", { maximumFractionDigits: 2 });
+
+    const fields = {
+      amount: document.getElementById("amount"),
+      rate: document.getElementById("rate"),
+      term: document.getElementById("term"),
+      fee: document.getElementById("fee"),
+      feeType: document.getElementById("feeType"),
+    };
+
+    const errors = {
+      amount: document.getElementById("amount-error"),
+      rate: document.getElementById("rate-error"),
+      term: document.getElementById("term-error"),
+      fee: document.getElementById("fee-error"),
+      feeType: document.getElementById("feeType-error"),
+    };
+
+    function setBlankResults() {
+      document.getElementById("apr").textContent = "—";
+      document.getElementById("monthly").textContent = "—";
+      document.getElementById("interest").textContent = "—";
+      document.getElementById("total").textContent = "—";
+    }
+
+    function showError(key, msg) {
+      const input = fields[key];
+      const err = errors[key];
+      if (!input || !err) return;
+      input.setAttribute("aria-invalid", "true");
+      input.setAttribute("aria-describedby", `${key}-error`);
+      input.classList.add("border-red-500");
+      err.textContent = msg;
+      err.classList.remove("hidden");
+    }
+
+    function clearError(key) {
+      const input = fields[key];
+      const err = errors[key];
+      if (!input || !err) return;
+      input.removeAttribute("aria-invalid");
+      if (input.getAttribute("aria-describedby") === `${key}-error`) input.removeAttribute("aria-describedby");
+      input.classList.remove("border-red-500");
+      err.textContent = "";
+      err.classList.add("hidden");
+    }
+
+    function parseNumber(el) {
+      const v = String(el?.value ?? "").trim();
+      if (v === "") return null;
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function validate() {
+      ["amount","rate","term","fee","feeType"].forEach(clearError);
+      let firstInvalid = null;
+
+      const amount = parseNumber(fields.amount);
+      const rate = parseNumber(fields.rate);
+      const term = parseNumber(fields.term);
+      const fee = parseNumber(fields.fee) ?? 0;
+      const feeType = fields.feeType?.value ?? "upfront";
+
+      if (amount === null || amount <= 0) {
+        showError("amount", "Enter a loan amount greater than 0.");
+        firstInvalid ??= fields.amount;
+      }
+      if (rate === null || rate < 0 || rate > 200) {
+        showError("rate", "Enter an interest rate between 0 and 200%.");
+        firstInvalid ??= fields.rate;
+      }
+      if (term === null || term <= 0 || !Number.isInteger(term)) {
+        showError("term", "Enter a term in whole months (at least 1).");
+        firstInvalid ??= fields.term;
+      }
+      if (fee < 0) {
+        showError("fee", "Enter a fee of 0 or more.");
+        firstInvalid ??= fields.fee;
+      }
+
+      return { valid: !firstInvalid, firstInvalid, amount, rate, term, fee, feeType };
+    }
+
+    function computeMonthlyPayment(principal, monthlyRate, months) {
+      if (monthlyRate === 0) return principal / months;
+      const factor = Math.pow(1 + monthlyRate, months);
+      return principal * (monthlyRate * factor) / (factor - 1);
+    }
+
+    function computeAprFromCashflow(netReceived, payment, months) {
+      if (netReceived <= 0) return null;
+      let low = 0;
+      let high = 1;
+
+      for (let i = 0; i < 80; i += 1) {
+        const mid = (low + high) / 2;
+        const pv = mid === 0
+          ? payment * months
+          : payment * (1 - Math.pow(1 + mid, -months)) / mid;
+        if (pv > netReceived) {
+          low = mid;
+        } else {
+          high = mid;
+        }
+      }
+
+      return high * 12 * 100;
+    }
+
+    function calculate() {
+      const v = validate();
+      if (!v.valid) {
+        setBlankResults();
+        v.firstInvalid?.focus();
+        return;
+      }
+
+      const months = v.term;
+      const monthlyRate = (v.rate / 100) / 12;
+      const principal = v.feeType === "added" ? v.amount + v.fee : v.amount;
+      const netReceived = v.feeType === "added" ? v.amount : v.amount - v.fee;
+
+      if (netReceived <= 0) {
+        showError("fee", "Fee is too high for the loan amount.");
+        setBlankResults();
+        fields.fee?.focus();
+        return;
+      }
+
+      const monthly = computeMonthlyPayment(principal, monthlyRate, months);
+      const totalRepaid = monthly * months;
+      const totalInterest = totalRepaid - principal;
+      const apr = computeAprFromCashflow(netReceived, monthly, months);
+
+      document.getElementById("apr").textContent = apr === null ? "—" : `${fmtPct2.format(apr)}%`;
+      document.getElementById("monthly").textContent = fmtGBP2.format(monthly);
+      document.getElementById("interest").textContent = fmtGBP2.format(totalInterest);
+      document.getElementById("total").textContent = fmtGBP2.format(totalRepaid);
+    }
+
+    function reset() {
+      ["amount","rate","term","fee"].forEach((k) => {
+        fields[k].value = "";
+        clearError(k);
+      });
+      if (fields.feeType) fields.feeType.value = "upfront";
+      setBlankResults();
+      fields.amount?.focus();
+    }
+
+    ["amount","rate","term","fee"].forEach((k) => fields[k]?.addEventListener("input", () => clearError(k)));
+
+    const calcBtn = document.getElementById("calcBtn");
+    const calcLabel = calcBtn?.querySelector("[data-calc-label]");
+    const calcSpinner = calcBtn?.querySelector("[data-calc-spinner]");
+
+    function setLoading(isLoading) {
+      if (!calcBtn) return;
+      calcBtn.disabled = isLoading;
+      calcBtn.setAttribute("aria-busy", isLoading ? "true" : "false");
+      calcBtn.classList.toggle("opacity-70", isLoading);
+      calcBtn.classList.toggle("cursor-not-allowed", isLoading);
+      calcSpinner?.classList.toggle("hidden", !isLoading);
+      calcLabel?.classList.toggle("sr-only", isLoading);
+    }
+
+    calcBtn?.addEventListener("click", () => {
+      if (calcBtn.disabled) return;
+      setLoading(true);
+      window.setTimeout(() => {
+        calculate();
+        setLoading(false);
+      }, 1000);
+    });
+    document.getElementById("resetBtn")?.addEventListener("click", reset);
+
+    setBlankResults();
+  </script>
+</Layout>
