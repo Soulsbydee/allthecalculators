@@ -18,6 +18,7 @@ export const GET: APIRoute = async () => {
     "/calculators/loan-repayment",
     "/calculators/mortgage-payment",
     "/calculators/mortgage-affordability",
+    "/calculators/net-to-gross-salary",
     "/calculators/pension-contribution",
     "/calculators/savings-growth",
     "/calculators/savings-goal",

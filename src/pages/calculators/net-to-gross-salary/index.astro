@@ -1,0 +1,512 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Input from "../../../components/Input.astro";
+import Button from "../../../components/Button.astro";
+import Card from "../../../components/Card.astro";
+
+const title = "Net to gross salary (UK) — All The Calculators";
+const description =
+  "Estimate the gross salary needed to hit a target take-home pay in the UK.";
+---
+
+<Layout title={title} description={description}>
+  <div class="space-y-6">
+    <header>
+      <h1 class="text-2xl font-semibold tracking-tight">Net to gross salary</h1>
+      <p class="mt-2 max-w-2xl text-sm text-[rgb(var(--muted))]">
+        Estimate the gross salary required to reach a target take-home pay after income tax, National Insurance,
+        and optional pension or student loan deductions.
+      </p>
+    </header>
+
+    <section aria-label="Net to gross inputs" class="space-y-4">
+      <div class="inputs-grid">
+        <div>
+          <Input
+            id="netTarget"
+            label="Target take-home (£)"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="0.01"
+            placeholder="e.g. 2,500"
+          />
+          <p id="netTarget-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+
+        <div>
+          <div class="mb-1 text-sm font-medium text-[rgb(var(--text))]">Frequency</div>
+          <select
+            id="frequency"
+            class="w-full rounded-xl border border-[rgb(var(--border))] bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black/10"
+          >
+            <option value="monthly" selected>Monthly</option>
+            <option value="annual">Annual</option>
+            <option value="weekly">Weekly</option>
+            <option value="fortnightly">Fortnightly</option>
+            <option value="daily">Daily (working days)</option>
+          </select>
+          <p id="frequency-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+
+        <div>
+          <Input
+            id="pension"
+            label="Pension contribution (%)"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            max="100"
+            step="0.1"
+            placeholder="Optional"
+          />
+          <p id="pension-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+
+        <div>
+          <label for="student-loan" class="block text-sm font-medium">
+            Student loan plan
+          </label>
+          <select
+            id="student-loan"
+            class="mt-1 w-full rounded-xl border border-[rgb(var(--border))] bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black/10"
+          >
+            <option value="none">None</option>
+            <option value="plan1">Plan 1</option>
+            <option value="plan2">Plan 2</option>
+            <option value="plan4">Plan 4</option>
+            <option value="postgrad">Postgraduate</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-3 pt-1">
+        <Button id="calcBtn" type="button">Calculate</Button>
+        <Button variant="ghost" id="resetBtn" type="button">Reset</Button>
+      </div>
+
+      <p class="max-w-2xl text-xs text-[rgb(var(--muted))]">
+        Assumptions: England tax region, standard personal allowance, simplified student loan thresholds, and a
+        fixed pension percentage. Results are estimates.
+      </p>
+    </section>
+
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <section aria-label="Net to gross results" class="space-y-4">
+      <header>
+        <h2 class="text-[18px] font-semibold tracking-tight">Results</h2>
+        <p class="mt-1 text-[14px] text-[rgb(var(--muted))]">
+          These are estimates based on your inputs.
+        </p>
+      </header>
+
+      <div class="results-grid" role="status" aria-live="polite" aria-atomic="true">
+        <Card>
+          <div class="text-xs uppercase tracking-wide text-[rgb(var(--muted))]">Estimated gross salary</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="gross">—</div>
+        </Card>
+
+        <Card>
+          <div class="text-xs uppercase tracking-wide text-[rgb(var(--muted))]">Income tax</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="tax">—</div>
+        </Card>
+
+        <Card>
+          <div class="text-xs uppercase tracking-wide text-[rgb(var(--muted))]">National Insurance</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="ni">—</div>
+        </Card>
+
+        <Card>
+          <div class="text-xs uppercase tracking-wide text-[rgb(var(--muted))]">Pension</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="pensionOut">—</div>
+        </Card>
+
+        <Card>
+          <div class="text-xs uppercase tracking-wide text-[rgb(var(--muted))]">Student loan</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="studentLoan">—</div>
+        </Card>
+
+        <Card>
+          <div class="text-xs uppercase tracking-wide text-[rgb(var(--muted))]">Annual take-home</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="netAnnual">—</div>
+        </Card>
+      </div>
+
+      <p id="group-error" class="hidden text-xs text-red-600"></p>
+    </section>
+
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <section class="max-w-2xl" aria-label="How this calculator works">
+      <details class="group">
+        <summary
+          class="flex cursor-pointer list-none items-center gap-2 py-2 text-sm font-semibold tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 rounded-lg"
+        >
+          <span
+            class="inline-flex h-4 w-4 items-center justify-center text-[rgb(var(--muted))] transition-transform group-open:rotate-90"
+            aria-hidden="true"
+          >
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M7.25 4.75L12.75 10L7.25 15.25"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+          <span>How this calculator works</span>
+        </summary>
+
+        <div class="pt-2 pl-6 space-y-2 text-sm text-[rgb(var(--muted))]">
+          <p>
+            We reverse the take-home calculation by estimating deductions at different gross salaries. A search routine
+            finds the gross salary that produces your target net pay.
+          </p>
+          <p>
+            This model uses simplified UK tax and NI thresholds and is intended for planning, not payroll accuracy.
+          </p>
+        </div>
+      </details>
+    </section>
+
+    <section class="max-w-2xl space-y-6" aria-label="Net to gross guide">
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">What this calculator does</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          This net to gross salary calculator estimates the gross annual salary needed to reach a target take-home pay.
+          It includes income tax, National Insurance, pension contributions, and optional student loan deductions.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Use it to translate a monthly net target into an annual gross salary for budgeting or job comparisons.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">How the formula works</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          We convert your target net pay into an annual amount, then estimate income tax, National Insurance, pension
+          contributions, and student loan repayments across different gross salaries. A binary search finds the salary
+          where net pay matches your target.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          This is the reverse of the Take-home salary calculator, using the same simplified tax assumptions.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Worked example</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Example: you want £2,500 per month take-home with no pension contribution. The calculator estimates the gross
+          salary required after tax and NI, then shows a breakdown of deductions.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          If you add a 5% pension contribution, the required gross salary increases because more is deducted before you
+          receive your net pay.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Common mistakes</h2>
+        <ul class="mt-2 list-disc pl-5 text-sm text-[rgb(var(--muted))] space-y-1">
+          <li>Using weekly or monthly targets without selecting the right frequency.</li>
+          <li>Ignoring pension or student loan deductions.</li>
+          <li>Assuming tax bands and thresholds are identical across the UK.</li>
+          <li>Expecting the estimate to match a payslip exactly.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">When to use this calculator</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Use this when you know the take-home pay you want and need to estimate the gross salary required. If you know
+          the gross salary and want net pay, use the Take-home salary calculator.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">FAQs</h2>
+        <div class="mt-2 space-y-3 text-sm text-[rgb(var(--muted))]">
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">Does this include employer pension contributions?</h3>
+            <p class="mt-1">
+              No. It only includes employee contributions, which reduce take-home pay.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">Can I use this for Scotland or Wales?</h3>
+            <p class="mt-1">
+              This version uses England tax bands as a simplified estimate, so results may differ for other regions.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">What about salary sacrifice?</h3>
+            <p class="mt-1">
+              Salary sacrifice can reduce tax and NI further. This calculator treats pension as a simple percentage
+              deduction, so it is a rough estimate.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Related calculators</h2>
+        <ul class="mt-2 list-disc pl-5 text-sm text-[rgb(var(--muted))] space-y-1">
+          <li><a class="underline" href="/calculators/take-home-salary">Take home salary calculator</a></li>
+          <li><a class="underline" href="/calculators/pension-contribution">Pension contribution calculator</a></li>
+          <li><a class="underline" href="/calculators/mortgage-affordability">Mortgage affordability calculator</a></li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <script is:inline>
+    // Simplified England tax bands (matching take-home calculator assumptions)
+    const PERSONAL_ALLOWANCE = 12570;
+    const BASIC_RATE_LIMIT = 50270;
+    const HIGHER_RATE_LIMIT = 125140;
+
+    const STUDENT_LOAN = {
+      none: { threshold: Infinity, rate: 0 },
+      plan1: { threshold: 22015, rate: 0.09 },
+      plan2: { threshold: 27295, rate: 0.09 },
+      plan4: { threshold: 27660, rate: 0.09 },
+      postgrad: { threshold: 21000, rate: 0.06 },
+    };
+
+    const fmtGBP0 = new Intl.NumberFormat("en-GB", {
+      style: "currency",
+      currency: "GBP",
+      maximumFractionDigits: 0,
+    });
+
+    const fmtGBP2 = new Intl.NumberFormat("en-GB", {
+      style: "currency",
+      currency: "GBP",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+
+    const fields = {
+      netTarget: document.getElementById("netTarget"),
+      frequency: document.getElementById("frequency"),
+      pension: document.getElementById("pension"),
+      studentLoan: document.getElementById("student-loan"),
+    };
+
+    const errors = {
+      netTarget: document.getElementById("netTarget-error"),
+      frequency: document.getElementById("frequency-error"),
+      pension: document.getElementById("pension-error"),
+    };
+
+    function setBlankResults() {
+      document.getElementById("gross").textContent = "—";
+      document.getElementById("tax").textContent = "—";
+      document.getElementById("ni").textContent = "—";
+      document.getElementById("pensionOut").textContent = "—";
+      document.getElementById("studentLoan").textContent = "—";
+      document.getElementById("netAnnual").textContent = "—";
+    }
+
+    function showError(key, msg) {
+      const input = fields[key];
+      const err = errors[key];
+      if (!input || !err) return;
+      input.setAttribute("aria-invalid", "true");
+      input.setAttribute("aria-describedby", `${key}-error`);
+      input.classList.add("border-red-500");
+      err.textContent = msg;
+      err.classList.remove("hidden");
+    }
+
+    function clearError(key) {
+      const input = fields[key];
+      const err = errors[key];
+      if (!input || !err) return;
+      input.removeAttribute("aria-invalid");
+      if (input.getAttribute("aria-describedby") === `${key}-error`) input.removeAttribute("aria-describedby");
+      input.classList.remove("border-red-500");
+      err.textContent = "";
+      err.classList.add("hidden");
+    }
+
+    function parseNumber(el) {
+      const v = String(el?.value ?? "").trim();
+      if (v === "") return null;
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function toAnnual(value, frequency) {
+      if (frequency === "annual") return value;
+      if (frequency === "weekly") return value * 52;
+      if (frequency === "fortnightly") return value * 26;
+      if (frequency === "daily") return value * 260;
+      return value * 12; // monthly default
+    }
+
+    function calcIncomeTax(grossTaxable) {
+      const taxable = Math.max(0, grossTaxable - PERSONAL_ALLOWANCE);
+      let tax = 0;
+
+      const basicTaxable = Math.min(taxable, Math.max(0, BASIC_RATE_LIMIT - PERSONAL_ALLOWANCE));
+      tax += basicTaxable * 0.20;
+
+      const higherTaxable = Math.min(
+        Math.max(0, taxable - basicTaxable),
+        Math.max(0, HIGHER_RATE_LIMIT - BASIC_RATE_LIMIT)
+      );
+      tax += higherTaxable * 0.40;
+
+      const additionalTaxable = Math.max(0, taxable - basicTaxable - higherTaxable);
+      tax += additionalTaxable * 0.45;
+
+      return Math.max(0, tax);
+    }
+
+    function calcNI(gross) {
+      const PT = 12570;
+      const UEL = 50270;
+      const mainBand = Math.max(0, Math.min(gross, UEL) - PT);
+      const upperBand = Math.max(0, gross - UEL);
+      return mainBand * 0.08 + upperBand * 0.02;
+    }
+
+    function calcStudentLoan(gross, planKey) {
+      const plan = STUDENT_LOAN[planKey] ?? STUDENT_LOAN.none;
+      if (!plan.rate) return 0;
+      const repayable = Math.max(0, gross - plan.threshold);
+      return repayable * plan.rate;
+    }
+
+    function calcNetFromGross(gross, pensionPct, planKey) {
+      const pension = gross * (pensionPct / 100);
+      const taxableIncome = Math.max(0, gross - pension);
+      const tax = calcIncomeTax(taxableIncome);
+      const ni = calcNI(gross);
+      const studentLoan = calcStudentLoan(gross, planKey);
+      const net = Math.max(0, gross - pension - tax - ni - studentLoan);
+      return { net, tax, ni, pension, studentLoan };
+    }
+
+    function validate() {
+      ["netTarget","frequency","pension"].forEach(clearError);
+      const netTarget = parseNumber(fields.netTarget);
+      const pensionPct = parseNumber(fields.pension) ?? 0;
+      const frequency = fields.frequency?.value ?? "monthly";
+
+      if (netTarget === null || netTarget <= 0) {
+        showError("netTarget", "Enter a target take-home greater than 0.");
+        return { ok: false };
+      }
+      if (pensionPct < 0 || pensionPct > 100) {
+        showError("pension", "Enter a pension percentage between 0 and 100.");
+        return { ok: false };
+      }
+
+      return {
+        ok: true,
+        netTarget,
+        annualTarget: toAnnual(netTarget, frequency),
+        pensionPct,
+        studentLoanPlan: fields.studentLoan?.value ?? "none",
+      };
+    }
+
+    function solveGrossForNet(targetNet, pensionPct, planKey) {
+      let low = 0;
+      let high = 1;
+      let tries = 0;
+
+      while (calcNetFromGross(high, pensionPct, planKey).net < targetNet && high < 10_000_000) {
+        high *= 2;
+        tries += 1;
+        if (tries > 40) break;
+      }
+
+      if (calcNetFromGross(high, pensionPct, planKey).net < targetNet) return null;
+
+      for (let i = 0; i < 80; i += 1) {
+        const mid = (low + high) / 2;
+        const net = calcNetFromGross(mid, pensionPct, planKey).net;
+        if (net < targetNet) {
+          low = mid;
+        } else {
+          high = mid;
+        }
+      }
+
+      return high;
+    }
+
+    function calculate() {
+      const v = validate();
+      if (!v.ok) {
+        setBlankResults();
+        fields.netTarget?.focus();
+        return;
+      }
+
+      const gross = solveGrossForNet(v.annualTarget, v.pensionPct, v.studentLoanPlan);
+      if (gross === null) {
+        document.getElementById("group-error").textContent =
+          "Target take-home is too high for this calculator range.";
+        document.getElementById("group-error").classList.remove("hidden");
+        setBlankResults();
+        return;
+      }
+
+      document.getElementById("group-error").classList.add("hidden");
+      const result = calcNetFromGross(gross, v.pensionPct, v.studentLoanPlan);
+
+      document.getElementById("gross").textContent = fmtGBP0.format(gross);
+      document.getElementById("tax").textContent = fmtGBP0.format(result.tax);
+      document.getElementById("ni").textContent = fmtGBP0.format(result.ni);
+      document.getElementById("pensionOut").textContent = fmtGBP0.format(result.pension);
+      document.getElementById("studentLoan").textContent = fmtGBP0.format(result.studentLoan);
+      document.getElementById("netAnnual").textContent = fmtGBP0.format(result.net);
+    }
+
+    function reset() {
+      fields.netTarget.value = "";
+      fields.pension.value = "";
+      fields.frequency.value = "monthly";
+      fields.studentLoan.value = "none";
+      ["netTarget","frequency","pension"].forEach(clearError);
+      document.getElementById("group-error").classList.add("hidden");
+      setBlankResults();
+      fields.netTarget?.focus();
+    }
+
+    ["netTarget","pension"].forEach((k) => fields[k]?.addEventListener("input", () => clearError(k)));
+
+    const calcBtn = document.getElementById("calcBtn");
+    const calcLabel = calcBtn?.querySelector("[data-calc-label]");
+    const calcSpinner = calcBtn?.querySelector("[data-calc-spinner]");
+
+    function setLoading(isLoading) {
+      if (!calcBtn) return;
+      calcBtn.disabled = isLoading;
+      calcBtn.setAttribute("aria-busy", isLoading ? "true" : "false");
+      calcBtn.classList.toggle("opacity-70", isLoading);
+      calcBtn.classList.toggle("cursor-not-allowed", isLoading);
+      calcSpinner?.classList.toggle("hidden", !isLoading);
+      calcLabel?.classList.toggle("sr-only", isLoading);
+    }
+
+    calcBtn?.addEventListener("click", () => {
+      if (calcBtn.disabled) return;
+      setLoading(true);
+      window.setTimeout(() => {
+        calculate();
+        setLoading(false);
+      }, 1000);
+    });
+    document.getElementById("resetBtn")?.addEventListener("click", reset);
+
+    setBlankResults();
+  </script>
+</Layout>

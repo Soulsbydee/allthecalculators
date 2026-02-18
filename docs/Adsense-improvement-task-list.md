@@ -44,7 +44,7 @@ Priority candidates:
 - [x] APR calculator
 - [x] Compound interest (monthly vs yearly)
 - [x] Pension contribution calculator
-- [ ] Net to gross salary calculator
+- [x] Net to gross salary calculator
 - [ ] Break-even calculator
 - [ ] Stamp duty calculator (UK)
 - [ ] Overpayment savings calculator
@@ -64,6 +64,7 @@ For each new calculator:
 - [x] APR calculator (logic, content, links, sitemap, sidebar)
 - [x] Compound interest (logic, content, links, sitemap, sidebar)
 - [x] Pension contribution calculator (logic, content, links, sitemap, sidebar)
+- [x] Net to gross salary calculator (logic, content, links, sitemap, sidebar)
 
 ---
 
