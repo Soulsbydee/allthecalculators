@@ -62,6 +62,118 @@ const description = "Add or remove VAT from a price using UK VAT rates.";
         </Card>
       </div>
     </section>
+
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <section class="max-w-2xl" aria-label="How this calculator works">
+      <details class="group">
+        <summary
+          class="flex cursor-pointer list-none items-center gap-2 py-2 text-sm font-semibold tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 rounded-lg"
+        >
+          <span
+            class="inline-flex h-4 w-4 items-center justify-center text-[rgb(var(--muted))] transition-transform group-open:rotate-90"
+            aria-hidden="true"
+          >
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7.25 4.75L12.75 10L7.25 15.25" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+          <span>How this calculator works</span>
+        </summary>
+
+        <div class="pt-2 pl-6 space-y-2 text-sm text-[rgb(var(--muted))]">
+          <p>
+            To add VAT, we multiply the net amount by the VAT rate. To remove VAT, we divide the gross amount by
+            (1 + rate) to find the net, then subtract to get the VAT element.
+          </p>
+        </div>
+      </details>
+    </section>
+
+    <section class="max-w-2xl space-y-6" aria-label="VAT calculator guide">
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">What this calculator does</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          This VAT calculator adds VAT to a net amount or removes VAT from a gross amount. It is useful for invoices,
+          quotes, or checking how much VAT is included in a price.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          You can adjust the VAT rate if you need a reduced or zero rate.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">How the formula works</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          To add VAT, we calculate VAT = net × rate and total = net + VAT. To remove VAT, we calculate net = gross ÷
+          (1 + rate) and VAT = gross − net.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          The rate is entered as a percentage, so 20% becomes 0.20 in the calculation.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Worked example</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Example: add 20% VAT to £100. VAT is £20, so the total is £120.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          If you remove VAT from £120 at 20%, the net is £100 and the VAT is £20.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Common mistakes</h2>
+        <ul class="mt-2 list-disc pl-5 text-sm text-[rgb(var(--muted))] space-y-1">
+          <li>Removing VAT by subtracting 20% instead of dividing by 1.2.</li>
+          <li>Using the wrong rate for the goods or services.</li>
+          <li>Mixing net and gross figures in the same calculation.</li>
+          <li>Forgetting to change the rate for reduced VAT items.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">When to use this calculator</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Use this when you need to add VAT to a net price or remove VAT from a gross price. If you need reverse VAT or
+          cross-border rules, use a specialist VAT guide.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">FAQs</h2>
+        <div class="mt-2 space-y-3 text-sm text-[rgb(var(--muted))]">
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">What is the UK standard VAT rate?</h3>
+            <p class="mt-1">
+              The standard rate is 20%. Some goods and services use reduced (5%) or zero rates.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">Why is removing VAT different to subtracting 20%?</h3>
+            <p class="mt-1">
+              A gross price already includes VAT, so you must divide by 1 + rate to get the net amount.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">Can I use this for invoices?</h3>
+            <p class="mt-1">
+              Yes, for quick checks. For official invoices, follow HMRC rules and your accounting system.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Related calculators</h2>
+        <ul class="mt-2 list-disc pl-5 text-sm text-[rgb(var(--muted))] space-y-1">
+          <li><a class="underline" href="/calculators/percentage-calculator">Percentage calculator</a></li>
+          <li><a class="underline" href="/calculators/loan-repayment">Loan repayment calculator</a></li>
+          <li><a class="underline" href="/calculators/take-home-salary">Take home salary calculator</a></li>
+        </ul>
+      </div>
+    </section>
   </div>
 
   <script is:inline>

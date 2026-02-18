@@ -158,6 +158,98 @@ const description =
         </div>
       </details>
     </section>
+
+    <section class="max-w-2xl space-y-6" aria-label="Loan repayment guide">
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">What this calculator does</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          This loan repayment calculator estimates your fixed monthly payment for a standard loan, plus the total
+          interest and total amount repaid over the full term. It is designed for loans with a fixed interest rate and
+          regular monthly payments.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          It is useful for comparing loan offers, budgeting for repayments, or understanding how the term and interest
+          rate affect your overall cost.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">How the formula works</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          We use the standard amortised loan formula. The loan amount grows each month by the interest rate, then your
+          payment reduces the balance. The formula finds the fixed monthly payment that reduces the balance to zero by
+          the end of the term.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          If the rate is 0%, the monthly payment is simply the loan amount divided by the number of months. Otherwise,
+          the payment is higher because interest accrues on the outstanding balance.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Worked example</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Example: you borrow £10,000 over 36 months at 8.9% interest. The calculator estimates a monthly payment around
+          £317, a total repaid around £11,400, and about £1,400 of interest.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          If you extend the term, the monthly payment falls, but the total interest paid increases.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Common mistakes</h2>
+        <ul class="mt-2 list-disc pl-5 text-sm text-[rgb(var(--muted))] space-y-1">
+          <li>Entering years instead of months for the term.</li>
+          <li>Using APR when the loan advertises a different nominal rate.</li>
+          <li>Forgetting fees that are added to the loan balance.</li>
+          <li>Assuming early repayment penalties are included.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">When to use this calculator</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Use this for personal loans, car finance, or any fixed-rate loan with a set term. For mortgages, use the
+          dedicated mortgage calculator, which is more common in the UK market.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">FAQs</h2>
+        <div class="mt-2 space-y-3 text-sm text-[rgb(var(--muted))]">
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">Is this the same as APR?</h3>
+            <p class="mt-1">
+              Not always. APR includes fees and compounding assumptions. If your loan has fees, your effective APR may
+              be higher than the simple interest rate you enter here.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">Does it include fees or insurance?</h3>
+            <p class="mt-1">
+              No. It assumes a clean loan balance with no added fees or insurance. Add fees to the loan amount if they
+              are financed.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">What if I overpay?</h3>
+            <p class="mt-1">
+              Overpayments reduce interest and total repaid. This calculator assumes fixed payments only.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Related calculators</h2>
+        <ul class="mt-2 list-disc pl-5 text-sm text-[rgb(var(--muted))] space-y-1">
+          <li><a class="underline" href="/calculators/mortgage-payment">Mortgage payment calculator</a></li>
+          <li><a class="underline" href="/calculators/percentage-calculator">Percentage calculator</a></li>
+          <li><a class="underline" href="/calculators/take-home-salary">Take home salary calculator</a></li>
+        </ul>
+      </div>
+    </section>
   </div>
 
   <script is:inline>

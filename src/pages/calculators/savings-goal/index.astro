@@ -187,6 +187,101 @@ const description =
         </div>
       </details>
     </section>
+
+    <section class="max-w-2xl space-y-6" aria-label="Savings goal guide">
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">What this calculator does</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          This savings goal calculator shows the monthly amount you need to put aside to reach a target balance by a
+          specific date. It uses your target amount, starting balance, interest rate, and time period to estimate a
+          steady monthly contribution.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          It is useful for goal-based saving like a house deposit, emergency fund, or annual expenses. You can adjust
+          the time period or interest rate to see how much flexibility you have.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">How the formula works</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          The calculator assumes monthly contributions and a fixed annual interest rate. The annual rate is converted
+          into a monthly rate, then we calculate how much your starting balance would grow if you made no contributions.
+          The remaining gap to your target is filled by monthly savings.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          In simple terms: we grow your starting balance, then work out the fixed monthly payment that fills the rest.
+          If the interest rate is 0%, the monthly amount is just the target shortfall divided by the number of months.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Worked example</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Suppose you want £20,000 in 5 years, you already have £2,000, and you expect 4% interest. The calculator works
+          out the monthly amount needed to reach £20,000 after 60 months.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          With those inputs, the monthly contribution is about £245. Over the full period, your total contributions
+          plus starting balance add up to the target, and interest covers the rest.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Common mistakes</h2>
+        <ul class="mt-2 list-disc pl-5 text-sm text-[rgb(var(--muted))] space-y-1">
+          <li>Using a rate that does not match the account (AER vs gross).</li>
+          <li>Forgetting that rates can change over time.</li>
+          <li>Entering years as months (or vice versa).</li>
+          <li>Assuming you will always contribute at the same pace.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">When to use this calculator</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Use this when you have a target amount and a deadline. It is ideal for savings goals like deposits, tuition
+          fees, wedding funds, or planned purchases. If you already know your monthly contribution and want to see how
+          long it will take, use the Savings growth calculator instead.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">FAQs</h2>
+        <div class="mt-2 space-y-3 text-sm text-[rgb(var(--muted))]">
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">Does this include tax on interest?</h3>
+            <p class="mt-1">
+              No. It assumes your interest rate is net of tax or that you are within your savings allowance. If tax
+              applies, use a lower rate to reflect the net return.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">What if I make irregular contributions?</h3>
+            <p class="mt-1">
+              The result is based on a fixed monthly amount. If your contributions vary, this gives a reasonable target,
+              but you should allow extra margin.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">What interest rate should I use?</h3>
+            <p class="mt-1">
+              Use the advertised AER of your savings account if you plan to keep the money there long term. If you are
+              unsure, try a lower rate to stay conservative.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Related calculators</h2>
+        <ul class="mt-2 list-disc pl-5 text-sm text-[rgb(var(--muted))] space-y-1">
+          <li><a class="underline" href="/calculators/savings-growth">Savings growth calculator</a></li>
+          <li><a class="underline" href="/calculators/percentage-calculator">Percentage calculator</a></li>
+          <li><a class="underline" href="/calculators/take-home-salary">Take home salary calculator</a></li>
+        </ul>
+      </div>
+    </section>
   </div>
 
   <script is:inline>
