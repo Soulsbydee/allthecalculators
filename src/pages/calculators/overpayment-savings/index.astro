@@ -4,7 +4,7 @@ import Card from "../../../components/Card.astro";
 import Input from "../../../components/Input.astro";
 import Button from "../../../components/Button.astro";
 
-const title = "Overpayment savings calculator (UK) — All The Calculators";
+const title = "Mortgage overpayment savings calculator (UK) — All The Calculators";
 const description =
   "Estimate how mortgage overpayments could reduce total interest and shorten your mortgage term.";
 ---
@@ -12,13 +12,13 @@ const description =
 <Layout title={title} description={description}>
   <div class="space-y-6">
     <header>
-      <h1 class="text-2xl font-semibold tracking-tight">Overpayment savings</h1>
+      <h1 class="text-2xl font-semibold tracking-tight">Mortgage overpayment savings</h1>
       <p class="mt-2 text-sm text-[rgb(var(--muted))] max-w-2xl">
         Estimate how regular overpayments could reduce your total mortgage interest and shorten your term.
       </p>
     </header>
 
-    <section class="inputs-container space-y-4" aria-label="Overpayment savings inputs">
+    <section class="inputs-container space-y-4" aria-label="Mortgage overpayment savings inputs">
       <div class="inputs-grid">
         <div>
           <Input id="balance" label="Mortgage balance (£)" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 220000" />
@@ -46,7 +46,7 @@ const description =
 
     <hr class="border-t border-[rgb(var(--border))]" />
 
-    <section aria-label="Overpayment savings results" class="space-y-4">
+    <section aria-label="Mortgage overpayment savings results" class="space-y-4">
       <header>
         <h2 class="text-[18px] font-semibold tracking-tight">Results</h2>
         <p class="mt-1 text-[14px] text-[rgb(var(--muted))]">These are estimates based on your inputs.</p>

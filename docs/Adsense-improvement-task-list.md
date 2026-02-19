@@ -47,7 +47,7 @@ Priority candidates:
 - [x] Net to gross salary calculator
 - [x] Break-even calculator
 - [x] Stamp duty calculator (UK)
-- [x] Overpayment savings calculator
+- [x] Mortgage overpayment savings calculator
 - [x] Inflation impact calculator
 - [x] Debt snowball / avalanche calculator
 - [x] VAT reverse calculator (if not already present)
@@ -67,7 +67,7 @@ For each new calculator:
 - [x] Net to gross salary calculator (logic, content, links, sitemap, sidebar)
 - [x] Break-even calculator (logic, content, links, sitemap, sidebar)
 - [x] Stamp duty calculator (logic, content, links, sitemap, sidebar)
-- [x] Overpayment savings calculator (logic, content, links, sitemap, sidebar)
+- [x] Mortgage overpayment savings calculator (logic, content, links, sitemap, sidebar)
 - [x] Inflation impact calculator (logic, content, links, sitemap, sidebar)
 - [x] Debt snowball / avalanche calculator (logic, content, links, sitemap, sidebar)
 - [x] VAT reverse calculator (logic, content, links, sitemap, sidebar)
@@ -80,7 +80,7 @@ For each new calculator:
 ## Add 1–2 long-form guide pages (1,000+ words)
 
 Option A:
-- [x] “Complete Guide to Mortgage Calculations (UK)”
+- [x] “Complete Guide to UK Mortgage Calculations”
 
 Option B:
 - [x] “Understanding Take Home Pay in the UK”
@@ -94,18 +94,18 @@ Each guide must:
 - [x] Provide examples
 
 ### Phase 3 progress
-- [x] Complete Guide to Mortgage Calculations (UK) (long-form content, structured headings, links, FAQs, examples)
+- [x] Complete Guide to UK Mortgage Calculations (long-form content, structured headings, links, FAQs, examples)
 - [x] Understanding Take Home Pay in the UK (long-form content, structured headings, links, FAQs, examples)
 
 ---
 
 # Phase 4: Strengthen Internal Linking
 
-- [ ] Ensure every calculator links to at least 2 others
-- [ ] Add “Related calculators” section site-wide
-- [ ] Add cross-links between mortgage-related tools
-- [ ] Add cross-links between salary/tax-related tools
-- [ ] Review homepage for improved deep links
+- [x] Ensure every calculator links to at least 2 others
+- [x] Add “Related calculators” section site-wide
+- [x] Add cross-links between mortgage-related tools
+- [x] Add cross-links between salary/tax-related tools
+- [x] Review homepage for improved deep links
 
 ---
 

@@ -1,0 +1,39 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+const title = "Homepage experiments — All The Calculators";
+const description = "Preview alternate homepage concepts without changing the live homepage.";
+---
+
+<Layout title={title} description={description}>
+  <div class="space-y-6 max-w-3xl">
+    <header class="space-y-2">
+      <h1 class="text-2xl font-semibold tracking-tight">Homepage experiments</h1>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        These are separate concept pages for homepage redesign testing. The live homepage remains unchanged.
+      </p>
+    </header>
+
+    <div class="grid gap-3 sm:grid-cols-2">
+      <a
+        href="/experiments/home-option-a/"
+        class="block rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--card))] p-4 shadow-sm shadow-black/5 hover:bg-black/5"
+      >
+        <div class="text-sm font-medium">Option A — Command Center</div>
+        <div class="mt-1 text-xs text-[rgb(var(--muted))]">
+          Dashboard-style layout with quick actions and pinned tool cards.
+        </div>
+      </a>
+
+      <a
+        href="/experiments/home-option-b/"
+        class="block rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--card))] p-4 shadow-sm shadow-black/5 hover:bg-black/5"
+      >
+        <div class="text-sm font-medium">Option B — Guided Paths</div>
+        <div class="mt-1 text-xs text-[rgb(var(--muted))]">
+          Story-led layout with category paths and guide callouts.
+        </div>
+      </a>
+    </div>
+  </div>
+</Layout>

@@ -1,14 +1,15 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from "../../layouts/Layout.astro";
 
-const title = "All The Calculators — Simple UK calculators for everyday life";
-const description = "Simple UK calculators for money, health & everyday life. Fast, accessible, and easy to use.";
+const title = "Home concept B — All The Calculators";
+const description = "Homepage concept B: guided path layout.";
 ---
 
 <Layout title={title} description={description}>
   <div class="space-y-6">
     <header class="relative overflow-hidden rounded-2xl border border-[rgb(var(--border))] bg-gradient-to-r from-[#f7f5ea] via-[#f2f7ff] to-[#f6f0ff] p-6 shadow-sm shadow-black/5">
       <div class="max-w-2xl space-y-2">
+        <p class="text-xs uppercase tracking-wide text-[rgb(var(--muted))]">Home concept B</p>
         <h1 class="text-3xl font-semibold tracking-tight">Plan money decisions with confidence</h1>
         <p class="text-sm text-[rgb(var(--muted))]">
           Choose a path below and get focused tools + guides for the outcome you want.
@@ -39,7 +40,17 @@ const description = "Simple UK calculators for money, health & everyday life. Fa
     </section>
 
     <section class="space-y-4">
-      <div>
+      <div class="rounded-2xl border border-[rgb(var(--border))] bg-white p-5">
+        <h2 class="text-sm font-semibold tracking-tight">Today’s smart sequence</h2>
+        <ol class="mt-3 space-y-2 text-sm text-[rgb(var(--muted))]">
+          <li>1. Estimate take-home pay in <a class="underline" href="/calculators/take-home-salary/">Take-home salary</a>.</li>
+          <li>2. Set monthly goal in <a class="underline" href="/calculators/savings-goal/">Savings goal</a>.</li>
+          <li>3. Stress-test home costs in <a class="underline" href="/calculators/mortgage-payment/">Mortgage payment</a>.</li>
+          <li>4. Check upfront tax in <a class="underline" href="/calculators/stamp-duty/">Stamp duty</a>.</li>
+        </ol>
+      </div>
+
+      <div class="rounded-2xl border border-[rgb(var(--border))] bg-white p-5">
         <h2 class="text-sm font-semibold tracking-tight">Guides spotlight</h2>
         <div class="mt-3 space-y-2 text-sm">
           <a class="block rounded-xl border border-[rgb(var(--border))] p-3 hover:bg-black/5" href="/guides/complete-guide-mortgage-calculations-uk/">
@@ -50,7 +61,6 @@ const description = "Simple UK calculators for money, health & everyday life. Fa
           </a>
         </div>
       </div>
-
     </section>
   </div>
 </Layout>

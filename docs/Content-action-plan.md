@@ -84,7 +84,7 @@ Create longer educational pages (1,000+ words) that:
 - Provide structured guidance
 
 Example:
-- “Complete Guide to Mortgage Calculations (UK)”
+- “Complete Guide to UK Mortgage Calculations”
 - “Understanding Take Home Pay in the UK”
 
 These pages increase:
