@@ -16,6 +16,8 @@ export const GET: APIRoute = async () => {
     "/calculators/apr-calculator",
     "/calculators/break-even",
     "/calculators/compound-interest",
+    "/calculators/debt-snowball-avalanche",
+    "/calculators/inheritance-tax",
     "/calculators/inflation-impact",
     "/calculators/loan-repayment",
     "/calculators/mortgage-payment",
@@ -29,6 +31,7 @@ export const GET: APIRoute = async () => {
     "/calculators/take-home-salary",
     "/calculators/percentage-calculator",
     "/calculators/vat-calculator",
+    "/calculators/vat-reverse",
 
     // Health
     "/calculators/daily-calorie-needs",

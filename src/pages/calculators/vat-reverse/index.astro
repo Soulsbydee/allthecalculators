@@ -1,0 +1,175 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Card from "../../../components/Card.astro";
+import Input from "../../../components/Input.astro";
+import Button from "../../../components/Button.astro";
+
+const title = "VAT reverse calculator (UK) — All The Calculators";
+const description =
+  "Calculate net amount and VAT from a VAT-inclusive gross price.";
+---
+
+<Layout title={title} description={description}>
+  <div class="space-y-6">
+    <header>
+      <h1 class="text-2xl font-semibold tracking-tight">VAT reverse calculator</h1>
+      <p class="mt-2 text-sm text-[rgb(var(--muted))] max-w-2xl">
+        Work backwards from a VAT-inclusive amount to find the net amount and VAT element.
+      </p>
+    </header>
+
+    <section class="inputs-container space-y-4" aria-label="VAT reverse inputs">
+      <div class="inputs-grid">
+        <div>
+          <Input id="gross" label="Gross amount (£)" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 120" />
+          <p id="gross-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+        <div>
+          <Input id="rate" label="VAT rate (%)" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 20" />
+          <p id="rate-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-3 pt-1">
+        <Button type="button" id="calcBtn">Calculate</Button>
+        <Button type="button" variant="ghost" id="resetBtn">Reset</Button>
+      </div>
+    </section>
+
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <section aria-label="VAT reverse results" class="space-y-4">
+      <header>
+        <h2 class="text-[18px] font-semibold tracking-tight">Results</h2>
+        <p class="mt-1 text-[14px] text-[rgb(var(--muted))]">These are estimates based on your inputs.</p>
+      </header>
+      <div class="results-grid" role="status" aria-live="polite" aria-atomic="true">
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">Net amount</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="net">—</div>
+        </Card>
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">VAT amount</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="vat">—</div>
+        </Card>
+      </div>
+    </section>
+
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <section class="max-w-2xl space-y-6" aria-label="VAT reverse guide">
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">What this calculator does</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          This calculator splits a VAT-inclusive gross amount into net value and VAT.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">How the formula works</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Net = gross divided by (1 + VAT rate). VAT = gross minus net.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Related calculators</h2>
+        <ul class="mt-2 list-disc pl-5 text-sm text-[rgb(var(--muted))] space-y-1">
+          <li><a class="underline" href="/calculators/vat-calculator">VAT calculator</a></li>
+          <li><a class="underline" href="/calculators/percentage-calculator">Percentage calculator</a></li>
+          <li><a class="underline" href="/calculators/break-even">Break-even calculator</a></li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <script is:inline>
+    const fmtGBP = new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" });
+    const fields = { gross: document.getElementById("gross"), rate: document.getElementById("rate") };
+    const errors = { gross: document.getElementById("gross-error"), rate: document.getElementById("rate-error") };
+
+    function setBlankResults() {
+      document.getElementById("net").textContent = "—";
+      document.getElementById("vat").textContent = "—";
+    }
+
+    function showError(key, msg) {
+      const input = fields[key];
+      const err = errors[key];
+      if (!input || !err) return;
+      input.setAttribute("aria-invalid", "true");
+      input.classList.add("border-red-500");
+      err.textContent = msg;
+      err.classList.remove("hidden");
+    }
+
+    function clearError(key) {
+      const input = fields[key];
+      const err = errors[key];
+      if (!input || !err) return;
+      input.removeAttribute("aria-invalid");
+      input.classList.remove("border-red-500");
+      err.textContent = "";
+      err.classList.add("hidden");
+    }
+
+    function parseNumber(el) {
+      const v = String(el?.value ?? "").trim();
+      if (v === "") return null;
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function calculate() {
+      clearError("gross");
+      clearError("rate");
+      const gross = parseNumber(fields.gross);
+      const rate = parseNumber(fields.rate);
+      let first = null;
+
+      if (gross === null || gross <= 0) { showError("gross", "Enter a gross amount greater than 0."); first ??= fields.gross; }
+      if (rate === null || rate < 0 || rate > 100) { showError("rate", "Enter a VAT rate between 0 and 100."); first ??= fields.rate; }
+      if (first) { setBlankResults(); first.focus(); return; }
+
+      const r = rate / 100;
+      const net = gross / (1 + r);
+      const vat = gross - net;
+
+      document.getElementById("net").textContent = fmtGBP.format(net);
+      document.getElementById("vat").textContent = fmtGBP.format(vat);
+    }
+
+    function reset() {
+      fields.gross.value = "";
+      fields.rate.value = "";
+      clearError("gross");
+      clearError("rate");
+      setBlankResults();
+      fields.gross?.focus();
+    }
+
+    fields.gross?.addEventListener("input", () => clearError("gross"));
+    fields.rate?.addEventListener("input", () => clearError("rate"));
+
+    const calcBtn = document.getElementById("calcBtn");
+    const calcLabel = calcBtn?.querySelector("[data-calc-label]");
+    const calcSpinner = calcBtn?.querySelector("[data-calc-spinner]");
+    function setLoading(isLoading) {
+      if (!calcBtn) return;
+      calcBtn.disabled = isLoading;
+      calcBtn.setAttribute("aria-busy", isLoading ? "true" : "false");
+      calcBtn.classList.toggle("opacity-70", isLoading);
+      calcBtn.classList.toggle("cursor-not-allowed", isLoading);
+      calcSpinner?.classList.toggle("hidden", !isLoading);
+      calcLabel?.classList.toggle("sr-only", isLoading);
+    }
+    calcBtn?.addEventListener("click", () => {
+      if (calcBtn.disabled) return;
+      setLoading(true);
+      window.setTimeout(() => {
+        calculate();
+        setLoading(false);
+      }, 1000);
+    });
+    document.getElementById("resetBtn")?.addEventListener("click", reset);
+    setBlankResults();
+  </script>
+</Layout>

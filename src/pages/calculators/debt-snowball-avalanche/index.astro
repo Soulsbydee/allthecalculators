@@ -1,0 +1,285 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Card from "../../../components/Card.astro";
+import Input from "../../../components/Input.astro";
+import Button from "../../../components/Button.astro";
+
+const title = "Debt snowball / avalanche calculator (UK) — All The Calculators";
+const description =
+  "Compare debt snowball and avalanche payoff strategies using balances, rates, and monthly payments.";
+---
+
+<Layout title={title} description={description}>
+  <div class="space-y-6">
+    <header>
+      <h1 class="text-2xl font-semibold tracking-tight">Debt snowball / avalanche</h1>
+      <p class="mt-2 text-sm text-[rgb(var(--muted))] max-w-2xl">
+        Estimate debt payoff time and interest using the snowball or avalanche strategy.
+      </p>
+    </header>
+
+    <section class="inputs-container space-y-4" aria-label="Debt strategy inputs">
+      <div class="space-y-3">
+        <h2 class="text-sm font-semibold tracking-tight">Debt 1</h2>
+        <div class="inputs-grid">
+          <Input id="d1_balance" label="Balance (£)" type="number" inputmode="decimal" min="0" step="0.01" />
+          <Input id="d1_rate" label="APR (%)" type="number" inputmode="decimal" min="0" step="0.01" />
+          <Input id="d1_min" label="Minimum payment (£)" type="number" inputmode="decimal" min="0" step="0.01" />
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <h2 class="text-sm font-semibold tracking-tight">
+          Debt 2 <span class="text-xs font-normal text-[rgb(var(--muted))]">(optional)</span>
+        </h2>
+        <div class="inputs-grid">
+          <Input id="d2_balance" label="Balance (£)" type="number" inputmode="decimal" min="0" step="0.01" />
+          <Input id="d2_rate" label="APR (%)" type="number" inputmode="decimal" min="0" step="0.01" />
+          <Input id="d2_min" label="Minimum payment (£)" type="number" inputmode="decimal" min="0" step="0.01" />
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <h2 class="text-sm font-semibold tracking-tight">
+          Debt 3 <span class="text-xs font-normal text-[rgb(var(--muted))]">(optional)</span>
+        </h2>
+        <div class="inputs-grid">
+          <Input id="d3_balance" label="Balance (£)" type="number" inputmode="decimal" min="0" step="0.01" />
+          <Input id="d3_rate" label="APR (%)" type="number" inputmode="decimal" min="0" step="0.01" />
+          <Input id="d3_min" label="Minimum payment (£)" type="number" inputmode="decimal" min="0" step="0.01" />
+        </div>
+      </div>
+
+      <div class="inputs-grid">
+        <Input id="extra" label="Extra monthly payment (£)" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 200" />
+        <div>
+          <label for="strategy" class="mb-1 block text-sm font-medium text-[rgb(var(--text))]">Strategy</label>
+          <select id="strategy" class="w-full rounded-xl border border-[rgb(var(--border))] bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black/10">
+            <option value="snowball" selected>Snowball (lowest balance first)</option>
+            <option value="avalanche">Avalanche (highest APR first)</option>
+          </select>
+        </div>
+      </div>
+
+      <p id="form-error" class="hidden text-xs text-red-600"></p>
+
+      <div class="flex flex-wrap gap-3 pt-1">
+        <Button type="button" id="calcBtn">Calculate</Button>
+        <Button type="button" variant="ghost" id="resetBtn">Reset</Button>
+      </div>
+    </section>
+
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <section aria-label="Debt strategy results" class="space-y-4">
+      <header>
+        <h2 class="text-[18px] font-semibold tracking-tight">Results</h2>
+        <p class="mt-1 text-[14px] text-[rgb(var(--muted))]">These are estimates based on your inputs.</p>
+      </header>
+      <div class="results-grid" role="status" aria-live="polite" aria-atomic="true">
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">Debt-free in</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="months">—</div>
+        </Card>
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">Total interest</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="interest">—</div>
+        </Card>
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">Total repaid</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="repaid">—</div>
+        </Card>
+      </div>
+    </section>
+
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <section class="max-w-2xl space-y-6" aria-label="Debt strategy guide">
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">What this calculator does</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          This calculator estimates payoff time and interest for snowball and avalanche debt strategies.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">How the formula works</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Interest is added monthly on each debt. Minimum payments are made first, then extra payment is directed to the
+          priority debt (lowest balance for snowball, highest APR for avalanche).
+        </p>
+      </div>
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Common mistakes</h2>
+        <ul class="mt-2 list-disc pl-5 text-sm text-[rgb(var(--muted))] space-y-1">
+          <li>Setting minimum payments too low to cover interest.</li>
+          <li>Ignoring fees or promotional rates that expire.</li>
+          <li>Forgetting to keep emergency savings while repaying debt.</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Related calculators</h2>
+        <ul class="mt-2 list-disc pl-5 text-sm text-[rgb(var(--muted))] space-y-1">
+          <li><a class="underline" href="/calculators/loan-repayment">Loan repayment calculator</a></li>
+          <li><a class="underline" href="/calculators/percentage-calculator">Percentage calculator</a></li>
+          <li><a class="underline" href="/calculators/savings-goal">Savings goal calculator</a></li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <script is:inline>
+    const fmtGBP = new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" });
+    const fmtNum = new Intl.NumberFormat("en-GB");
+
+    const ids = ["d1","d2","d3"];
+    const formError = document.getElementById("form-error");
+
+    function getDebts() {
+      return ids.map((k, i) => ({
+        name: `Debt ${i + 1}`,
+        balance: Number(document.getElementById(`${k}_balance`).value || 0),
+        apr: Number(document.getElementById(`${k}_rate`).value || 0),
+        min: Number(document.getElementById(`${k}_min`).value || 0),
+      }));
+    }
+
+    function clearFormError() {
+      formError.textContent = "";
+      formError.classList.add("hidden");
+    }
+
+    function setFormError(msg) {
+      formError.textContent = msg;
+      formError.classList.remove("hidden");
+    }
+
+    function setBlankResults() {
+      document.getElementById("months").textContent = "—";
+      document.getElementById("interest").textContent = "—";
+      document.getElementById("repaid").textContent = "—";
+    }
+
+    function validate(debts, extra) {
+      if (!debts.some((d) => d.balance > 0)) return "Enter at least one debt balance greater than 0.";
+      for (const d of debts) {
+        if (d.balance < 0 || d.apr < 0 || d.min < 0) return "Enter values of 0 or more for all debt fields.";
+      }
+      if (extra < 0) return "Extra monthly payment must be 0 or more.";
+      if (!debts.some((d) => d.min > 0) && extra <= 0) return "Add a minimum payment or extra monthly payment.";
+      return null;
+    }
+
+    function sortDebts(active, strategy) {
+      if (strategy === "snowball") {
+        return [...active].sort((a, b) => a.balance - b.balance || b.apr - a.apr);
+      }
+      return [...active].sort((a, b) => b.apr - a.apr || a.balance - b.balance);
+    }
+
+    function runPlan(inputDebts, extra, strategy) {
+      const debts = inputDebts.map((d) => ({ ...d }));
+      let months = 0;
+      let totalInterest = 0;
+      let totalPaid = 0;
+
+      while (debts.some((d) => d.balance > 0.01) && months < 1200) {
+        months += 1;
+
+        for (const d of debts) {
+          if (d.balance <= 0) continue;
+          const monthlyRate = (d.apr / 100) / 12;
+          const interest = d.balance * monthlyRate;
+          d.balance += interest;
+          totalInterest += interest;
+        }
+
+        const active = debts.filter((d) => d.balance > 0.01);
+        const priority = sortDebts(active, strategy);
+        let monthlyBudget = extra + active.reduce((sum, d) => sum + d.min, 0);
+
+        // Pay minimums on all debts
+        for (const d of priority) {
+          if (monthlyBudget <= 0) break;
+          const minPay = Math.min(d.balance, d.min);
+          d.balance -= minPay;
+          totalPaid += minPay;
+          monthlyBudget -= minPay;
+        }
+
+        // Push remaining budget to priority order
+        for (const d of priority) {
+          if (monthlyBudget <= 0 || d.balance <= 0) continue;
+          const extraPay = Math.min(d.balance, monthlyBudget);
+          d.balance -= extraPay;
+          totalPaid += extraPay;
+          monthlyBudget -= extraPay;
+        }
+      }
+
+      if (months >= 1200) return null;
+      return { months, totalInterest, totalPaid };
+    }
+
+    function calculate() {
+      clearFormError();
+      const debts = getDebts();
+      const extra = Number(document.getElementById("extra").value || 0);
+      const strategy = document.getElementById("strategy").value;
+      const problem = validate(debts, extra);
+
+      if (problem) {
+        setFormError(problem);
+        setBlankResults();
+        return;
+      }
+
+      const result = runPlan(debts, extra, strategy);
+      if (!result) {
+        setFormError("Unable to clear debt within model limits. Increase payments or review inputs.");
+        setBlankResults();
+        return;
+      }
+
+      document.getElementById("months").textContent = `${fmtNum.format(result.months)} months`;
+      document.getElementById("interest").textContent = fmtGBP.format(result.totalInterest);
+      document.getElementById("repaid").textContent = fmtGBP.format(result.totalPaid);
+    }
+
+    function reset() {
+      ids.forEach((k) => {
+        document.getElementById(`${k}_balance`).value = "";
+        document.getElementById(`${k}_rate`).value = "";
+        document.getElementById(`${k}_min`).value = "";
+      });
+      document.getElementById("extra").value = "";
+      document.getElementById("strategy").value = "snowball";
+      clearFormError();
+      setBlankResults();
+      document.getElementById("d1_balance")?.focus();
+    }
+
+    const calcBtn = document.getElementById("calcBtn");
+    const calcLabel = calcBtn?.querySelector("[data-calc-label]");
+    const calcSpinner = calcBtn?.querySelector("[data-calc-spinner]");
+    function setLoading(isLoading) {
+      if (!calcBtn) return;
+      calcBtn.disabled = isLoading;
+      calcBtn.setAttribute("aria-busy", isLoading ? "true" : "false");
+      calcBtn.classList.toggle("opacity-70", isLoading);
+      calcBtn.classList.toggle("cursor-not-allowed", isLoading);
+      calcSpinner?.classList.toggle("hidden", !isLoading);
+      calcLabel?.classList.toggle("sr-only", isLoading);
+    }
+
+    calcBtn?.addEventListener("click", () => {
+      if (calcBtn.disabled) return;
+      setLoading(true);
+      window.setTimeout(() => {
+        calculate();
+        setLoading(false);
+      }, 1000);
+    });
+    document.getElementById("resetBtn")?.addEventListener("click", reset);
+    setBlankResults();
+  </script>
+</Layout>

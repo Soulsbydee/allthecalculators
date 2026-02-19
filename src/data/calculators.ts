@@ -16,6 +16,8 @@ export const CALCULATOR_CATEGORIES: CalculatorCategory[] = [
       { title: "APR calculator", href: "/calculators/apr-calculator/" },
       { title: "Break-even calculator", href: "/calculators/break-even/" },
       { title: "Compound interest", href: "/calculators/compound-interest/" },
+      { title: "Debt snowball / avalanche", href: "/calculators/debt-snowball-avalanche/" },
+      { title: "Inheritance tax", href: "/calculators/inheritance-tax/" },
       { title: "Inflation impact", href: "/calculators/inflation-impact/" },
       { title: "Loan repayment", href: "/calculators/loan-repayment/" },
       { title: "Mortgage payment", href: "/calculators/mortgage-payment/" },
@@ -42,6 +44,7 @@ export const CALCULATOR_CATEGORIES: CalculatorCategory[] = [
     items: [
       { title: "Percentage calculator", href: "/calculators/percentage-calculator/" },
       { title: "VAT calculator", href: "/calculators/vat-calculator/" },
+      { title: "VAT reverse", href: "/calculators/vat-reverse/" },
       { title: "Length converter", href: "/calculators/length-converter/" },
     ],
     note: "More calculators coming soon",

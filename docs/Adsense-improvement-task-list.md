@@ -49,8 +49,8 @@ Priority candidates:
 - [x] Stamp duty calculator (UK)
 - [x] Overpayment savings calculator
 - [x] Inflation impact calculator
-- [ ] Debt snowball / avalanche calculator
-- [ ] VAT reverse calculator (if not already present)
+- [x] Debt snowball / avalanche calculator
+- [x] VAT reverse calculator (if not already present)
 
 For each new calculator:
 
@@ -69,6 +69,9 @@ For each new calculator:
 - [x] Stamp duty calculator (logic, content, links, sitemap, sidebar)
 - [x] Overpayment savings calculator (logic, content, links, sitemap, sidebar)
 - [x] Inflation impact calculator (logic, content, links, sitemap, sidebar)
+- [x] Debt snowball / avalanche calculator (logic, content, links, sitemap, sidebar)
+- [x] VAT reverse calculator (logic, content, links, sitemap, sidebar)
+- [x] Inheritance tax calculator (bonus: logic, content, links, sitemap, sidebar)
 
 ---
 
