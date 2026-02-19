@@ -8,6 +8,8 @@ export const GET: APIRoute = async () => {
     "",
     "/about",
     "/contact",
+    "/guides/complete-guide-mortgage-calculations-uk",
+    "/guides/understanding-take-home-pay-uk",
   ];
 
   // Calculator routes

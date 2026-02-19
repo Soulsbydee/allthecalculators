@@ -1,6 +1,17 @@
 ---
 import { CALCULATOR_CATEGORIES } from "../data/calculators";
 const { currentPath = "" } = Astro.props;
+
+const GUIDE_LINKS = [
+  {
+    title: "Complete guide to mortgage calculations (UK)",
+    href: "/guides/complete-guide-mortgage-calculations-uk/",
+  },
+  {
+    title: "Understanding take-home pay in the UK",
+    href: "/guides/understanding-take-home-pay-uk/",
+  },
+];
 ---
 
 <aside class="w-full min-h-full border-b border-[rgb(var(--border))] bg-white md:border-b-0 md:border-r">
@@ -40,6 +51,31 @@ const { currentPath = "" } = Astro.props;
           )}
         </section>
       ))}
+
+      <section>
+        <div class="mb-2 text-xs font-semibold uppercase tracking-wide text-[rgb(var(--muted))]">
+          Guides
+        </div>
+        <ul class="space-y-1">
+          {GUIDE_LINKS.map((item) => {
+            const isActive = currentPath === item.href;
+            return (
+              <li>
+                <a
+                  href={item.href}
+                  class={`block rounded-xl px-3 py-2 text-sm transition ${
+                    isActive
+                      ? "bg-black/5 text-[rgb(var(--text))] font-medium"
+                      : "text-[rgb(var(--text))] hover:bg-black/5"
+                  }`}
+                >
+                  {item.title}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
     </nav>
   </div>
 </aside>

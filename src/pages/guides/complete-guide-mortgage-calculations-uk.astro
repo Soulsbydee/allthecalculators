@@ -1,0 +1,205 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+const title = "Complete guide to mortgage calculations (UK) — All The Calculators";
+const description =
+  "A practical UK guide to mortgage calculations: affordability, repayments, term, rates, overpayments, and stamp duty with worked examples.";
+---
+
+<Layout title={title} description={description}>
+  <article class="space-y-8 max-w-3xl">
+    <header class="space-y-3">
+      <p class="text-xs uppercase tracking-wide text-[rgb(var(--muted))]">Guide</p>
+      <h1 class="text-2xl font-semibold tracking-tight">Complete guide to mortgage calculations (UK)</h1>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        This guide explains the key calculations behind UK mortgages: how much you might borrow, how monthly payments are
+        estimated, how interest builds up over time, and how overpayments can change your total cost. It is written for
+        practical planning, not regulated advice.
+      </p>
+    </header>
+
+    <section class="space-y-3">
+      <h2 class="text-[18px] font-semibold tracking-tight">Why mortgage calculations matter</h2>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Most people focus on the house price first. In practice, the monthly payment, deposit, fees, and stamp duty
+        determine whether a purchase is affordable. A property can look affordable on paper but still strain cash flow
+        once maintenance, insurance, and other costs are included.
+      </p>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Good planning usually starts with three questions:
+      </p>
+      <ul class="list-disc pl-5 space-y-1 text-sm text-[rgb(var(--muted))]">
+        <li>How much can I borrow?</li>
+        <li>What will monthly repayments look like?</li>
+        <li>How much interest and tax will I pay over time?</li>
+      </ul>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        You can answer those quickly using:
+        <a class="underline ml-1" href="/calculators/mortgage-affordability">Mortgage affordability calculator</a>,
+        <a class="underline ml-1" href="/calculators/mortgage-payment">Mortgage payment calculator</a>,
+        <a class="underline ml-1" href="/calculators/overpayment-savings">Overpayment savings calculator</a>, and
+        <a class="underline ml-1" href="/calculators/stamp-duty">Stamp duty calculator</a>.
+      </p>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-[18px] font-semibold tracking-tight">1) Mortgage affordability: the borrowing estimate</h2>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        A simple affordability estimate is based on income multiplied by a lending factor (often around 4x to 4.5x).
+        Example: £90,000 household income × 4.5 = £405,000 estimated maximum mortgage.
+      </p>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        This estimate is useful, but lenders also apply stress tests and spending assessments. Existing loans, childcare,
+        and credit commitments can reduce what you can borrow even when headline income looks strong.
+      </p>
+      <h3 class="text-base font-semibold tracking-tight">Worked example</h3>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        If your combined income is £70,000 and you use a 4.25 multiple, estimated borrowing is about £297,500. With a
+        £30,000 deposit, estimated maximum property price is around £327,500.
+      </p>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Check this with the
+        <a class="underline ml-1" href="/calculators/mortgage-affordability">Mortgage affordability calculator</a>.
+      </p>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-[18px] font-semibold tracking-tight">2) Monthly repayments: what changes the payment most</h2>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Repayments depend mainly on three inputs: loan amount, interest rate, and term length. The biggest drivers are
+        rate and term. Small rate increases can significantly affect monthly cost, especially on long terms.
+      </p>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Extending a term lowers monthly cost but usually increases total interest. Shortening a term increases monthly
+        pressure but often reduces long-run borrowing cost.
+      </p>
+      <h3 class="text-base font-semibold tracking-tight">Worked example</h3>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        A £250,000 mortgage at 5% over 25 years gives an estimated monthly repayment around £1,460. At 6%, repayment
+        rises substantially. Over the full term, total interest difference can be very large.
+      </p>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Run scenarios in the
+        <a class="underline ml-1" href="/calculators/mortgage-payment">Mortgage payment calculator</a>.
+      </p>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-[18px] font-semibold tracking-tight">3) Deposit and loan-to-value (LTV)</h2>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        LTV is mortgage amount divided by property value. Lower LTV often unlocks better rates. For example, moving from
+        90% LTV to 75% LTV can improve available products and reduce interest over time.
+      </p>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Deposit planning should include more than the purchase price gap. You also need legal fees, valuation, moving
+        costs, and stamp duty where applicable.
+      </p>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        If you are building a deposit, use:
+        <a class="underline ml-1" href="/calculators/savings-goal">Savings goal calculator</a> and
+        <a class="underline ml-1" href="/calculators/compound-interest">Compound interest calculator</a>.
+      </p>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-[18px] font-semibold tracking-tight">4) Stamp duty and upfront cash requirements</h2>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Stamp Duty Land Tax (England) is banded, not flat. That means parts of the property price are taxed at different
+        rates. First-time buyer relief and additional property surcharges can change the final amount materially.
+      </p>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Many buyers underestimate upfront cash because they budget for deposit only. In reality, total cash required is
+        usually: deposit + SDLT + legal fees + lender and moving costs.
+      </p>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Check this with the
+        <a class="underline ml-1" href="/calculators/stamp-duty">Stamp duty calculator</a>.
+      </p>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-[18px] font-semibold tracking-tight">5) Overpayments: reducing term vs reducing payment</h2>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Overpaying generally reduces principal faster, which reduces interest charged in later months. This can shorten
+        your term significantly, especially in early years when a larger part of each payment goes to interest.
+      </p>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Most lenders limit overpayments (often a percentage per year) during fixed periods. Always check your product
+        terms before committing to an overpayment strategy.
+      </p>
+      <h3 class="text-base font-semibold tracking-tight">Worked example</h3>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        If you overpay £150 per month on a long-term loan, you may cut years from the repayment term and save substantial
+        interest, depending on rate and balance.
+      </p>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Model this with the
+        <a class="underline ml-1" href="/calculators/overpayment-savings">Overpayment savings calculator</a>.
+      </p>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-[18px] font-semibold tracking-tight">6) Rate changes and stress testing</h2>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Fixed periods end. If rates rise at remortgage time, monthly repayments can jump even when your balance is lower.
+        A practical approach is to test affordability at higher rates before taking on maximum borrowing.
+      </p>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        A simple stress test is to run payment scenarios at your expected rate and at +1% to +2% above it. If both are
+        manageable, your plan is usually more robust.
+      </p>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-[18px] font-semibold tracking-tight">Common mistakes to avoid</h2>
+      <ul class="list-disc pl-5 space-y-1 text-sm text-[rgb(var(--muted))]">
+        <li>Choosing the maximum borrowing amount without a monthly buffer.</li>
+        <li>Ignoring stamp duty and transaction costs in cash planning.</li>
+        <li>Assuming the initial fixed rate lasts for the full mortgage term.</li>
+        <li>Skipping overpayment checks against early repayment terms.</li>
+        <li>Comparing mortgage offers on monthly payment only, not total cost.</li>
+      </ul>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-[18px] font-semibold tracking-tight">FAQs</h2>
+      <div class="space-y-4 text-sm text-[rgb(var(--muted))]">
+        <div>
+          <h3 class="text-base font-semibold tracking-tight text-[rgb(var(--text))]">Is mortgage affordability the same as what a lender will approve?</h3>
+          <p class="mt-1">
+            No. It is an estimate. Lenders use additional checks including credit profile and detailed outgoings.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-base font-semibold tracking-tight text-[rgb(var(--text))]">Should I choose a longer term to make payments easier?</h3>
+          <p class="mt-1">
+            Longer terms can improve monthly affordability but often increase total interest. Run both options and compare.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-base font-semibold tracking-tight text-[rgb(var(--text))]">Are overpayments always the best use of spare cash?</h3>
+          <p class="mt-1">
+            Not always. It depends on your mortgage rate, emergency fund, and other debt costs.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-base font-semibold tracking-tight text-[rgb(var(--text))]">Do these calculators replace broker or legal advice?</h3>
+          <p class="mt-1">
+            No. They are planning tools. Use them to prepare better questions for a broker, lender, or solicitor.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-[18px] font-semibold tracking-tight">Related calculators</h2>
+      <ul class="list-disc pl-5 space-y-1 text-sm text-[rgb(var(--muted))]">
+        <li><a class="underline" href="/calculators/mortgage-affordability">Mortgage affordability calculator</a></li>
+        <li><a class="underline" href="/calculators/mortgage-payment">Mortgage payment calculator</a></li>
+        <li><a class="underline" href="/calculators/overpayment-savings">Overpayment savings calculator</a></li>
+        <li><a class="underline" href="/calculators/stamp-duty">Stamp duty calculator</a></li>
+        <li><a class="underline" href="/calculators/savings-goal">Savings goal calculator</a></li>
+      </ul>
+    </section>
+  </article>
+</Layout>

@@ -80,18 +80,22 @@ For each new calculator:
 ## Add 1–2 long-form guide pages (1,000+ words)
 
 Option A:
-- [ ] “Complete Guide to Mortgage Calculations (UK)”
+- [x] “Complete Guide to Mortgage Calculations (UK)”
 
 Option B:
-- [ ] “Understanding Take Home Pay in the UK”
+- [x] “Understanding Take Home Pay in the UK”
 
 Each guide must:
 
-- [ ] Explain the topic comprehensively
-- [ ] Include structured headings
-- [ ] Link to 3–5 related calculators
-- [ ] Include FAQs
-- [ ] Provide examples
+- [x] Explain the topic comprehensively
+- [x] Include structured headings
+- [x] Link to 3–5 related calculators
+- [x] Include FAQs
+- [x] Provide examples
+
+### Phase 3 progress
+- [x] Complete Guide to Mortgage Calculations (UK) (long-form content, structured headings, links, FAQs, examples)
+- [x] Understanding Take Home Pay in the UK (long-form content, structured headings, links, FAQs, examples)
 
 ---
 

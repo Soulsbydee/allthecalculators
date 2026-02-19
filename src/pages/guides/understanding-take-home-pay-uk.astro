@@ -1,0 +1,176 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+const title = "Understanding take-home pay in the UK — All The Calculators";
+const description =
+  "A practical UK guide to gross salary, tax, NI, pension, student loans, and how to estimate real take-home pay.";
+---
+
+<Layout title={title} description={description}>
+  <article class="space-y-8 max-w-3xl">
+    <header class="space-y-3">
+      <p class="text-xs uppercase tracking-wide text-[rgb(var(--muted))]">Guide</p>
+      <h1 class="text-2xl font-semibold tracking-tight">Understanding take-home pay in the UK</h1>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Take-home pay is the amount that lands in your bank after deductions from gross salary. This guide explains the
+        main parts of UK deductions and how to estimate net pay for budgeting, job comparisons, and affordability checks.
+      </p>
+    </header>
+
+    <section class="space-y-3">
+      <h2 class="text-[18px] font-semibold tracking-tight">Gross vs net pay</h2>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Gross salary is your pay before deductions. Net (take-home) pay is what remains after income tax, National
+        Insurance, pension contributions, and any student loan repayments.
+      </p>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Two people with the same gross salary can have different net pay because of pension rate, loan plan, tax code,
+        and region-specific rules.
+      </p>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        For quick estimates, start with the
+        <a class="underline ml-1" href="/calculators/take-home-salary">Take-home salary calculator</a>.
+      </p>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-[18px] font-semibold tracking-tight">The four main deductions</h2>
+      <h3 class="text-base font-semibold tracking-tight">1) Income tax</h3>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Income tax is progressive: different slices of income are taxed at different rates. That means moving into a
+        higher band does not tax your full salary at that higher rate, only the portion above the threshold.
+      </p>
+
+      <h3 class="text-base font-semibold tracking-tight">2) National Insurance (NI)</h3>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        NI is separate from income tax and is also based on thresholds. It is usually one of the biggest payroll
+        deductions after tax.
+      </p>
+
+      <h3 class="text-base font-semibold tracking-tight">3) Pension contributions</h3>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Workplace pension contributions reduce immediate take-home pay but build long-term retirement savings. Depending
+        on scheme setup, contributions can interact with tax and NI differently.
+      </p>
+
+      <h3 class="text-base font-semibold tracking-tight">4) Student loan repayments</h3>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Student loan deductions depend on plan type and thresholds. Repayments are typically a percentage of earnings
+        above a threshold, not a fixed monthly amount.
+      </p>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-[18px] font-semibold tracking-tight">Worked example: gross to net</h2>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Suppose salary is £45,000 with no student loan and no pension contribution. Your estimated annual deductions are
+        mainly income tax and NI, producing a monthly take-home figure around the high £2,000s.
+      </p>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        If you add a 5% pension contribution, take-home pay falls short-term, but retirement contributions increase. This
+        is one reason comparing offers by gross salary alone can be misleading.
+      </p>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-[18px] font-semibold tracking-tight">Worked example: net target to gross salary</h2>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        If you need £2,500 per month net for living costs, you can reverse-calculate the gross salary needed. The exact
+        gross depends on pension and student loan settings.
+      </p>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Use the
+        <a class="underline ml-1" href="/calculators/net-to-gross-salary">Net to gross salary calculator</a>
+        to estimate required gross salary for your target net amount.
+      </p>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-[18px] font-semibold tracking-tight">How to budget using take-home pay</h2>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        A practical monthly budget usually starts from net pay, not gross pay. Once you know realistic take-home income,
+        split spending into essentials, financial goals, and discretionary spending.
+      </p>
+      <ul class="list-disc pl-5 space-y-1 text-sm text-[rgb(var(--muted))]">
+        <li>Essentials: rent/mortgage, bills, transport, food.</li>
+        <li>Goals: emergency fund, pension top-ups, debt repayment.</li>
+        <li>Discretionary: dining, travel, subscriptions, hobbies.</li>
+      </ul>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        If affordability is tight, test scenarios before making commitments: lower rent/mortgage, different pension rate,
+        or more conservative spending assumptions.
+      </p>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-[18px] font-semibold tracking-tight">Common mistakes</h2>
+      <ul class="list-disc pl-5 space-y-1 text-sm text-[rgb(var(--muted))]">
+        <li>Assuming gross salary equals spendable income.</li>
+        <li>Ignoring pension and student loan effects when comparing jobs.</li>
+        <li>Using monthly estimates without checking annual totals.</li>
+        <li>Forgetting that tax thresholds can change over time.</li>
+        <li>Comparing offers without considering commute or benefits costs.</li>
+      </ul>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-[18px] font-semibold tracking-tight">How this affects mortgage affordability</h2>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        Lenders typically assess affordability with detailed income and outgoings, not just salary multiples. Your
+        actual monthly cash flow still matters because repayment stress is felt in net pay, not gross pay.
+      </p>
+      <p class="text-sm text-[rgb(var(--muted))]">
+        After estimating take-home pay, use:
+        <a class="underline ml-1" href="/calculators/mortgage-affordability">Mortgage affordability calculator</a>
+        and
+        <a class="underline ml-1" href="/calculators/mortgage-payment">Mortgage payment calculator</a>
+        to test realistic scenarios.
+      </p>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-[18px] font-semibold tracking-tight">FAQs</h2>
+      <div class="space-y-4 text-sm text-[rgb(var(--muted))]">
+        <div>
+          <h3 class="text-base font-semibold tracking-tight text-[rgb(var(--text))]">Why is my payslip different from calculator results?</h3>
+          <p class="mt-1">
+            Calculators use simplified assumptions. Your payslip may include tax code differences, benefits, bonuses,
+            salary sacrifice, and other payroll settings.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-base font-semibold tracking-tight text-[rgb(var(--text))]">Should I reduce pension contributions to improve cash flow?</h3>
+          <p class="mt-1">
+            It can increase short-term net pay, but may reduce long-term retirement outcomes and employer matching value.
+            Model both scenarios before changing contributions.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-base font-semibold tracking-tight text-[rgb(var(--text))]">Is net pay enough for planning?</h3>
+          <p class="mt-1">
+            Net pay is the right start for monthly budgeting, but you should also review annual costs, emergency savings,
+            and medium-term goals.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-base font-semibold tracking-tight text-[rgb(var(--text))]">How often should I re-check take-home estimates?</h3>
+          <p class="mt-1">
+            Re-check when salary changes, pension settings change, student loan plan changes, or new tax-year rules are
+            announced.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-[18px] font-semibold tracking-tight">Related calculators</h2>
+      <ul class="list-disc pl-5 space-y-1 text-sm text-[rgb(var(--muted))]">
+        <li><a class="underline" href="/calculators/take-home-salary">Take-home salary calculator</a></li>
+        <li><a class="underline" href="/calculators/net-to-gross-salary">Net to gross salary calculator</a></li>
+        <li><a class="underline" href="/calculators/pension-contribution">Pension contribution calculator</a></li>
+        <li><a class="underline" href="/calculators/mortgage-affordability">Mortgage affordability calculator</a></li>
+        <li><a class="underline" href="/calculators/mortgage-payment">Mortgage payment calculator</a></li>
+      </ul>
+    </section>
+  </article>
+</Layout>
