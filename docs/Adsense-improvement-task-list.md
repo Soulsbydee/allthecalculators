@@ -45,10 +45,10 @@ Priority candidates:
 - [x] Compound interest (monthly vs yearly)
 - [x] Pension contribution calculator
 - [x] Net to gross salary calculator
-- [ ] Break-even calculator
-- [ ] Stamp duty calculator (UK)
-- [ ] Overpayment savings calculator
-- [ ] Inflation impact calculator
+- [x] Break-even calculator
+- [x] Stamp duty calculator (UK)
+- [x] Overpayment savings calculator
+- [x] Inflation impact calculator
 - [ ] Debt snowball / avalanche calculator
 - [ ] VAT reverse calculator (if not already present)
 
@@ -65,6 +65,10 @@ For each new calculator:
 - [x] Compound interest (logic, content, links, sitemap, sidebar)
 - [x] Pension contribution calculator (logic, content, links, sitemap, sidebar)
 - [x] Net to gross salary calculator (logic, content, links, sitemap, sidebar)
+- [x] Break-even calculator (logic, content, links, sitemap, sidebar)
+- [x] Stamp duty calculator (logic, content, links, sitemap, sidebar)
+- [x] Overpayment savings calculator (logic, content, links, sitemap, sidebar)
+- [x] Inflation impact calculator (logic, content, links, sitemap, sidebar)
 
 ---
 

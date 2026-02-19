@@ -1,0 +1,305 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Card from "../../../components/Card.astro";
+import Input from "../../../components/Input.astro";
+import Button from "../../../components/Button.astro";
+
+const title = "Overpayment savings calculator (UK) — All The Calculators";
+const description =
+  "Estimate how mortgage overpayments could reduce total interest and shorten your mortgage term.";
+---
+
+<Layout title={title} description={description}>
+  <div class="space-y-6">
+    <header>
+      <h1 class="text-2xl font-semibold tracking-tight">Overpayment savings</h1>
+      <p class="mt-2 text-sm text-[rgb(var(--muted))] max-w-2xl">
+        Estimate how regular overpayments could reduce your total mortgage interest and shorten your term.
+      </p>
+    </header>
+
+    <section class="inputs-container space-y-4" aria-label="Overpayment savings inputs">
+      <div class="inputs-grid">
+        <div>
+          <Input id="balance" label="Mortgage balance (£)" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 220000" />
+          <p id="balance-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+        <div>
+          <Input id="rate" label="Interest rate (%)" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 5.0" />
+          <p id="rate-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+        <div>
+          <Input id="years" label="Remaining term (years)" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 25" />
+          <p id="years-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+        <div>
+          <Input id="overpay" label="Monthly overpayment (£)" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 150" />
+          <p id="overpay-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-3 pt-1">
+        <Button type="button" id="calcBtn">Calculate</Button>
+        <Button type="button" variant="ghost" id="resetBtn">Reset</Button>
+      </div>
+    </section>
+
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <section aria-label="Overpayment savings results" class="space-y-4">
+      <header>
+        <h2 class="text-[18px] font-semibold tracking-tight">Results</h2>
+        <p class="mt-1 text-[14px] text-[rgb(var(--muted))]">These are estimates based on your inputs.</p>
+      </header>
+      <div class="results-grid" role="status" aria-live="polite" aria-atomic="true">
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">Interest saved</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="interestSaved">—</div>
+        </Card>
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">Time saved</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="timeSaved">—</div>
+        </Card>
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">New term</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="newTerm">—</div>
+        </Card>
+      </div>
+    </section>
+
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <section class="max-w-2xl" aria-label="How this calculator works">
+      <details class="group">
+        <summary class="flex cursor-pointer list-none items-center gap-2 py-2 text-sm font-semibold tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 rounded-lg">
+          <span class="inline-flex h-4 w-4 items-center justify-center text-[rgb(var(--muted))] transition-transform group-open:rotate-90" aria-hidden="true">
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7.25 4.75L12.75 10L7.25 15.25" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+          <span>How this calculator works</span>
+        </summary>
+        <div class="pt-2 pl-6 space-y-2 text-sm text-[rgb(var(--muted))]">
+          <p>
+            We compare two amortisation schedules: one with standard monthly repayments and one with the same repayment
+            plus your monthly overpayment.
+          </p>
+          <p>
+            The difference in total interest and months to repay gives interest saved and time saved.
+          </p>
+        </div>
+      </details>
+    </section>
+
+    <section class="max-w-2xl space-y-6" aria-label="Overpayment guide">
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">What this calculator does</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          This calculator estimates how overpaying a mortgage can reduce total interest and shorten the remaining term.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          It is useful when deciding whether overpayments are better than other uses for spare cash.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">How the formula works</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          We calculate the standard monthly repayment, then simulate month-by-month balance changes with and without
+          overpayment. Interest is charged on the outstanding balance each month.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Overpayments reduce principal faster, which lowers future interest and can cut years off the term.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Worked example</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Example: £220,000 balance, 5% rate, 25 years remaining, £150 monthly overpayment. The calculator typically
+          shows meaningful interest savings and a shorter repayment period.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Higher overpayments generally increase both interest savings and time saved.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Common mistakes</h2>
+        <ul class="mt-2 list-disc pl-5 text-sm text-[rgb(var(--muted))] space-y-1">
+          <li>Ignoring overpayment limits or fees in your mortgage deal.</li>
+          <li>Using original mortgage amount instead of current balance.</li>
+          <li>Assuming your rate will stay fixed for the whole term.</li>
+          <li>Forgetting emergency savings before overpaying aggressively.</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">When to use this calculator</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Use this when deciding how much to overpay and whether the benefits are worth it relative to other goals.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">FAQs</h2>
+        <div class="mt-2 space-y-3 text-sm text-[rgb(var(--muted))]">
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">Does this include early repayment charges?</h3>
+            <p class="mt-1">No. Check your lender terms for overpayment limits and charges.</p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">Should I reduce term or monthly payment?</h3>
+            <p class="mt-1">This model assumes term reduction. Lenders may let you choose either approach.</p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">Can I overpay one-off amounts?</h3>
+            <p class="mt-1">This version uses a regular monthly overpayment. For one-offs, use scenario estimates.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Related calculators</h2>
+        <ul class="mt-2 list-disc pl-5 text-sm text-[rgb(var(--muted))] space-y-1">
+          <li><a class="underline" href="/calculators/mortgage-payment">Mortgage payment calculator</a></li>
+          <li><a class="underline" href="/calculators/mortgage-affordability">Mortgage affordability calculator</a></li>
+          <li><a class="underline" href="/calculators/savings-goal">Savings goal calculator</a></li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <script is:inline>
+    const fmtGBP = new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" });
+
+    const fields = {
+      balance: document.getElementById("balance"),
+      rate: document.getElementById("rate"),
+      years: document.getElementById("years"),
+      overpay: document.getElementById("overpay"),
+    };
+    const errors = {
+      balance: document.getElementById("balance-error"),
+      rate: document.getElementById("rate-error"),
+      years: document.getElementById("years-error"),
+      overpay: document.getElementById("overpay-error"),
+    };
+
+    function setBlankResults() {
+      document.getElementById("interestSaved").textContent = "—";
+      document.getElementById("timeSaved").textContent = "—";
+      document.getElementById("newTerm").textContent = "—";
+    }
+
+    function showError(key, msg) {
+      const input = fields[key];
+      const err = errors[key];
+      if (!input || !err) return;
+      input.setAttribute("aria-invalid", "true");
+      input.classList.add("border-red-500");
+      err.textContent = msg;
+      err.classList.remove("hidden");
+    }
+
+    function clearError(key) {
+      const input = fields[key];
+      const err = errors[key];
+      if (!input || !err) return;
+      input.removeAttribute("aria-invalid");
+      input.classList.remove("border-red-500");
+      err.textContent = "";
+      err.classList.add("hidden");
+    }
+
+    function parseNumber(el) {
+      const v = String(el?.value ?? "").trim();
+      if (v === "") return null;
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function monthlyPayment(principal, monthlyRate, months) {
+      if (monthlyRate === 0) return principal / months;
+      const factor = Math.pow(1 + monthlyRate, months);
+      return principal * (monthlyRate * factor) / (factor - 1);
+    }
+
+    function simulate(balance, monthlyRate, payment) {
+      let months = 0;
+      let interest = 0;
+      let b = balance;
+      while (b > 0 && months < 1200) {
+        const i = b * monthlyRate;
+        interest += i;
+        b = b + i - payment;
+        months += 1;
+      }
+      return { months, interest };
+    }
+
+    function calculate() {
+      ["balance","rate","years","overpay"].forEach(clearError);
+      const balance = parseNumber(fields.balance);
+      const rate = parseNumber(fields.rate);
+      const years = parseNumber(fields.years);
+      const overpay = parseNumber(fields.overpay) ?? 0;
+      let first = null;
+
+      if (balance === null || balance <= 0) { showError("balance", "Enter a balance greater than 0."); first ??= fields.balance; }
+      if (rate === null || rate < 0 || rate > 100) { showError("rate", "Enter a rate between 0 and 100%."); first ??= fields.rate; }
+      if (years === null || years <= 0 || !Number.isInteger(years)) { showError("years", "Enter whole years (at least 1)."); first ??= fields.years; }
+      if (overpay < 0) { showError("overpay", "Enter an overpayment of 0 or more."); first ??= fields.overpay; }
+      if (first) { setBlankResults(); first.focus(); return; }
+
+      const months = years * 12;
+      const monthlyRate = (rate / 100) / 12;
+      const basePayment = monthlyPayment(balance, monthlyRate, months);
+      const withOverpayPayment = basePayment + overpay;
+
+      const base = simulate(balance, monthlyRate, basePayment);
+      const withOverpay = simulate(balance, monthlyRate, withOverpayPayment);
+
+      const interestSaved = Math.max(0, base.interest - withOverpay.interest);
+      const monthsSaved = Math.max(0, base.months - withOverpay.months);
+      const newTermMonths = withOverpay.months;
+      const newYears = Math.floor(newTermMonths / 12);
+      const remMonths = newTermMonths % 12;
+
+      document.getElementById("interestSaved").textContent = fmtGBP.format(interestSaved);
+      document.getElementById("timeSaved").textContent = `${new Intl.NumberFormat("en-GB").format(monthsSaved)} months`;
+      document.getElementById("newTerm").textContent = `${newYears}y ${remMonths}m`;
+    }
+
+    function reset() {
+      ["balance","rate","years","overpay"].forEach((k) => {
+        fields[k].value = "";
+        clearError(k);
+      });
+      setBlankResults();
+      fields.balance?.focus();
+    }
+
+    ["balance","rate","years","overpay"].forEach((k) => fields[k]?.addEventListener("input", () => clearError(k)));
+
+    const calcBtn = document.getElementById("calcBtn");
+    const calcLabel = calcBtn?.querySelector("[data-calc-label]");
+    const calcSpinner = calcBtn?.querySelector("[data-calc-spinner]");
+
+    function setLoading(isLoading) {
+      if (!calcBtn) return;
+      calcBtn.disabled = isLoading;
+      calcBtn.setAttribute("aria-busy", isLoading ? "true" : "false");
+      calcBtn.classList.toggle("opacity-70", isLoading);
+      calcBtn.classList.toggle("cursor-not-allowed", isLoading);
+      calcSpinner?.classList.toggle("hidden", !isLoading);
+      calcLabel?.classList.toggle("sr-only", isLoading);
+    }
+
+    calcBtn?.addEventListener("click", () => {
+      if (calcBtn.disabled) return;
+      setLoading(true);
+      window.setTimeout(() => {
+        calculate();
+        setLoading(false);
+      }, 1000);
+    });
+    document.getElementById("resetBtn")?.addEventListener("click", reset);
+
+    setBlankResults();
+  </script>
+</Layout>

@@ -1,0 +1,381 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Card from "../../../components/Card.astro";
+import Input from "../../../components/Input.astro";
+import Button from "../../../components/Button.astro";
+
+const title = "Break-even calculator (UK) — All The Calculators";
+const description =
+  "Estimate break-even units and revenue using fixed costs, selling price, and variable cost per unit.";
+---
+
+<Layout title={title} description={description}>
+  <div class="space-y-6">
+    <header>
+      <h1 class="text-2xl font-semibold tracking-tight">Break-even calculator</h1>
+      <p class="mt-2 text-sm text-[rgb(var(--muted))] max-w-2xl">
+        Estimate how many units you need to sell to cover costs, and the revenue required to break even.
+      </p>
+    </header>
+
+    <section class="inputs-container space-y-4" aria-label="Break-even inputs">
+      <div class="inputs-grid">
+        <div>
+          <Input
+            id="fixed"
+            label="Fixed costs (£)"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="0.01"
+            placeholder="e.g. 4,000"
+          />
+          <p id="fixed-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+
+        <div>
+          <Input
+            id="price"
+            label="Selling price per unit (£)"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="0.01"
+            placeholder="e.g. 25"
+          />
+          <p id="price-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+
+        <div>
+          <Input
+            id="variable"
+            label="Variable cost per unit (£)"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="0.01"
+            placeholder="e.g. 12"
+          />
+          <p id="variable-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+
+        <div>
+          <Input
+            id="targetProfit"
+            label="Target profit (£)"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="0.01"
+            placeholder="Optional"
+          />
+          <p id="targetProfit-error" class="mt-1 hidden text-xs text-red-600"></p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-3 pt-1">
+        <Button type="button" id="calcBtn">Calculate</Button>
+        <Button type="button" variant="ghost" id="resetBtn">Reset</Button>
+      </div>
+
+      <p class="text-xs text-[rgb(var(--muted))]">
+        Contribution per unit = selling price minus variable cost per unit.
+      </p>
+    </section>
+
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <section aria-label="Break-even results" class="space-y-4">
+      <header>
+        <h2 class="text-[18px] font-semibold tracking-tight">Results</h2>
+        <p class="mt-1 text-[14px] text-[rgb(var(--muted))]">
+          These are estimates based on your inputs.
+        </p>
+      </header>
+
+      <div class="results-grid" role="status" aria-live="polite" aria-atomic="true">
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">Break-even units</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="units">—</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]">Units needed to cover total costs</div>
+        </Card>
+
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">Break-even revenue</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="revenue">—</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]">Revenue needed to break even</div>
+        </Card>
+
+        <Card>
+          <div class="text-xs font-medium uppercase tracking-wide text-[rgb(var(--muted))]">Contribution per unit</div>
+          <div class="mt-1 text-[18px] font-semibold tracking-tight" id="contribPerUnit">—</div>
+          <div class="mt-1 text-xs text-[rgb(var(--muted))]">Selling price minus variable cost</div>
+        </Card>
+      </div>
+    </section>
+
+    <hr class="border-t border-[rgb(var(--border))]" />
+
+    <section class="max-w-2xl" aria-label="How this calculator works">
+      <details class="group">
+        <summary
+          class="flex cursor-pointer list-none items-center gap-2 py-2 text-sm font-semibold tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 rounded-lg"
+        >
+          <span
+            class="inline-flex h-4 w-4 items-center justify-center text-[rgb(var(--muted))] transition-transform group-open:rotate-90"
+            aria-hidden="true"
+          >
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M7.25 4.75L12.75 10L7.25 15.25"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+          <span>How this calculator works</span>
+        </summary>
+
+        <div class="pt-2 pl-6 space-y-2 text-sm text-[rgb(var(--muted))]">
+          <p>
+            Break-even units = (fixed costs + target profit) divided by contribution per unit.
+          </p>
+          <p>
+            Contribution per unit is your selling price minus variable cost per unit.
+          </p>
+        </div>
+      </details>
+    </section>
+
+    <section class="max-w-2xl space-y-6" aria-label="Break-even guide">
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">What this calculator does</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          This break-even calculator estimates how many units you need to sell before your business covers all costs.
+          It also estimates the revenue needed at break-even.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          You can add a target profit to see the sales level needed to move from break-even to a chosen profit level.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">How the formula works</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          First, we calculate contribution per unit: selling price minus variable cost per unit. Then we divide total
+          required contribution (fixed costs plus optional target profit) by contribution per unit.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          The result gives break-even units. Break-even revenue is that unit count multiplied by selling price.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Worked example</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Example: fixed costs £4,000, selling price £25, variable cost £12. Contribution per unit is £13. Break-even
+          units are about 308, and break-even revenue is about £7,700.
+        </p>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          If you set a £2,000 target profit, required units rise because total required contribution is higher.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Common mistakes</h2>
+        <ul class="mt-2 list-disc pl-5 text-sm text-[rgb(var(--muted))] space-y-1">
+          <li>Using gross margin percentage instead of unit contribution.</li>
+          <li>Forgetting to include all fixed costs.</li>
+          <li>Setting variable cost higher than selling price.</li>
+          <li>Assuming break-even sales happen evenly through the year.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">When to use this calculator</h2>
+        <p class="mt-2 text-sm text-[rgb(var(--muted))]">
+          Use this for pricing decisions, budget planning, and sales targets. It is especially useful when launching a
+          product or reviewing business viability.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">FAQs</h2>
+        <div class="mt-2 space-y-3 text-sm text-[rgb(var(--muted))]">
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">What if my variable costs change with volume?</h3>
+            <p class="mt-1">
+              This calculator assumes a fixed variable cost per unit. If costs change by volume, use separate scenarios.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">Should I include owner salary in fixed costs?</h3>
+            <p class="mt-1">
+              If owner salary is a regular operating cost, include it to get a more realistic break-even point.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[rgb(var(--text))]">Can I use this for services instead of products?</h3>
+            <p class="mt-1">
+              Yes, if you can estimate revenue per sale and variable cost per sale.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-[18px] font-semibold tracking-tight">Related calculators</h2>
+        <ul class="mt-2 list-disc pl-5 text-sm text-[rgb(var(--muted))] space-y-1">
+          <li><a class="underline" href="/calculators/percentage-calculator">Percentage calculator</a></li>
+          <li><a class="underline" href="/calculators/vat-calculator">VAT calculator</a></li>
+          <li><a class="underline" href="/calculators/loan-repayment">Loan repayment calculator</a></li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <script is:inline>
+    const fmtGBP2 = new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" });
+    const fmtNum = new Intl.NumberFormat("en-GB", { maximumFractionDigits: 2 });
+
+    const fields = {
+      fixed: document.getElementById("fixed"),
+      price: document.getElementById("price"),
+      variable: document.getElementById("variable"),
+      targetProfit: document.getElementById("targetProfit"),
+    };
+
+    const errors = {
+      fixed: document.getElementById("fixed-error"),
+      price: document.getElementById("price-error"),
+      variable: document.getElementById("variable-error"),
+      targetProfit: document.getElementById("targetProfit-error"),
+    };
+
+    function setBlankResults() {
+      document.getElementById("units").textContent = "—";
+      document.getElementById("revenue").textContent = "—";
+      document.getElementById("contribPerUnit").textContent = "—";
+    }
+
+    function showError(key, msg) {
+      const input = fields[key];
+      const err = errors[key];
+      if (!input || !err) return;
+      input.setAttribute("aria-invalid", "true");
+      input.setAttribute("aria-describedby", `${key}-error`);
+      input.classList.add("border-red-500");
+      err.textContent = msg;
+      err.classList.remove("hidden");
+    }
+
+    function clearError(key) {
+      const input = fields[key];
+      const err = errors[key];
+      if (!input || !err) return;
+      input.removeAttribute("aria-invalid");
+      if (input.getAttribute("aria-describedby") === `${key}-error`) input.removeAttribute("aria-describedby");
+      input.classList.remove("border-red-500");
+      err.textContent = "";
+      err.classList.add("hidden");
+    }
+
+    function parseNumber(el) {
+      const v = String(el?.value ?? "").trim();
+      if (v === "") return null;
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function validate() {
+      ["fixed","price","variable","targetProfit"].forEach(clearError);
+      let firstInvalid = null;
+
+      const fixed = parseNumber(fields.fixed);
+      const price = parseNumber(fields.price);
+      const variable = parseNumber(fields.variable);
+      const targetProfit = parseNumber(fields.targetProfit) ?? 0;
+
+      if (fixed === null || fixed < 0) {
+        showError("fixed", "Enter fixed costs of 0 or more.");
+        firstInvalid ??= fields.fixed;
+      }
+      if (price === null || price <= 0) {
+        showError("price", "Enter a selling price greater than 0.");
+        firstInvalid ??= fields.price;
+      }
+      if (variable === null || variable < 0) {
+        showError("variable", "Enter a variable cost of 0 or more.");
+        firstInvalid ??= fields.variable;
+      }
+      if (targetProfit < 0) {
+        showError("targetProfit", "Enter a target profit of 0 or more.");
+        firstInvalid ??= fields.targetProfit;
+      }
+      if (price !== null && variable !== null && price <= variable) {
+        showError("price", "Selling price must be greater than variable cost.");
+        showError("variable", "Variable cost must be less than selling price.");
+        firstInvalid ??= fields.price;
+      }
+
+      return { valid: !firstInvalid, firstInvalid, fixed, price, variable, targetProfit };
+    }
+
+    function calculate() {
+      const v = validate();
+      if (!v.valid) {
+        setBlankResults();
+        v.firstInvalid?.focus();
+        return;
+      }
+
+      const contributionPerUnit = v.price - v.variable;
+      const requiredContribution = v.fixed + v.targetProfit;
+      const breakEvenUnits = requiredContribution / contributionPerUnit;
+      const breakEvenRevenue = breakEvenUnits * v.price;
+
+      document.getElementById("units").textContent = fmtNum.format(breakEvenUnits);
+      document.getElementById("revenue").textContent = fmtGBP2.format(breakEvenRevenue);
+      document.getElementById("contribPerUnit").textContent = fmtGBP2.format(contributionPerUnit);
+    }
+
+    function reset() {
+      ["fixed","price","variable","targetProfit"].forEach((k) => {
+        fields[k].value = "";
+        clearError(k);
+      });
+      setBlankResults();
+      fields.fixed?.focus();
+    }
+
+    ["fixed","price","variable","targetProfit"].forEach((k) => fields[k]?.addEventListener("input", () => clearError(k)));
+
+    const calcBtn = document.getElementById("calcBtn");
+    const calcLabel = calcBtn?.querySelector("[data-calc-label]");
+    const calcSpinner = calcBtn?.querySelector("[data-calc-spinner]");
+
+    function setLoading(isLoading) {
+      if (!calcBtn) return;
+      calcBtn.disabled = isLoading;
+      calcBtn.setAttribute("aria-busy", isLoading ? "true" : "false");
+      calcBtn.classList.toggle("opacity-70", isLoading);
+      calcBtn.classList.toggle("cursor-not-allowed", isLoading);
+      calcSpinner?.classList.toggle("hidden", !isLoading);
+      calcLabel?.classList.toggle("sr-only", isLoading);
+    }
+
+    calcBtn?.addEventListener("click", () => {
+      if (calcBtn.disabled) return;
+      setLoading(true);
+      window.setTimeout(() => {
+        calculate();
+        setLoading(false);
+      }, 1000);
+    });
+    document.getElementById("resetBtn")?.addEventListener("click", reset);
+
+    setBlankResults();
+  </script>
+</Layout>

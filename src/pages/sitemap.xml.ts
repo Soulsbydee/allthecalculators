@@ -14,14 +14,18 @@ export const GET: APIRoute = async () => {
   const calculators = [
     // Finance
     "/calculators/apr-calculator",
+    "/calculators/break-even",
     "/calculators/compound-interest",
+    "/calculators/inflation-impact",
     "/calculators/loan-repayment",
     "/calculators/mortgage-payment",
     "/calculators/mortgage-affordability",
     "/calculators/net-to-gross-salary",
+    "/calculators/overpayment-savings",
     "/calculators/pension-contribution",
     "/calculators/savings-growth",
     "/calculators/savings-goal",
+    "/calculators/stamp-duty",
     "/calculators/take-home-salary",
     "/calculators/percentage-calculator",
     "/calculators/vat-calculator",
